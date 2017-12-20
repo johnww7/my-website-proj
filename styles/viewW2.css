@@ -1,0 +1,102 @@
+#searchImage {
+  height: 50px;
+  width: 50px;
+
+}
+
+body {
+  background-color: #1c2731;
+}
+
+.inputArea {
+  background-color: #1c2731;
+  color: white;
+}
+
+/* Formats look of each wiki entry response when hovered or not*/
+.rowResult:hover {
+  text-decoration:none;
+  border-style:solid;
+  border-right-color: red;
+  border-left-color: red;
+}
+
+.rowResult {
+  cursor:pointer;
+  display:block;
+  margin-top:8px;
+  width: auto;
+  height: auto;
+  border-radius:5px;
+  border-width:5px;
+  text-decoration: none;
+}
+
+/*Sets background, border, shadow and text color for each wiki entry response.*/
+.entry {
+  border-style: solid;
+  border-width: 1px;
+  background-color: #d4d4d4;
+  color: #1c1c2f;
+  box-shadow: 9px 3px 27px 13px rgba(71,89,109,0.71);
+  -webkit-box-shadow: 9px 3px 27px 13px rgba(71,89,109,0.71);
+  -moz-box-shadow: 9px 3px 27px 13px rgba(71,89,109,0.71);
+}
+
+/*Sets text color and background color for search box when in focus or not*/
+.searchText {
+  color: white;
+  background-color: #1c2731;
+}
+
+.searchText:focus {
+  color: white;
+  background-color: #1c2731;
+}
+
+/*Sets text decoration, text color and background for random link in search box
+container.*/
+#randomLink:hover {
+  text-decoration: none;
+  color: white;
+}
+
+#randomLink {
+  color: white;
+  background-color: #1c2731;
+  text-decoration: none;
+}
+
+
+.searchBoxBorder {
+  width: auto;
+  border-radius: 25px;
+  border: 1px solid white;
+  padding: 15px;
+  margin: 15px;
+
+}
+
+.searchBoxBorder2 {
+  width: auto;
+  border-radius: 25px;
+  border: 1px solid white;
+  padding: 15px;
+  margin: 15px;
+
+}
+
+/*Sets position of container when when there are  entries or not*/
+.searchBoxQuery {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+	transform: translate(-50%, -50%);
+}
+
+.searchBoxRes {
+  top: 10%;
+  left: 50%;
+  padding-top: 10px;
+  padding-bottom: 30px;
+}

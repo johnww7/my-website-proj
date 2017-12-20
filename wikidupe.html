@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/viewW2.css" type="text/css">
+  </head>
+  <body>
+
+    <div id="searchBox" class="container w-100 searchBoxQuery">
+      <div class="row justify-content-center">
+        <div id="searchContainer" class="col-sm-4 searchBoxBorder">
+          <div class="row justify-content-center">
+            <div class="col-sm-11">
+              <a id="randomLink" target="_blank" href="https://en.wikipedia.org/wiki/Special:Random" role="button">Click here for a random wiki article!</a>
+            </div>
+          </div>
+          <div id="imageRow" class="row justify-content-center">
+            <div class="col-sm-3 searchText">
+              <a href="#">
+                <img id="searchImage" src="https://icons.iconarchive.com/icons/visualpharm/must-have/256/Search-icon.png" alt="query image">
+              </a>
+            </div>
+          </div>
+          <div id="queryRow" class="row justify-content-center" style="display: none;">
+            <div class="col-sm-10">
+              <div class="input-group">
+                <input id="query" type="text" class="form-control searchText" aria-label="Search item">
+                <span class="input-group-btn">
+                  <button id="cancel" class="btn searchText" type="button">X</button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div  id="helpText" class="row justify-content-center">
+            <div  class="col-sm-9 searchText">
+              <span>Click input to begin search</span>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <div id="searchArea" class="row">
+      <div id="searchResult" class="col-sm-12">
+
+        <template id="result-template">
+          <div class="row justify-content-center my-2">
+            <div class="col-sm-10">
+              <a href='{{target}}' target="_blank" role="button" class="rowResult">
+                <div class="card entry">
+                  <div class="card-body">
+                    <b class="card-title">{{title}}</b>
+                    <p class="card-text">{{description}}</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </template>
+
+      </div>
+    </div>
+
+  </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- Optional JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="scripts/vWiki2.js"></script>
+  </body>
+</html>

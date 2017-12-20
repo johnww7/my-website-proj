@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+<!--    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/randQuote.css" type="text/css">
+  </head>
+  <body>
+    <div id="quotePage" class="container cardplace">
+    	<div class="card text-center border-light">
+
+        <div class="card-body">
+      		<blockquote class="blockquote mb-0">
+          	<p id="quote" class="card-text">Quote goes here.</p>
+      			<footer id="author" class="blockquote-footer">Author goes here.</footer>
+      		</blockquote>
+          <div class="container mt-4">
+            <div class="row">
+                <div class="col-sm">
+                  <a id="tweetQuote" href="https://twitter.com/intent/tweet?text=quote+author" class="twitter-share-button btn btn-primary btn-sm" data-size="large" data-show-count="false" target="_blank">Tweet</a>
+                </div>
+                <div class="col-sm mr-4">
+                  <button id="getQuote" class="btn btn-primary btn-sm ml-5" type="submit">New Quote</button>
+                </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div id="quoteSource" class="text-center">
+        <p>by John Williams</p>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <!--<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    -->
+    <script src="scripts/randQ.js"></script>
+  </body>
+</html>

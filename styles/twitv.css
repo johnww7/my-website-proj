@@ -1,0 +1,65 @@
+body {
+  background-color: #556371;
+}
+
+#tvContainer {
+  background-color: #38414a;
+  color: #b3a16a;
+
+}
+
+.buttonstyle {
+  border: 1px solid #56566f;
+  color: #b3a16a;
+  background-color: #3a4148;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  display: inline-block;
+  float: left;
+  transition-duration: 0.4s;
+}
+
+
+.buttonstyle:hover {
+  height: 75px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+
+}
+
+@media (min-width: 768px) {
+    .container{
+        max-width: 650px;
+    }
+}
+
+img {
+  width: 64px;
+  height: 64px;
+}
+
+.channelStyle {
+  background-color: #292c2f;
+  color: #d0cbbd;
+  text-decoration: none;
+  border: 1px solid #b3a16a;
+
+  margin-bottom: 1px;
+}
+
+.channelStyle:hover {
+  background-color: black;
+  color: #ffbf00;
+  border-width: 3px;
+  border-color: red;
+}
+
+#details {
+  font-style: italic;
+  font-size: smaller;
+}
+
+#status {
+  font-style: italic;
+}

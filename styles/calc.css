@@ -53,7 +53,20 @@ vertical-align:middle;
 }
 
 .calcDisplay {
-	width: 560px;
-	height: 53px;
+	/*width: 560px;
+	height: 53px;*/
 	background-color: rgba(46, 82, 52, 0.2);
+	border: 2px solid black;
 }
+
+@media screen and (min-width: 600px) {
+	.displaySize {
+		height: 53px;
+		max-width: 560px;
+	}
+}
+
+/*[class*="col-"] {
+  padding-left: 5px;
+  padding-right: 5px;
+}*/

@@ -37,3 +37,23 @@
 	position:relative;
 	top:1px;
 }
+
+.buttonSize {
+	width: 76px;
+	height: 53px;
+	/*text-align: center; */
+	text-align: center;
+display:table-cell;
+vertical-align:middle;
+}
+
+.equalButtonSize {
+	width: 76px;
+	height: 106px;
+}
+
+.calcDisplay {
+	width: 560px;
+	height: 53px;
+	background-color: rgba(46, 82, 52, 0.2);
+}

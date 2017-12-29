@@ -61,7 +61,7 @@ vertical-align:middle;
 
 @media screen and (min-width: 600px) {
 	.displaySize {
-		height: 53px;
+		height: 106px;
 		max-width: 560px;
 	}
 }
@@ -79,6 +79,5 @@ vertical-align:middle;
 }
 
 #buttonPanel {
-	margin-left: auto;
-	margin-right: 5%;
+
 }

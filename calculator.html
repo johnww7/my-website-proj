@@ -20,103 +20,109 @@
           </div>
           <div class="row justify-content-center">
             <div class="col-sm displaySize calcDisplay">
-              <span id="outputlabel" class="">
-                Text Holder.
-              </span>
+              <div class="d-flex flex-column">
+                <span id="oldOutput">
+                  olt text.
+                </span>
+                <span id="outputlabel" class="">
+                  Text Holder.
+                </span>
+            </div>
             </div>
           </div>
 
-          <div id="buttonPanel" class="row d-inline-flex flex-nowrap">
+          <div id="buttonPanel" class="row">
             <div class="col-sm">
+              <div class="d-flex flex-nowrap justify-content-center">
+                <div class="d-flex flex-column">
 
-                <div class="d-flex flex-row">
-                  <div class="col-sm">
+                    <div class="d-flex flex-row">
+                      <div class="d-flex flex-column">
 
-                    <button id="seven" type="button" class="btn buttonConfig buttonSize">7</button>
-                  </div>
-                  <div class="col-sm">
-                    <button id="eight" type="button" class="btn buttonConfig buttonSize">8</button>
-                  </div>
-                  <div class="col-sm">
-                    <button id="nine" type="button" class="btn buttonConfig buttonSize">9</button>
-                  </div>
-                  <div class="col-sm">
-                    <button id="division" type="button" class="btn buttonConfig buttonSize">
-                      <span>&#247;</span>
-                    </button>
-                  </div>
+                        <button id="seven" type="button" class="btn buttonConfig buttonSize">7</button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="eight" type="button" class="btn buttonConfig buttonSize">8</button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="nine" type="button" class="btn buttonConfig buttonSize">9</button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="division" type="button" class="btn buttonConfig buttonSize">
+                          <span>÷</span>
+                        </button>
+                      </div>
+
+
+                    </div>
+
+                    <div class="d-flex flex-row">
+                      <div class="d-flex flex-column">
+                        <button id="four" type="button" class="btn buttonConfig buttonSize">4</button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="five" type="button" class="btn buttonConfig buttonSize">5</button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="six" type="button" class="btn buttonConfig buttonSize">6</button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="multiplication" type="button" class="btn buttonConfig buttonSize">
+                          <span>×<span>
+                        </span></span></button>
+                      </div>
+
+                    </div>
+
+                    <div class="d-flex flex-row">
+                      <div class="d-flex flex-column">
+                        <button id="one" type="button" class="btn buttonConfig buttonSize">1</button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="two" type="button" class="btn buttonConfig buttonSize">2</button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="three" type="button" class="btn buttonConfig buttonSize">3</button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="subtraction" type="button" class="btn buttonConfig buttonSize">
+                          <span>−</span>
+                        </button>
+                      </div>
+
+                    </div>
+
+                    <div class="d-flex flex-row">
+                      <div class="d-flex flex-column w-50">
+                        <button id="zero" type="button" class="btn buttonConfig">0</button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="decimal" type="button" class="btn buttonConfig buttonSize">
+                          <span>.</span>
+                        </button>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <button id="plus" type="button" class="btn buttonConfig buttonSize">
+                          <span>+</span>
+                        </button>
+                      </div>
+                    </div>
 
 
                 </div>
+                <div class="d-inline-flex flex-column">
 
-                <div class="d-flex flex-row">
-                  <div class="col-sm">
-                    <button id="four" type="button" class="btn buttonConfig buttonSize">4</button>
-                  </div>
-                  <div class="col-sm">
-                    <button id="five" type="button" class="btn buttonConfig buttonSize">5</button>
-                  </div>
-                  <div class="col-sm">
-                    <button id="six" type="button" class="btn buttonConfig buttonSize">6</button>
-                  </div>
-                  <div class="col-sm">
-                    <button id="multiplication" type="button" class="btn buttonConfig buttonSize">
-                      <span>&#215;<span>
-                    </button>
-                  </div>
+                        <button id="clearEntry" type="button" class="btn buttonConfig buttonSize">CE</button>
+
+                        <button id="allClear" type="button" class="btn buttonConfig buttonSize">AC</button>
+
+                        <button id="equals" type="button" class="btn buttonConfig equalButtonSize">
+                          <span>=</span>
+                        </button>
 
                 </div>
-
-                <div class="d-flex flex-row">
-                  <div class="col-sm">
-                    <button id="one" type="button" class="btn buttonConfig buttonSize">1</button>
-                  </div>
-                  <div class="col-sm">
-                    <button id="two" type="button" class="btn buttonConfig buttonSize">2</button>
-                  </div>
-                  <div class="col-sm">
-                    <button id="three" type="button" class="btn buttonConfig buttonSize">3</button>
-                  </div>
-                  <div class="col-sm">
-                    <button id="subtraction" type="button" class="btn buttonConfig buttonSize">
-                      <span>&#8722;</span>
-                    </button>
-                  </div>
-
-                </div>
-
-                <div class="d-flex flex-row">
-                  <div class="col-sm-6">
-                    <button id="zero" type="button" class="btn buttonConfig w-100">0</button>
-                  </div>
-                  <div class="col-sm-3">
-                    <button id="decimal" type="button" class="btn buttonConfig buttonSize">
-                      <span>&period;</span>
-                    </button>
-                  </div>
-                  <div class="col-sm-3">
-                    <button id="plus" type="button" class="btn buttonConfig buttonSize">
-                      <span>&plus;</span>
-                    </button>
-                  </div>
-                </div>
-
-
-            </div>
-            <div class="col-sm">
-              <div class="d-inline-flex flex-column">
-
-                    <button id="clearEntry" type="button" class="btn buttonConfig buttonSize">CE</button>
-
-                    <button id="allClear" type="button" class="btn buttonConfig buttonSize">AC</button>
-
-                    <button id="equals" type="button" class="btn buttonConfig equalButtonSize">
-                      <span>=</span>
-                    </button>
-
               </div>
             </div>
-
           </div>
 
           </div>

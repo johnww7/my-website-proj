@@ -29,6 +29,10 @@ $(document).ready(function() {
       let tempCurr = Number(currentEntry);
       let tempOperation = accumulator + currentEntry + buttonValue ;
       console.log(tempOperation);
+      entireOperation = tempOperation;
+      console.log('Entire entry now: ' + entireOperation);
+      currentEntry = "";
+      accumulator = tempOperation;
     }
     else {
       accumulator = currentEntry + buttonValue;
@@ -41,8 +45,15 @@ $(document).ready(function() {
   $('.funcBtn').on('click', function() {
     let buttonId = this.id;
     let buttonIdValue = document.getElementById(buttonId);
+    console.log(buttonIdValue);
     let buttonFunc = $( buttonIdValue ).text();
+    let buttonPressed = $( buttonIdValue ).attr('id');
     console.log("Button pressed: " + buttonFunc);
+    if(buttonPressed == 'equals') {
+      console.log("accum: " + accumulator + "curr: " + currentEntry);
+    }
+
+
   });
 
 });

@@ -42,7 +42,7 @@ $(document).ready(function() {
 
   });
 
-  $('.funcBtn').on('click', function() {
+/*  $('.funcBtn').on('click', function() {
     let buttonId = this.id;
     let buttonIdValue = document.getElementById(buttonId);
     console.log(buttonIdValue);
@@ -53,7 +53,62 @@ $(document).ready(function() {
       console.log("accum: " + accumulator + "curr: " + currentEntry);
     }
 
+  });*/
 
+  $('#equals').on('click', function() {
+    let $equals = $('#equals');
+    let equalsValue = $equals.text();
+    console.log(equalsValue);
+    console.log("accum: " + accumulator + "curr: " + currentEntry);
+    entireOperation = accumulator + currentEntry + equalsValue;
+    console.log(entireOperation);
+    accumulator = "";
+    currentEntry = "";
+  });
+
+  $('#clearEntry').on('click', function() {
+    console.log("Clear entry button has been pressed");
+  });
+
+  $('#allClear').on('click', function() {
+    console.log("All clear button has been pressed.");
   });
 
 });
+
+/*
+var display = (function() {
+  var accumulator = [];
+  var currentEntry = '';
+  var entireOperation = '';
+  function entry(val) {
+    currentEntry += val;
+    console.log(currentEntry);
+  }
+  function updateAcc(data) {
+  	accumulator.push(currentEntry);
+  	accumulator.push(data);
+  }
+  return {
+    increment: function(x) {
+      entry(x);
+    },
+   decrement: function() {
+      privateString = privateString.slice(0,-1);
+    },
+    equals: function() {
+			totalString = privateString;
+      return totalString;
+    },
+    operation: function(op) {
+    	updateAcc(op);
+    },
+    resetEntry: function() {
+    	currentEntry = '';
+    },
+    value: function() {
+      return accumulator;
+    }
+  };
+})();
+*/

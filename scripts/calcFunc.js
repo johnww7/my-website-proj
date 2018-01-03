@@ -1,30 +1,105 @@
 $(document).ready(function() {
 
-  var accumulator = "";
-  var currentEntry = "";
-  var entireOperation = "";
+  var display = (function() {
+  var accumulator = 0;
+  var currentEntry = '';
+  var entireOperation = [];
+  function entry(val) {
+    currentEntry += val;
+    console.log(currentEntry);
+  }
+  function updateOp(data) {
+  	entireOperation.push(currentEntry);
+  	entireOperation.push(data);
+    console.log(entireOperation);
+    currentEntry = '';
+  }
+  function total() {
+  	var testExp = /[+-×÷−]/;
+    var tempArr = entireOperation.reduce(function(acc, next) {
+    	let tempVal = Number.parseFloat(next);
+
+    	if(Number.isNaN(tempVal) == false){
+      	//tempVal = Number.parseFloat(next);
+        console.log(tempVal);
+      	acc.push(tempVal);
+      }
+      else {
+      	//tempVal = next;
+        acc.push(next);
+      }
+      return acc;
+    }, []);
+    console.log(temp);
+
+
+  //  console.log(accumulator);
+  }
+  function operation(arr) {
+  	let retVal = 0;
+  	switch(arr[1]) {
+    	case '+':
+      	retVal = arr[0] + arr[2];
+        break;
+      case '-':
+      case '−':
+      	retVal = arr[0] - arr[2];
+        break;
+      case '×':
+      	retVal = arr[0] * arr[2];
+        break;
+      case '÷':
+      	retVal = arr[0] / arr[2];
+        break;
+      default:
+      	retVal = undefined;
+        break;
+    }
+    return retVal;
+  }
+  return {
+    increment: function(x) {
+      entry(x);
+    },
+    operation: function(op) {
+    	updateOp(op);
+    },
+    resetEntry: function() {
+    	currentEntry = '';
+    },
+    equals: function() {
+    	entireOperation.push(currentEntry);
+    	total();
+    },
+    value: function() {
+      console.log(entireOperation);
+    }
+  };
+})();
+
+//  var accumulator = "";
+//  var currentEntry = "";
+//  var entireOperation = "";
 
   $('.digitBtn').on('click', function() {
     let buttonID = this.id;
     let buttonIDVal = document.getElementById(buttonID);
     let buttonVal = $( buttonIDVal ).text();
     console.log("Button pressed: " + buttonVal);
-  /*  if(buttonIDVal === "decimal") {
-      currentEntry += '.';
-    }
-    else {*/
-      currentEntry += buttonVal;
-    //}
 
-    console.log(currentEntry);
+    display.increment(buttonVal);
+      //currentEntry += buttonVal;
+
   });
 
   $('.arithmeticBtn').on('click', function() {
     let buttonId = this.id;
     let buttonIdVal = document.getElementById(buttonId);
     let buttonValue = $( buttonIdVal ).text();
+    let arithVal = buttonValue.replace(/\s/g, "");
     console.log("Button pressed: " + buttonValue);
-    if(accumulator !== "") {
+    display.operation(arithVal);
+  /*  if(accumulator !== "") {
       let tempAcc = Number(accumulator);
       let tempCurr = Number(currentEntry);
       let tempOperation = accumulator + currentEntry + buttonValue ;
@@ -38,32 +113,21 @@ $(document).ready(function() {
       accumulator = currentEntry + buttonValue;
       currentEntry = "";
       console.log(accumulator);
-    }
+    }*/
 
   });
 
-/*  $('.funcBtn').on('click', function() {
-    let buttonId = this.id;
-    let buttonIdValue = document.getElementById(buttonId);
-    console.log(buttonIdValue);
-    let buttonFunc = $( buttonIdValue ).text();
-    let buttonPressed = $( buttonIdValue ).attr('id');
-    console.log("Button pressed: " + buttonFunc);
-    if(buttonPressed == 'equals') {
-      console.log("accum: " + accumulator + "curr: " + currentEntry);
-    }
-
-  });*/
 
   $('#equals').on('click', function() {
     let $equals = $('#equals');
     let equalsValue = $equals.text();
     console.log(equalsValue);
-    console.log("accum: " + accumulator + "curr: " + currentEntry);
+    display.value();
+  /*  console.log("accum: " + accumulator + "curr: " + currentEntry);
     entireOperation = accumulator + currentEntry + equalsValue;
     console.log(entireOperation);
     accumulator = "";
-    currentEntry = "";
+    currentEntry = "";*/
   });
 
   $('#clearEntry').on('click', function() {
@@ -75,40 +139,3 @@ $(document).ready(function() {
   });
 
 });
-
-/*
-var display = (function() {
-  var accumulator = [];
-  var currentEntry = '';
-  var entireOperation = '';
-  function entry(val) {
-    currentEntry += val;
-    console.log(currentEntry);
-  }
-  function updateAcc(data) {
-  	accumulator.push(currentEntry);
-  	accumulator.push(data);
-  }
-  return {
-    increment: function(x) {
-      entry(x);
-    },
-   decrement: function() {
-      privateString = privateString.slice(0,-1);
-    },
-    equals: function() {
-			totalString = privateString;
-      return totalString;
-    },
-    operation: function(op) {
-    	updateAcc(op);
-    },
-    resetEntry: function() {
-    	currentEntry = '';
-    },
-    value: function() {
-      return accumulator;
-    }
-  };
-})();
-*/

@@ -20,7 +20,6 @@ $(document).ready(function() {
     	let tempVal = Number.parseFloat(next);
 
     	if(Number.isNaN(tempVal) == false){
-      	//tempVal = Number.parseFloat(next);
         console.log(tempVal);
       	acc.push(tempVal);
       }
@@ -78,6 +77,16 @@ $(document).ready(function() {
     }
     return retVal;
   }
+  function deleteEntry() {
+
+    if(currentEntry !== '') {
+      currentEntry = '';
+    }
+    else{
+      entireOperation.pop();
+    }
+
+  }
   return {
     increment: function(x) {
       entry(x);
@@ -85,8 +94,13 @@ $(document).ready(function() {
     operation: function(op) {
     	updateOp(op);
     },
-    resetEntry: function() {
-    	currentEntry = '';
+    clearEntry: function() {
+      console.log('clear');
+    	deleteEntry();
+    },
+    clear: function() {
+      entireOperation.length = 0;
+      currentEntry = '';
     },
     equals: function(sum) {
     	entireOperation.push(currentEntry);
@@ -135,10 +149,12 @@ $(document).ready(function() {
 
   $('#clearEntry').on('click', function() {
     console.log("Clear entry button has been pressed");
+    display.clearEntry();
   });
 
   $('#allClear').on('click', function() {
     console.log("All clear button has been pressed.");
+    display.clear();
   });
 
 });

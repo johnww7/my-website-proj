@@ -30,10 +30,31 @@ $(document).ready(function() {
       }
       return acc;
     }, []);
-    console.log(temp);
+    console.log(tempArr);
 
+    let opArray = [];
 
-  //  console.log(accumulator);
+    for(let element of tempArr) {
+    	console.log('element: ' + element);
+    	if(element == "=") {
+      	accumulator = opArray[0];
+        console.log(opArray);
+        break;
+      }
+      opArray.push(element);
+        console.log(opArray);
+
+      if(opArray.length == 3) {
+      	console.log('opArray: ' + opArray);
+      	let result = operation(opArray);
+        opArray.length = 0;
+        opArray.push(result);
+        console.log("op accum: " + opArray);
+      }
+
+    }
+
+    console.log(accumulator);
   }
   function operation(arr) {
   	let retVal = 0;
@@ -67,8 +88,9 @@ $(document).ready(function() {
     resetEntry: function() {
     	currentEntry = '';
     },
-    equals: function() {
+    equals: function(sum) {
     	entireOperation.push(currentEntry);
+      entireOperation.push(sum);
     	total();
     },
     value: function() {
@@ -77,9 +99,7 @@ $(document).ready(function() {
   };
 })();
 
-//  var accumulator = "";
-//  var currentEntry = "";
-//  var entireOperation = "";
+
 
   $('.digitBtn').on('click', function() {
     let buttonID = this.id;
@@ -99,35 +119,18 @@ $(document).ready(function() {
     let arithVal = buttonValue.replace(/\s/g, "");
     console.log("Button pressed: " + buttonValue);
     display.operation(arithVal);
-  /*  if(accumulator !== "") {
-      let tempAcc = Number(accumulator);
-      let tempCurr = Number(currentEntry);
-      let tempOperation = accumulator + currentEntry + buttonValue ;
-      console.log(tempOperation);
-      entireOperation = tempOperation;
-      console.log('Entire entry now: ' + entireOperation);
-      currentEntry = "";
-      accumulator = tempOperation;
-    }
-    else {
-      accumulator = currentEntry + buttonValue;
-      currentEntry = "";
-      console.log(accumulator);
-    }*/
+
 
   });
 
 
   $('#equals').on('click', function() {
     let $equals = $('#equals');
-    let equalsValue = $equals.text();
+    let equalsValue = $equals.text().replace(/\s/g, "");
     console.log(equalsValue);
     display.value();
-  /*  console.log("accum: " + accumulator + "curr: " + currentEntry);
-    entireOperation = accumulator + currentEntry + equalsValue;
-    console.log(entireOperation);
-    accumulator = "";
-    currentEntry = "";*/
+    display.equals(equalsValue);
+
   });
 
   $('#clearEntry').on('click', function() {

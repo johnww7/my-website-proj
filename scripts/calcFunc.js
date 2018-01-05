@@ -114,10 +114,15 @@ $(document).ready(function() {
       currentEntry = '';
     },
     equals: function(sum) {
-    	entireOperation.push(currentEntry);
-      entireOperation.push(sum);
-    	total();
-      return accumulator;
+      if(currentEntry == '') {
+        return entireOperation[entireOperation.length-1];
+      }
+      else {
+    	  entireOperation.push(currentEntry);
+        entireOperation.push(sum);
+    	  total();
+        return accumulator;
+      }
     },
     getEntireOperation: function() {
       console.log(entireOperation);
@@ -173,11 +178,22 @@ $(document).ready(function() {
   $('#clearEntry').on('click', function() {
     console.log("Clear entry button has been pressed");
     display.clearEntry();
+    let operation = display.getEntireOperation();
+    if(operation !== '' ) {
+      $inputDisplay.text('0');
+      $outputDisplay.text(operation);
+    }
+    else {
+      $inputDisplay.text('0');
+      $outputDisplay.text('0');
+    }
   });
 
   $('#allClear').on('click', function() {
     console.log("All clear button has been pressed.");
     display.clear();
+    $outputDisplay.text('0');
+    $inputDisplay.text('0');
   });
 
 });

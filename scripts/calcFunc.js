@@ -4,15 +4,25 @@ $(document).ready(function() {
   var accumulator = 0;
   var currentEntry = '';
   var entireOperation = [];
+
   function entry(val) {
     currentEntry += val;
     console.log(currentEntry);
   }
   function updateOp(data) {
-  	entireOperation.push(currentEntry);
-  	entireOperation.push(data);
-    console.log(entireOperation);
-    currentEntry = '';
+    let lastEntry = entireOperation[entireOperation.length-1];
+    let arithExp = /[+-×÷−]/;
+    if(arithExp.test(lastEntry) && currentEntry == '') {
+      console.log("last entry: " + lastEntry);
+      console.log(entireOperation);
+      currentEntry = '';
+    }
+    else {
+  	  entireOperation.push(currentEntry);
+  	  entireOperation.push(data);
+      console.log(entireOperation);
+      currentEntry = '';
+    }
   }
   function total() {
   	var testExp = /[+-×÷−]/;
@@ -24,8 +34,7 @@ $(document).ready(function() {
       	acc.push(tempVal);
       }
       else {
-      	//tempVal = next;
-        acc.push(next);
+      	  acc.push(next);
       }
       return acc;
     }, []);
@@ -36,7 +45,7 @@ $(document).ready(function() {
     for(let element of tempArr) {
     	console.log('element: ' + element);
     	if(element == "=") {
-      	accumulator = opArray[0];
+      	accumulator = Math.round(opArray[0]*1000)/1000;
         console.log(opArray);
         break;
       }
@@ -54,6 +63,8 @@ $(document).ready(function() {
     }
 
     console.log(accumulator);
+    entireOperation.push(accumulator);
+    console.log(entireOperation);
   }
   function operation(arr) {
   	let retVal = 0;
@@ -106,23 +117,32 @@ $(document).ready(function() {
     	entireOperation.push(currentEntry);
       entireOperation.push(sum);
     	total();
+      return accumulator;
     },
-    value: function() {
+    getEntireOperation: function() {
       console.log(entireOperation);
+      return entireOperation.join('');
+    },
+    getCurrentEntry: function() {
+      return currentEntry;
     }
+
   };
 })();
 
-
+  var $outputDisplay = $('#outputDisplay');
+  var $inputDisplay = $('#inputDisplay');
 
   $('.digitBtn').on('click', function() {
     let buttonID = this.id;
     let buttonIDVal = document.getElementById(buttonID);
     let buttonVal = $( buttonIDVal ).text();
-    console.log("Button pressed: " + buttonVal);
+    let digitValue = buttonVal.replace(/\s/g, "");
+    console.log("Button pressed: " + digitValue);
 
-    display.increment(buttonVal);
+    display.increment(digitValue);
       //currentEntry += buttonVal;
+    $inputDisplay.text(display.getCurrentEntry());
 
   });
 
@@ -133,7 +153,7 @@ $(document).ready(function() {
     let arithVal = buttonValue.replace(/\s/g, "");
     console.log("Button pressed: " + buttonValue);
     display.operation(arithVal);
-
+    $inputDisplay.text(arithVal);
 
   });
 
@@ -142,9 +162,12 @@ $(document).ready(function() {
     let $equals = $('#equals');
     let equalsValue = $equals.text().replace(/\s/g, "");
     console.log(equalsValue);
-    display.value();
-    display.equals(equalsValue);
 
+    let sum = display.equals(equalsValue);
+    let operationStr = display.getEntireOperation();
+    $outputDisplay.text(operationStr);
+    $inputDisplay.text(sum);
+    display.clear();
   });
 
   $('#clearEntry').on('click', function() {

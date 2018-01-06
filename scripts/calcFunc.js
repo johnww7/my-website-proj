@@ -2,11 +2,22 @@ $(document).ready(function() {
 
   var display = (function() {
   var accumulator = 0;
-  var currentEntry = '';
+  var currentEntry = '0';
   var entireOperation = [];
 
   function entry(val) {
-    currentEntry += val;
+    if(currentEntry == '0' && val !== '.') {
+      currentEntry = val;
+    }
+
+    else if(currentEntry.charAt(currentEntry.length-1) !== '.' || val !== '.') {
+      currentEntry += val;
+    }
+    else {
+      currentEntry = currentEntry;
+      console.log('what');
+    }
+
     console.log(currentEntry);
   }
   function updateOp(data) {
@@ -149,23 +160,34 @@ $(document).ready(function() {
       //currentEntry += buttonVal;
     let digitEntry = display.getCurrentEntry();
     $inputDisplay.text(digitEntry);
-    let tempOperationValue = $outputDisplay.text();
+    console.log('current input: ' + digitEntry);
+
+    let tempOperationValue = $outputDisplay.text().replace(/\s/g, "");
+    let lastCharc = tempOperationValue.length-1;
     console.log('Curr op: ' + tempOperationValue);
 
-    if(($outputDisplay.text() == 0 || $outputDisplay.text() == '0') && digitValue !== '.'){
+    if(($outputDisplay.text() == 0 || $outputDisplay.text() == '0') && digitValue !== '.' &&
+      tempOperationValue.charAt(lastCharc) !== '.'){
+      console.log('just started');
       $outputDisplay.text(digitValue);
+    }
+    else if(tempOperationValue.charAt(tempOperationValue.length-1) == '.' && digitValue == '.') {
+      $outputDisplay.text(tempOperationValue);
+      console.log('look here');
     }
     else if($outputDisplay.text() !== '' && tempOperationValue.search('=') == -1) {
       console.log('Here: ' + tempOperationValue.search('='));
       $outputDisplay.append(digitValue);
     }
     else if(($outputDisplay.text() == 0 || $outputDisplay.text() == '0') && digitValue == '.') {
-      $outputDisplay.append(digitValue);
+      //$outputDisplay.append(digitValue);
+      $outputDisplay.text('0' + digitValue);
     }
     else {
       $outputDisplay.text(digitValue);
     }
-    
+    console.log("Current outDisplay: " + $outputDisplay.text());
+
   });
 
   $('.arithmeticBtn').on('click', function() {

@@ -147,8 +147,25 @@ $(document).ready(function() {
 
     display.increment(digitValue);
       //currentEntry += buttonVal;
-    $inputDisplay.text(display.getCurrentEntry());
+    let digitEntry = display.getCurrentEntry();
+    $inputDisplay.text(digitEntry);
+    let tempOperationValue = $outputDisplay.text();
+    console.log('Curr op: ' + tempOperationValue);
 
+    if(($outputDisplay.text() == 0 || $outputDisplay.text() == '0') && digitValue !== '.'){
+      $outputDisplay.text(digitValue);
+    }
+    else if($outputDisplay.text() !== '' && tempOperationValue.search('=') == -1) {
+      console.log('Here: ' + tempOperationValue.search('='));
+      $outputDisplay.append(digitValue);
+    }
+    else if(($outputDisplay.text() == 0 || $outputDisplay.text() == '0') && digitValue == '.') {
+      $outputDisplay.append(digitValue);
+    }
+    else {
+      $outputDisplay.text(digitValue);
+    }
+    
   });
 
   $('.arithmeticBtn').on('click', function() {
@@ -159,7 +176,7 @@ $(document).ready(function() {
     console.log("Button pressed: " + buttonValue);
     display.operation(arithVal);
     $inputDisplay.text(arithVal);
-
+    $outputDisplay.append(arithVal);
   });
 
 

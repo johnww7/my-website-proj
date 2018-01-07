@@ -59,13 +59,14 @@ vertical-align:middle;
 	background-color: rgba(46, 82, 52, 0.2);
 	border: 2px solid black;
 	border-radius: 3em/1em;
+	position: relative;
 
 }
 
 @media screen and (min-width: 600px) {
 	.displaySize {
 		height: 106px;
-		max-width: 560px;
+		max-width: 450px;
 	}
 }
 
@@ -81,6 +82,26 @@ vertical-align:middle;
 	box-shadow: 5px 10px 20px inset;
 }
 
-#buttonPanel {
+#outputDisplay {
+	width:auto;
+	height: 24px;
+	font-size: 15px;
+	font-family: 'Graduate', cursive;
+}
 
+#inputDisplay {
+	width: auto;
+	height: 65px;
+	font-size: 40px;
+	font-family: 'Graduate', cursive;
+}
+
+.displayContainer {
+	width: 95%;
+	height: 95%;
+	top: 3px;
+	left: 15px;
+	position: absolute;
+	padding-right: 40px;
+	padding-top: 10px;
 }

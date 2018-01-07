@@ -165,7 +165,7 @@ $(document).ready(function() {
     let tempOperationValue = $outputDisplay.text().replace(/\s/g, "");
     let lastCharc = tempOperationValue.length-1;
     console.log('Curr op: ' + tempOperationValue);
-
+    
     if(($outputDisplay.text() == 0 || $outputDisplay.text() == '0') && digitValue !== '.' &&
       tempOperationValue.charAt(lastCharc) !== '.'){
       console.log('just started');

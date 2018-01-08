@@ -78,6 +78,17 @@ vertical-align:middle;
 
 }
 
+@media (min-width: 768px) {
+    .container{
+        max-width: 800px;
+			/*	justify-content: center;
+    		align-items: center;
+				display: block;
+				vertical-align: middle;
+				*/
+    }
+}
+
 @media screen and (min-width: 650px) {
 	.rowSize {
 		max-width: 700px;
@@ -93,8 +104,9 @@ vertical-align:middle;
 #calcPanel {
 
 	border-radius: 10px 50px 30px;
-	border: 5px inset black;
-	box-shadow: 5px 10px 20px inset;
+	border: 5px outset #3e4348;
+	background-color: rgba(47, 64, 80, 0.2);
+	box-shadow: 5px 10px 100px inset;
 }
 
 #outputDisplay {
@@ -119,4 +131,25 @@ vertical-align:middle;
 	position: absolute;
 	padding-right: 40px;
 	padding-top: 10px;
+}
+
+.rowSize {
+	border: 3px inset;
+	border-radius: 10px 50px 30px;
+	background-clip: border-box;
+	background-image: -webkit-linear-gradient(45deg, #595959 12%,#4c4c4c 15%,#4c4c4c 15%,#515151 39%,#353832 61%,#d3d3d3 89%); /* Chrome10-25,Safari5.1-6 */
+	background-image: linear-gradient(45deg, #595959 12%,#4c4c4c 15%,#4c4c4c 15%,#515151 39%,#353832 61%,#d3d3d3 89%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.container {
+	border: 1px solid red;
+}
+
+#buttonPanel {
+	margin-top: 10px;
+}
+
+#title {
+	margin-top: 5px;
+	font-family: "Courier New", Courier, monospace;
 }

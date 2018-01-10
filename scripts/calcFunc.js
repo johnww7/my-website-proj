@@ -264,11 +264,11 @@ $(document).ready(function() {
     //Sets inputDisplay DOM element text to value of arithVal variable.
     $inputDisplay.text(arithVal);
 
-    //Appends value of arithVal variable to outputDisplay DOM element. 
+    //Appends value of arithVal variable to outputDisplay DOM element.
     $outputDisplay.append(arithVal);
   });
 
-
+  
   $('#equals').on('click', function() {
     let $equals = $('#equals');
     let equalsValue = $equals.text().replace(/\s/g, "");

@@ -226,18 +226,23 @@ $(document).ready(function() {
     */
     if(($outputDisplay.text() == 0 || $outputDisplay.text() == '0') && digitValue !== '.' &&
       tempOperationValue.charAt(lastCharc) !== '.'){
+
       $outputDisplay.text(digitValue);
     }
     else if(tempOperationValue.charAt(tempOperationValue.length-1) == '.' && digitValue == '.') {
+
       $outputDisplay.text(tempOperationValue);
     }
     else if($outputDisplay.text() !== '' && tempOperationValue.search('=') == -1) {
+
       $outputDisplay.append(digitValue);
     }
     else if(($outputDisplay.text() == 0 || $outputDisplay.text() == '0') && digitValue == '.') {
+
       $outputDisplay.text('0' + digitValue);
     }
     else {
+      
       $outputDisplay.text(digitValue);
     }
     console.log("Current outDisplay: " + $outputDisplay.text());

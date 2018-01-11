@@ -268,23 +268,40 @@ $(document).ready(function() {
     $outputDisplay.append(arithVal);
   });
 
-  
+  /*
+    Event handler attached to the button with the id 'equals', when button is clicked the
+    handler calculates the sum of the operation.
+  */
   $('#equals').on('click', function() {
     let $equals = $('#equals');
     let equalsValue = $equals.text().replace(/\s/g, "");
 
+    //Calls display.equals function, passes it the equals symbol as an argument and assigns
+    //return vale to sum variable.
     let sum = display.equals(equalsValue);
+
+    //Calls display.getEntireOperation function and assigns operation value to operationStr variable
     let operationStr = display.getEntireOperation();
-    $outputDisplay.text(operationStr);
+    $outputDisplay.text(operationStr); //set DOM element text value to operationStr value
     console.log(operationStr);
-    $inputDisplay.text(sum);
-    display.clear();
+    $inputDisplay.text(sum); //sets DOM element text to sum value.
+    display.clear(); //calls to display.clear function
   });
 
+  /*
+    Event handler attached to button with id 'clearEntry', when button is clicked the handler
+    clears the current entry.
+  */
   $('#clearEntry').on('click', function() {
     console.log("Clear entry button has been pressed");
+    //Calls display.clearEntry function, to clear entry.
     display.clearEntry();
+    //display.getEntireOperation function assigns operation value to operation variable
     let operation = display.getEntireOperation();
+
+    //If...else statement tests operation variable for if it's not empty, if so sets
+    //inputDisplay DOM element text to 0 and outputDisplay element text to operation variable
+    //value. If false, sets inputDisplay and outputDisplay DOM element text value to 0.
     if(operation !== '' ) {
       $inputDisplay.text('0');
       $outputDisplay.text(operation);
@@ -295,9 +312,15 @@ $(document).ready(function() {
     }
   });
 
+  /*
+    Event handler attached to button with id 'allClear', when button is clicked the
+    handler clears the display.
+  */
   $('#allClear').on('click', function() {
     console.log("All clear button has been pressed.");
+    //Call to display.clear function clears the entry and operation string.
     display.clear();
+    //outputDisplay and inputDisplay DOM element text is set to '0'.
     $outputDisplay.text('0');
     $inputDisplay.text('0');
   });

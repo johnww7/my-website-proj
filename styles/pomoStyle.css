@@ -1,0 +1,18 @@
+#timerDisplay {
+  height: 300px;
+  width: 300px;
+  background-color: blue;
+  border: 2px solid black;
+  transform: rotate(90deg);
+
+  -webkit-clip-path: polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%);
+  clip-path: polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%);
+  animation: clips 5s ease infinite;
+}
+
+@keyframes clips {
+  50% {
+
+    clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%)
+  }
+}

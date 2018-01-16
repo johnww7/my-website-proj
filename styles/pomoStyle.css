@@ -23,6 +23,8 @@ clip-path: ellipse(48% 50% at 50% 50%);
 #pomodoroPanel {
   border: 2px solid red;
   background-color: gray;
+  height: 700px;
+  width: auto;
 
   /*shape-outside: url(~/web-projects/fcc-proj/images/clock.png);*/
 
@@ -37,17 +39,29 @@ clip-path: polygon(0% 15%, 15% 15%, 15% 0%, 85% 0%, 85% 15%, 100% 15%, 100% 85%,
 #breakSettings {
   border: 2px solid black;
   background-color: blue;
+  height: 150px;
+  width: 150px;
 
   -webkit-clip-path: ellipse(50% 49% at 50% 50%);
 clip-path: ellipse(50% 49% at 50% 50%);
  }
 
-@media screen and (min-width: 600px) {
+#sessionSettings {
+  border: 2px solid black;
+  background-color: blue;
+  height: 150px;
+  width: 150px;
+
+  -webkit-clip-path: ellipse(50% 49% at 50% 50%);
+clip-path: ellipse(50% 49% at 50% 50%);
+}
+
+/*@media screen and (min-width: 600px) {
 	#pomodoroPanel {
 		height: 700px;
 		max-width: 900px;
 	}
-}
+}*/
 
 #timerSettings {
   margin-top: 100px;

@@ -12,40 +12,40 @@
   <body>
     <div class="container">
       <div class="row justify-content-center">
-        <div id="pomodoroPanel" class="col-8">
-          <div class="row">
-            <div id="heading" class="col text-center">
-              <h4>Pomodoro Clock</h4>
+        <div class="col-8">
+          <div id="pomodoroPanel" class="d-flex flex-column">
+            <div id="heading" class="d-flex justify-content-center">
+                <h4>Pomodoro Clock</h4>
             </div>
-          </div>
 
-          <div id="timerSettings" class="row justify-content-around">
-            <div id="breakSettings" class="col-4">
+            <div id="timerSettings" class="d-flex flex-row justify-content-around">
+              <div id="breakSettings" class="text-center p-2">
 
-                <h5>Break Length</h5>
-                <button id="decBreak" type="button" class="btn btn-dark">-</button>
-                <span id="breakLength">
-                  5
-                </span>
-                <button id="incBreak" type="button" class="btn btn-dark">+</button>
+                  <h5>Break Length</h5>
+                  <button id="decBreak" type="button" class="btn btn-dark">-</button>
+                  <span id="breakLength">
+                    5
+                  </span>
+                  <button id="incBreak" type="button" class="btn btn-dark">+</button>
               </div>
-            
-            <div id="sessionSettings" class="col-4">
-              <h5>Timer Length</h5>
-              <button id="decTimer" type="button" class="btn btn-dark">-</button>
-              <span id="timerLength">
-                25
-              </span>
-              <button id="incTimer" type="button" class="btn btn-dark">+</button>
-            </div>
-          </div>
 
-          <div id="timerPanel" class="row justify-content-center">
-            <div id="timerDisplay" class="col-6">
-              <span id="timer" class="display-3">25:00</span>
+              <div id="sessionSettings" class="text-center p-2">
+                <h5>Timer Length</h5>
+                <button id="decTimer" type="button" class="btn btn-dark">-</button>
+                <span id="timerLength">
+                  25
+                </span>
+                <button id="incTimer" type="button" class="btn btn-dark">+</button>
+              </div>
             </div>
-          </div>
 
+            <div id="timerPanel" class="d-flex flex-row justify-content-center">
+              <div id="timerDisplay" class="d-flex align-items-center justify-content-center">
+                <div id="timer" class="display-3">25:00</div>
+              </div>
+           </div>
+
+          </div>
         </div>
       </div>
     </div>

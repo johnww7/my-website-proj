@@ -3,12 +3,13 @@
   width: 300px;
   background-color: blue ;
   border: 2px solid black;
+  cursor: pointer;
   /*transform: rotate(90deg);*/
-
+/*  border-radius: 50%;*/
 
 
   -webkit-clip-path: ellipse(40% 49% at 50% 50%);
-clip-path: ellipse(40% 49% at 50% 50%);
+  clip-path: ellipse(40% 49% at 50% 50%);
   /*animation: clips 25s ease infinite; */
 }
 

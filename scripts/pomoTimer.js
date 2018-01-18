@@ -62,4 +62,56 @@ $(document).ready(function() {
 
   });
 
+  function startTime(time) {
+	let timeArr = time.split(':',3);
+  let hour = 0;
+  let minute = 0;
+  let second = 0;
+  console.log(timeArr);
+
+  if(timeArr.length == 3) {
+  	hour = parseInt(timeArr[0])
+  	minute = parseInt(timeArr[1]);
+  	second = parseInt(timeArr[2]);
+  }
+  else {
+  	minute = parseInt(timeArr[0]);
+  	second = parseInt(timeArr[1]);
+  }
+  console.log(minute);
+  console.log(second);
+
+  let totalTime = (hour * 60 * 60) + (minute * 60) + second;
+  console.log(totalTime);
+
+  totalTime -= 1;
+
+  let newHour = Math.floor((totalTime/3600) % 24);
+  let newMinute = checkTime(Math.floor((totalTime/60) % 60));
+  let newSecond = checkTime(Math.floor(totalTime % 60));
+
+
+  let newTime = "";
+
+  if(hour == "0" || hour == 0 ) {
+  	newTime = newMinute + ":" + newSecond;
+  }
+  else {
+  	newTime = newHour + ":" + newMinute + ":" + newSecond;
+  }
+
+  console.log(newTime);
+
+
+  let t = setTimeout(startTime, 1000, newTime);
+
+}
+
+function checkTime(value) {
+	if(value < 10) {
+  	value = "0" + value;
+  }
+  return value;
+}
+
 });

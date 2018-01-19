@@ -6,6 +6,7 @@ $(document).ready(function() {
   var $timer = $('#timer');
   var timeID; //identifies the timer created by setTimeout()
   var timerButtonToggle = false;
+  var timerOn = true;
 
   $('#increaseBreak, #decreaseBreak').on('click', function() {
     let buttonId = $(this).attr('id');
@@ -78,10 +79,27 @@ $(document).ready(function() {
   });
 
   function startTime(time) {
-  	let timeArr = time.split(':',3);
+  	let timeArr = [];
     let hour = 0;
     let minute = 0;
     let second = 0;
+
+    if(time == '00:00' && timerOn == true) {
+      timerOn = false;
+      let tempBreak = $breakLength.text().replace(/\s/g, "");
+      tempBreak = tempBreak + ':00';
+      timeArr = tempBreak.split(':', 3);
+
+    }
+    else if(time == '00:00' && timerOn == false) {
+      timerOn = true;
+      let tempDisp = $timerLength.text().replace(/\s/g, "");
+      tempDisp = tempDisp + ':00';
+      timeArr = tempDisp.split(':', 3);
+    }
+    else {
+      timeArr = time.split(':', 3);
+    }
     console.log(timeArr);
 
     if(timeArr.length == 3) {
@@ -105,7 +123,8 @@ $(document).ready(function() {
     let newMinute = checkTime(Math.floor((totalTime/60) % 60));
     let newSecond = checkTime(Math.floor(totalTime % 60));
 
-
+    console.log('min: ' + newMinute);
+    console.log('sec: ' + newSecond);
     let newTime = "";
 
     if(hour == "0" || hour == 0 ) {
@@ -118,8 +137,8 @@ $(document).ready(function() {
     console.log(newTime);
     $timer.text(newTime);
 
-    timeID = setTimeout(startTime, 1000, newTime);
-
+    //timeID = setTimeout(startTime, 1000, newTime);
+    timeID = setTimeout(startTime, 500, newTime);
   }
 
   function checkTime(value) {

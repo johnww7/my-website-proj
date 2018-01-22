@@ -60,11 +60,12 @@ $(document).ready(function() {
 
   $('#timerDisplay').on('click', function() {
     let currentDisplay = $timer.text().replace(/\s/g, "");
-    //let currentDisplayTime = parseInt(currentDisplay);
+    let animationTime = parseInt(currentDisplay) * 60;
 
     if(!timerButtonToggle) {
       console.log("State:" + timerButtonToggle);
       timerButtonToggle = true;
+      timerAnimation(animationTime);
       startTime(currentDisplay);
     }
     else {
@@ -137,8 +138,8 @@ $(document).ready(function() {
     console.log(newTime);
     $timer.text(newTime);
 
-    //timeID = setTimeout(startTime, 1000, newTime);
-    timeID = setTimeout(startTime, 500, newTime);
+    timeID = setTimeout(startTime, 1000, newTime);
+    //timeID = setTimeout(startTime, 500, newTime);
   }
 
   function checkTime(value) {
@@ -146,6 +147,31 @@ $(document).ready(function() {
     	value = "0" + value;
     }
     return value;
+  }
+
+  //clockTime = totalTime
+  function timerAnimation(clockTime) {
+    let $timerDisplay = $('#timerDisplay');
+    let $pomodoroContainer = $('#pomodoroContainer');
+    let delayTime = "background-position " + 60 + "s";
+
+    if(timerOn) {
+      $timerDisplay.removeClass('timerStart');
+      $timerDisplay.addClass('timerDown');
+      $timerDisplay.css("transition", delayTime);
+      $pomodoroContainer.removeClass('pomodoroConStart');
+      $pomodoroContainer.addClass('pomodoroConDown');
+      $pomodoroContainer.css("transition", delayTime);
+    }
+    else {
+      $timerDisplay.removeClass('timerDown');
+      $timerDisplay.addClass('timerStart');
+      $timerDisplay.css("transition", delayTime);
+      $pomodoroContainer.removeClass('pomodoroConDown');
+      $pomodoroContainer.addClass('pomodoroConStart');
+      $pomodoroContainer.css("transition", delayTime);
+
+    }
   }
 
 });

@@ -85,7 +85,7 @@ clip-path: circle(50% at 50% 50%);
 
 #breakSettings {
   border: 2px solid black;
-  background-color: blue;
+  /*background-color: blue;*/
   height: 150px;
   width: 150px;
 
@@ -95,7 +95,7 @@ clip-path: ellipse(50% 49% at 50% 50%);
 
 #sessionSettings {
   border: 2px solid black;
-  background-color: blue;
+  /*background-color: blue;*/
   height: 150px;
   width: 150px;
 
@@ -103,6 +103,16 @@ clip-path: ellipse(50% 49% at 50% 50%);
 clip-path: ellipse(50% 49% at 50% 50%);
 }
 
+.timerSettingStart {
+  background-size: 100% 200%;
+  background-image: linear-gradient(to bottom, red 50%, black 50%);
+}
+
+.timerSettingDown {
+  background-size: 100% 200%;
+  background-image: linear-gradient(to bottom, red 50%, black 50%);
+  background-position: 0 -100%;
+}
 
 
 #timerSettings {

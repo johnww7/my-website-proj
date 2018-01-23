@@ -4,9 +4,13 @@ $(document).ready(function() {
   var $breakLength = $('#breakLength');
   var $timerLength = $('#timerLength');
   var $timer = $('#timer');
+
   var timeID; //identifies the timer created by setTimeout()
   var timerButtonToggle = false;
   var timerOn = true;
+  var interval = 1000; //ms
+  //var timeCount = 0;
+  var initialStart;
 
   $('#increaseBreak, #decreaseBreak').on('click', function() {
     let buttonId = $(this).attr('id');
@@ -66,6 +70,8 @@ $(document).ready(function() {
       console.log("State:" + timerButtonToggle);
       timerButtonToggle = true;
       timerAnimation(animationTime);
+      //initialStart = new Date().getTime();
+      initialStart = Date.now() + interval;
       startTime(currentDisplay);
     }
     else {
@@ -84,6 +90,8 @@ $(document).ready(function() {
     let hour = 0;
     let minute = 0;
     let second = 0;
+
+    //timeCount += 1000;
 
     if(time == '00:00' && timerOn == true) {
       timerOn = false;
@@ -138,7 +146,11 @@ $(document).ready(function() {
     console.log(newTime);
     $timer.text(newTime);
 
-    timeID = setTimeout(startTime, 1000, newTime);
+    let drift = Date.now() - initialStart;
+    initialStart += interval;
+    //let difference = (new Date().getTime() - initialStart) - timeCount;
+    //console.log("diff: " + difference);
+    timeID = setTimeout(startTime, Math.max(0, interval - drift), newTime);
     //timeID = setTimeout(startTime, 500, newTime);
   }
 
@@ -153,23 +165,35 @@ $(document).ready(function() {
   function timerAnimation(clockTime) {
     let $timerDisplay = $('#timerDisplay');
     let $pomodoroContainer = $('#pomodoroContainer');
+    let $sessionSettings = $('#sessionSettings');
+    let $breakSettings = $('#breakSettings');
     let delayTime = "background-position " + 60 + "s";
 
     if(timerOn) {
       $timerDisplay.removeClass('timerStart');
-      $timerDisplay.addClass('timerDown');
-      $timerDisplay.css("transition", delayTime);
       $pomodoroContainer.removeClass('pomodoroConStart');
+      $sessionSettings.removeClass('timerSettingStart');
+
+      $timerDisplay.addClass('timerDown');
       $pomodoroContainer.addClass('pomodoroConDown');
+      $sessionSettings.addClass('timerSettingDown');
+
       $pomodoroContainer.css("transition", delayTime);
+      $timerDisplay.css("transition", delayTime);
+      $sessionSettings.css("transition", delayTime);
     }
     else {
       $timerDisplay.removeClass('timerDown');
-      $timerDisplay.addClass('timerStart');
-      $timerDisplay.css("transition", delayTime);
       $pomodoroContainer.removeClass('pomodoroConDown');
+      $breakSettings.removeClass('timerSettingStart');
+
+      $timerDisplay.addClass('timerStart');
       $pomodoroContainer.addClass('pomodoroConStart');
+      $breakSettings.addClass('timerSettingDown');
+
+      $timerDisplay.css("transition", delayTime);
       $pomodoroContainer.css("transition", delayTime);
+      $breakSettings.css("transition", delayTime);
 
     }
   }

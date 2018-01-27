@@ -26,7 +26,7 @@
 
   -webkit-clip-path: ellipse(40% 49% at 50% 50%);
   clip-path: ellipse(40% 49% at 50% 50%);
-  background-position: 0 -100%;
+  
 }
 
 
@@ -72,7 +72,7 @@ clip-path: circle(50% at 50% 50%);
 .pomodoroConDown {
   background-size: 100% 200%;
   background-image: linear-gradient(to bottom, red 50%, black 50%);
-  background-position: 0 -100%;
+
 }
 
 @media screen and (min-width: 600px) {
@@ -111,7 +111,7 @@ clip-path: ellipse(50% 49% at 50% 50%);
 .timerSettingDown {
   background-size: 100% 200%;
   background-image: linear-gradient(to bottom, red 50%, black 50%);
-  background-position: 0 -100%;
+
 }
 
 

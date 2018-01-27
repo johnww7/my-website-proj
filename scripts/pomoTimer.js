@@ -12,6 +12,12 @@ $(document).ready(function() {
   //var timeCount = 0;
   var initialStart;
 
+  var timerTime = 1;
+  var breakTime = 1;
+  var timerPercent;
+  var breakPercent;
+  var verticalNum = timerPercent;
+
   $('#increaseBreak, #decreaseBreak').on('click', function() {
     let buttonId = $(this).attr('id');
     let currBreakTime = $breakLength.text().replace(/\s/g, "");
@@ -20,19 +26,23 @@ $(document).ready(function() {
 
     if(buttonId == 'increaseBreak' && timerButtonToggle == false) {
       let incBreak =  parseInt(currBreakTime) + 1;
+      breakTime = incBreak;
       $breakLength.text(incBreak);
     }
     else if(buttonId == 'decreaseBreak' && timerButtonToggle == false && (currBreakTime == '1' || currBreakTime == 1)) {
       $breakLength.text(currBreakTime);
+      breakTime = parseInt(currBreakTime);
     }
     else if(buttonId == 'decreaseBreak' && timerButtonToggle == false) {
       let decBreak = parseInt(currBreakTime) - 1;
+      breakTime = decBreak;
       $breakLength.text(decBreak);
     }
 
     else {
       console.log('error');
     }
+    breakPercent = -Math.round((100/breakTime) * 100)/100;
 
   }).css('cursor', 'pointer');
 
@@ -44,22 +54,25 @@ $(document).ready(function() {
 
     if(id == 'increaseTimer' && timerButtonToggle == false) {
       let incTime =  parseInt(currTimerTime) + 1;
+      timerTime = incTime;
       $timerLength.text(incTime);
       $timer.text(incTime + ":00");
     }
     else if(id == 'decreaseTimer' && timerButtonToggle == false && (currTimerTime == '1' || currTimerTime == 1)) {
       $timerLength.text(currTimerTime);
+      timerTime = parseInt(currTimerTime);
       $timer.text(currTimerTime + ":00");
     }
     else if(id == 'decreaseTimer' && timerButtonToggle == false) {
       let decTime = parseInt(currTimerTime) - 1;
+      timerTime = decTime;
       $timerLength.text(decTime);
       $timer.text(decTime + ":00");
     }
     else {
       console.log('error');
     }
-
+    timerPercent = timerPercent = Math.round((100/timerTime) * 100)/100;
   }).css('cursor', 'pointer');
 
   $('#timerDisplay').on('click', function() {
@@ -72,7 +85,8 @@ $(document).ready(function() {
       timerAnimation(animationTime);
       //initialStart = new Date().getTime();
       initialStart = Date.now() + interval;
-      startTime(currentDisplay);
+      setTimeout(startTime, interval, currentDisplay);
+      //startTime(currentDisplay);
     }
     else {
       console.log("State:" + timerButtonToggle);
@@ -90,8 +104,10 @@ $(document).ready(function() {
     let hour = 0;
     let minute = 0;
     let second = 0;
+    let verPosition;
 
     //timeCount += 1000;
+    let drift = Date.now() - initialStart;
 
     if(time == '00:00' && timerOn == true) {
       timerOn = false;
@@ -128,6 +144,9 @@ $(document).ready(function() {
 
     totalTime -= 1;
 
+    newVertPos = newVertPos + verticalNum;
+    console.log("new Vert: " +  newVertPos);
+
     let newHour = Math.floor((totalTime/3600) % 24);
     let newMinute = checkTime(Math.floor((totalTime/60) % 60));
     let newSecond = checkTime(Math.floor(totalTime % 60));
@@ -143,10 +162,16 @@ $(document).ready(function() {
     	newTime = newHour + ":" + newMinute + ":" + newSecond;
     }
 
+    vertPosition = changeTransitionDirection(newVertPos);
+    let backgroundPos = "0% " + vertPosition  + "%";
+    console.log(backgroundPos);
+    $('#box').css("background-position", backgroundPos);
+    $('#box2').css("background-position", backgroundPos);
+
     console.log(newTime);
     $timer.text(newTime);
 
-    let drift = Date.now() - initialStart;
+
     initialStart += interval;
     //let difference = (new Date().getTime() - initialStart) - timeCount;
     //console.log("diff: " + difference);
@@ -198,4 +223,25 @@ $(document).ready(function() {
     }
   }
 
+  function changeTransitionDirection(verticalPosition) {
+
+	if((newVertPos >= (timeUp * goingUp))&& verticalNum == goingUp) {
+    	console.log($('#box').css('background-position'));
+     //return console.log("done");
+     verticalNum = goingDown;
+    // timerDirect.setVertical()
+     newVertPos = 100;
+     return newVertPos;
+    }
+    else if((newVertPos <= (100 + timeDown * goingDown))&& verticalNum == goingDown) {
+    	console.log(100 + timeDown * goingDown);
+    	console.log($('#box').css('background-position'));
+    	verticalNum = goingUp;
+      newVertPos = 0;
+      return newVertPos;
+    }
+    else {
+    	return verticalPosition;
+    }
+}
 });

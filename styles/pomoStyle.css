@@ -1,6 +1,6 @@
 
 
-.timerStart {
+#timerDisplay {
   height: 300px;
   width: 300px;
 /*  background-color: blue ;*/
@@ -16,28 +16,18 @@
   /*animation: clips 25s ease infinite; */
 }
 
-.timerDown {
-  height: 300px;
-  width: 300px;
-  border: 2px solid black;
-  cursor: pointer;
+.timerStart {
+
   background-size: 100% 200%;
   background-image: linear-gradient(to bottom, red 50%, black 50%);
 
-  -webkit-clip-path: ellipse(40% 49% at 50% 50%);
-  clip-path: ellipse(40% 49% at 50% 50%);
-  
 }
 
-
-
-@keyframes clips {
-  50% {
-
-    -webkit-clip-path: ellipse(48% 50% at 50% 50%);
-clip-path: ellipse(48% 50% at 50% 50%);
-  }
+.timerDown {
+  background-size: 100% 200%;
+  background-image: linear-gradient(to bottom, red 50%, black 50%);
 }
+
 
 #pomodoroPanel {
   border: 2px solid red;
@@ -92,6 +82,8 @@ clip-path: circle(50% at 50% 50%);
   -webkit-clip-path: ellipse(50% 49% at 50% 50%);
 clip-path: ellipse(50% 49% at 50% 50%);
  }
+
+
 
 #sessionSettings {
   border: 2px solid black;

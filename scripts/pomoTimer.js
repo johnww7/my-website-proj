@@ -10,6 +10,7 @@ $(document).ready(function() {
   let $breakSettings = $('#breakSettings');
 
   var timeID; //identifies the timer created by setTimeout()
+  let shortTimeID;
   var timerButtonToggle = false;
   var timerOn = true;
   var interval = 1000; //ms
@@ -103,6 +104,7 @@ $(document).ready(function() {
       timerButtonToggle = false;
       displayAnimation(timerButtonToggle);
       clearTimeout(timeID);
+      clearTimeout(shortTimeID);
     }
 
 
@@ -120,11 +122,15 @@ $(document).ready(function() {
     //timeCount += 1000;
     let drift = Date.now() - initialStart;
 
+
+
     if(time == '00:00' && timerOn == true) {
       timerOn = false;
       let tempBreak = $breakLength.text().replace(/\s/g, "");
       tempBreak = tempBreak + ':00';
+      //setTimeout(function() {}, interval);
       $timer.text(tempBreak);
+
       timeArr = tempBreak.split(':', 3);
 
     }
@@ -132,13 +138,19 @@ $(document).ready(function() {
       timerOn = true;
       let tempDisp = $timerLength.text().replace(/\s/g, "");
       tempDisp = tempDisp + ':00';
+      //setTimeout(function() { });
       $timer.text(tempDisp);
+
       timeArr = tempDisp.split(':', 3);
     }
     else {
+      //console.log('continue');
       timeArr = time.split(':', 3);
     }
+
     console.log(timeArr);
+
+
 
     if(timeArr.length == 3) {
     	hour = parseInt(timeArr[0])
@@ -149,34 +161,44 @@ $(document).ready(function() {
     	minute = parseInt(timeArr[0]);
     	second = parseInt(timeArr[1]);
     }
-    console.log(minute);
-    console.log(second);
+
+    console.log('time: ' + hour + ' ' + minute + ' ' + second);
+
 
     let totalTime = (hour * 60 * 60) + (minute * 60) + second;
     console.log(totalTime);
 
-    totalTime -= 1;
-
     console.log("vertical perc: " + verticalNum);
-    newVertPos = newVertPos + verticalNum;
+
+    if(time == '00:00') {
+      totalTime = totalTime;
+      newVertPos = newVertPos;
+    }
+    else {
+      totalTime -= 1;
+      newVertPos = newVertPos + verticalNum;
+    }
+
     console.log("new Vert: " +  newVertPos);
+    vertPosition = changeTransitionDirection(newVertPos);
 
     let newHour = Math.floor((totalTime/3600) % 24);
     let newMinute = checkTime(Math.floor((totalTime/60) % 60));
     let newSecond = checkTime(Math.floor(totalTime % 60));
 
+    console.log('hour: ' + newHour);
     console.log('min: ' + newMinute);
     console.log('sec: ' + newSecond);
     let newTime = "";
 
-    if(hour == "0" || hour == 0 ) {
+    if(newHour == 0 ) {
     	newTime = newMinute + ":" + newSecond;
     }
     else {
     	newTime = newHour + ":" + newMinute + ":" + newSecond;
     }
 
-    vertPosition = changeTransitionDirection(newVertPos);
+
     let backgroundPos = "0% " + vertPosition  + "%";
     console.log(backgroundPos);
     $timerDisplay.css("background-position", backgroundPos);

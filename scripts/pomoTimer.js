@@ -27,24 +27,47 @@ $(document).ready(function() {
   $('#increaseBreak, #decreaseBreak').on('click', function() {
     let buttonId = $(this).attr('id');
     let currBreakTime = $breakLength.text().replace(/\s/g, "");
+    let incBreak = 0;
+    let decBreak = 0;
 
     console.log(buttonId);
+    console.log('Break off: ' + timerOn + ' timer switch: ' + timerButtonToggle);
 
-    if(buttonId == 'increaseBreak' && timerButtonToggle == false) {
-      let incBreak =  parseInt(currBreakTime) + 1;
+    if(buttonId == 'increaseBreak' && timerButtonToggle == false && timerOn == true) {
+      incBreak =  parseInt(currBreakTime) + 1;
       breakTime = incBreak * 60;
       $breakLength.text(incBreak);
+    //  resetTimerAnimation();
     }
     else if(buttonId == 'decreaseBreak' && timerButtonToggle == false && (currBreakTime == '1' || currBreakTime == 1)) {
       $breakLength.text(currBreakTime);
       breakTime = parseInt(currBreakTime) * 60;
+      if(timerOn == false) {
+        $timer.text(currBreakTime + ":00");
+      }
+      //resetTimerAnimation();
     }
-    else if(buttonId == 'decreaseBreak' && timerButtonToggle == false) {
-      let decBreak = parseInt(currBreakTime) - 1;
+    else if(buttonId == 'decreaseBreak' && timerButtonToggle == false && timerOn == true) {
+      decBreak = parseInt(currBreakTime) - 1;
       breakTime = decBreak * 60;
       $breakLength.text(decBreak);
+      //resetTimerAnimation();
     }
-
+    else if(timerButtonToggle == false && timerOn == false && buttonId == 'increaseBreak') {
+      incBreak =  parseInt(currBreakTime) + 1;
+      breakTime = incBreak * 60;
+      $breakLength.text(incBreak);
+      console.log('increase' + incBreak);
+      $timer.text(incBreak + ":00");
+    }
+    else if(timerButtonToggle == false && timerOn == false && buttonId == 'decreaseBreak') {
+      decBreak = parseInt(currBreakTime) - 1;
+      breakTime = decBreak * 60;
+      $breakLength.text(decBreak);
+      console.log('decrease' + decBreak);
+      $timer.text(decBreak + ":00");
+    }
+  //  else if(timerButtonToggle == false &&)
     else {
       console.log('error');
     }
@@ -59,36 +82,58 @@ $(document).ready(function() {
 
     console.log(id);
 
-    if(id == 'increaseTimer' && timerButtonToggle == false) {
+    if(id == 'increaseTimer' && timerButtonToggle == false && timerOn == true) {
       let incTime =  parseInt(currTimerTime) + 1;
       timerTime = incTime * 60;
+      timerPercent  = Math.round((100/timerTime) * 100)/100;
+      verticalNum = timerPercent;
       $timerLength.text(incTime);
       $timer.text(incTime + ":00");
+      resetTimerAnimation();
     }
     else if(id == 'decreaseTimer' && timerButtonToggle == false && (currTimerTime == '1' || currTimerTime == 1)) {
       $timerLength.text(currTimerTime);
       timerTime = parseInt(currTimerTime) * 60;
-      $timer.text(currTimerTime + ":00");
+      timerPercent  = Math.round((100/timerTime) * 100)/100;
+      if(timerOn == true) {
+        $timer.text(currTimerTime + ":00");
+        verticalNum = timerPercent;
+        resetTimerAnimation();
+      }
+
     }
-    else if(id == 'decreaseTimer' && timerButtonToggle == false) {
+    else if(id == 'decreaseTimer' && timerButtonToggle == false && timerOn == true) {
       let decTime = parseInt(currTimerTime) - 1;
       timerTime = decTime * 60;
+      timerPercent  = Math.round((100/timerTime) * 100)/100;
+      verticalNum = timerPercent;
       $timerLength.text(decTime);
       $timer.text(decTime + ":00");
+      resetTimerAnimation();
+    }
+    else if(timerButtonToggle == false && timerOn == false && id == 'increaseTimer') {
+      $timerLength.text(currTimerTime);
+      timerTime = parseInt(currTimerTime) * 60;
+      timerPercent  = Math.round((100/timerTime) * 100)/100;
+    }
+    else if(timerButtonToggle == false && timerOn == false && id == 'decreaseTimer') {
+      $timerLength.text(currTimerTime);
+      timerTime = parseInt(currTimerTime) * 60;
+      timerPercent  = Math.round((100/timerTime) * 100)/100;
     }
     else {
       console.log('error');
     }
     console.log(timerTime);
-    timerPercent  = Math.round((100/timerTime) * 100)/100;
-    verticalNum = timerPercent;
+    //timerPercent  = Math.round((100/timerTime) * 100)/100;
+    //verticalNum = timerPercent;
     console.log(timerPercent);
   }).css('cursor', 'pointer');
 
   $('#timerDisplay').on('click', function() {
     let currentDisplay = $timer.text().replace(/\s/g, "");
     let animationTime = parseInt(currentDisplay) * 60;
-    verticalNum
+
 
     if(!timerButtonToggle) {
       console.log("State:" + timerButtonToggle);
@@ -104,7 +149,7 @@ $(document).ready(function() {
       timerButtonToggle = false;
       displayAnimation(timerButtonToggle);
       clearTimeout(timeID);
-      clearTimeout(shortTimeID);
+    //  clearTimeout(shortTimeID);
     }
 
 
@@ -122,35 +167,9 @@ $(document).ready(function() {
     //timeCount += 1000;
     let drift = Date.now() - initialStart;
 
-
-
-    if(time == '00:00' && timerOn == true) {
-      timerOn = false;
-      let tempBreak = $breakLength.text().replace(/\s/g, "");
-      tempBreak = tempBreak + ':00';
-      //setTimeout(function() {}, interval);
-      $timer.text(tempBreak);
-
-      timeArr = tempBreak.split(':', 3);
-
-    }
-    else if(time == '00:00' && timerOn == false) {
-      timerOn = true;
-      let tempDisp = $timerLength.text().replace(/\s/g, "");
-      tempDisp = tempDisp + ':00';
-      //setTimeout(function() { });
-      $timer.text(tempDisp);
-
-      timeArr = tempDisp.split(':', 3);
-    }
-    else {
-      //console.log('continue');
-      timeArr = time.split(':', 3);
-    }
+    timeArr = checkForReset(time);
 
     console.log(timeArr);
-
-
 
     if(timeArr.length == 3) {
     	hour = parseInt(timeArr[0])
@@ -217,6 +236,36 @@ $(document).ready(function() {
     //timeID = setTimeout(startTime, 500, newTime);
   }
 
+
+  function checkForReset(newTime) {
+
+    if(newTime == '00:00' && timerOn == true) {
+      timerOn = false;
+      let tempBreak = $breakLength.text().replace(/\s/g, "");
+      tempBreak = tempBreak + ':00';
+      //setTimeout(function() {}, interval);
+      //$timer.text(tempBreak);
+
+      return tempBreak.split(':', 3);
+
+    }
+    else if(newTime == '00:00' && timerOn == false) {
+      timerOn = true;
+      let tempDisp = $timerLength.text().replace(/\s/g, "");
+      tempDisp = tempDisp + ':00';
+      //setTimeout(function() { });
+      //$timer.text(tempDisp);
+
+      return tempDisp.split(':', 3);
+    }
+    else {
+      //console.log('continue');
+      return newTime.split(':', 3);
+    }
+
+  }
+
+
   function checkTime(value) {
   	if(value < 10) {
     	value = "0" + value;
@@ -224,7 +273,7 @@ $(document).ready(function() {
     return value;
   }
 
-  //clockTime = totalTime
+
   function displayAnimation(startFlag) {
 
     if(startFlag) {
@@ -251,6 +300,20 @@ $(document).ready(function() {
       $sessionSettings.css('background-position', computedStyle3);
       $breakSettings.css('background-position', computedStyle4);
     }
+  }
+
+  function resetTimerAnimation() {
+    newVertPos = 0;
+
+    $timerDisplay.addClass('timerStart');
+    $pomodoroContainer.addClass('pomodoroConStart');
+    $sessionSettings.addClass('timerSettingStart');
+    $breakSettings.addClass('timerSettingStart');
+
+    $timerDisplay.css('background-position', '');
+    $pomodoroContainer.css('background-position', '');
+    $sessionSettings.css('background-position', '');
+    $breakSettings.css('background-position', '');
   }
 
   function changeTransitionDirection(verticalPosition) {

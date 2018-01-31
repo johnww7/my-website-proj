@@ -44,6 +44,9 @@ $(document).ready(function() {
       breakTime = parseInt(currBreakTime) * 60;
       if(timerOn == false) {
         $timer.text(currBreakTime + ":00");
+        breakPercent = -Math.round((100/breakTime) * 100)/100;
+        verticalNum = breakPercent;
+        resetTimerAnimation();
       }
       //resetTimerAnimation();
     }
@@ -59,6 +62,9 @@ $(document).ready(function() {
       $breakLength.text(incBreak);
       console.log('increase' + incBreak);
       $timer.text(incBreak + ":00");
+      breakPercent = -Math.round((100/breakTime) * 100)/100;
+      verticalNum = breakPercent;
+      resetTimerAnimation();
     }
     else if(timerButtonToggle == false && timerOn == false && buttonId == 'decreaseBreak') {
       decBreak = parseInt(currBreakTime) - 1;
@@ -66,6 +72,9 @@ $(document).ready(function() {
       $breakLength.text(decBreak);
       console.log('decrease' + decBreak);
       $timer.text(decBreak + ":00");
+      breakPercent = -Math.round((100/breakTime) * 100)/100;
+      verticalNum = breakPercent;
+      resetTimerAnimation();
     }
   //  else if(timerButtonToggle == false &&)
     else {
@@ -187,7 +196,7 @@ $(document).ready(function() {
     let totalTime = (hour * 60 * 60) + (minute * 60) + second;
     console.log(totalTime);
 
-    console.log("vertical perc: " + verticalNum);
+
 
     if(time == '00:00') {
       totalTime = totalTime;
@@ -200,6 +209,7 @@ $(document).ready(function() {
 
     console.log("new Vert: " +  newVertPos);
     vertPosition = changeTransitionDirection(newVertPos);
+    console.log("vertical perc: " + verticalNum);
 
     let newHour = Math.floor((totalTime/3600) % 24);
     let newMinute = checkTime(Math.floor((totalTime/60) % 60));
@@ -303,17 +313,27 @@ $(document).ready(function() {
   }
 
   function resetTimerAnimation() {
-    newVertPos = 0;
+    if(timerOn) {
+      newVertPos = 0;
 
-    $timerDisplay.addClass('timerStart');
-    $pomodoroContainer.addClass('pomodoroConStart');
-    $sessionSettings.addClass('timerSettingStart');
-    $breakSettings.addClass('timerSettingStart');
+      $timerDisplay.addClass('timerStart');
+      $pomodoroContainer.addClass('pomodoroConStart');
+      $sessionSettings.addClass('timerSettingStart');
+      $breakSettings.addClass('timerSettingStart');
 
-    $timerDisplay.css('background-position', '');
-    $pomodoroContainer.css('background-position', '');
-    $sessionSettings.css('background-position', '');
-    $breakSettings.css('background-position', '');
+      $timerDisplay.css('background-position', '');
+      $pomodoroContainer.css('background-position', '');
+      $sessionSettings.css('background-position', '');
+      $breakSettings.css('background-position', '');
+    }
+    else {
+      newVertPos = 100;
+
+      $timerDisplay.css('background-position', '0% 100%');
+      $pomodoroContainer.css('background-position', '0% 100%');
+      $sessionSettings.css('background-position', '0% 100%');
+      $breakSettings.css('background-position', '0% 100%');
+    }
   }
 
   function changeTransitionDirection(verticalPosition) {

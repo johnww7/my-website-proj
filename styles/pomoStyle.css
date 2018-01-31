@@ -3,17 +3,23 @@
 #timerDisplay {
   height: 300px;
   width: 300px;
-/*  background-color: blue ;*/
-  border: 2px solid black;
+/*  background-color: blue ;
+  border: 2px solid black;*/
   cursor: pointer;
-  /*transform: rotate(90deg);*/
+
 /*  border-radius: 50%;*/
   background-size: 100% 200%;
   background-image: linear-gradient(to bottom, red 50%, black 50%);
 
-  -webkit-clip-path: ellipse(40% 49% at 50% 50%);
+  border-radius: 200px 200px 200px 200px;
+-moz-border-radius: 200px 200px 200px 200px;
+-webkit-border-radius: 200px 200px 200px 200px;
+border: 49px groove #00edc6;
+
+  /*-webkit-clip-path: ellipse(40% 49% at 50% 50%);
   clip-path: ellipse(40% 49% at 50% 50%);
-  /*animation: clips 25s ease infinite; */
+  filter: drop-shadow(2px 2px 2px black);*/
+
 }
 
 .timerStart {
@@ -74,13 +80,18 @@ clip-path: circle(50% at 50% 50%);
 
 
 #breakSettings {
-  border: 2px solid black;
-  /*background-color: blue;*/
+  /*border: 2px solid black;
+  background-color: blue;*/
   height: 150px;
   width: 150px;
 
-  -webkit-clip-path: ellipse(50% 49% at 50% 50%);
-clip-path: ellipse(50% 49% at 50% 50%);
+  /*-webkit-clip-path: ellipse(50% 49% at 50% 50%);
+clip-path: ellipse(50% 49% at 50% 50%);*/
+
+border-radius: 173px 173px 173px 173px;
+-moz-border-radius: 173px 173px 173px 173px;
+-webkit-border-radius: 173px 173px 173px 173px;
+border: 4px groove #00edc6;
  }
 
 

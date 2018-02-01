@@ -7,35 +7,37 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+    <link href='https://fonts.googleapis.com/css?family=Fontdiner Swanky' rel='stylesheet'>
     <link rel="stylesheet" href="styles/pomoStyle.css" type="text/css">
   </head>
   <body>
     <div class="container">
       <div id="pomodoroContainer" class="pomodoroConStart row justify-content-center align-items-center">
         <div  class="col-8">
-          <div id="pomodoroPanel" class="d-flex flex-column">
-            <div id="heading" class="d-flex justify-content-center">
-                <h4>Pomodoro Clock</h4>
+          <div id="pomodoroPanel" class="d-flex flex-column p-3">
+            <div id="heading" class="d-flex justify-content-center mt-3">
+                <h1>Pomodoro Clock</h1>
             </div>
 
             <div id="timerSettings" class="d-flex flex-row justify-content-around">
               <div id="breakSettings" class="text-center p-2 timerSettingStart">
 
                   <h5>Break Length</h5>
-                  <button id="decreaseBreak" type="button" class="btn btn-dark">-</button>
+                  <button id="decreaseBreak" type="button" class="btn">-</button>
                   <span id="breakLength">
                     5
                   </span>
-                  <button id="increaseBreak" type="button" class="btn btn-dark">+</button>
+                  <button id="increaseBreak" type="button" class="btn">+</button>
               </div>
 
               <div id="sessionSettings" class="text-center p-2 timerSettingStart">
                 <h5>Timer Length</h5>
-                <button id="decreaseTimer" type="button" class="btn btn-dark">-</button>
+                <button id="decreaseTimer" type="button" class="btn">-</button>
                 <span id="timerLength">
                   25
                 </span>
-                <button id="increaseTimer" type="button" class="btn btn-dark">+</button>
+                <button id="increaseTimer" type="button" class="btn">+</button>
               </div>
             </div>
 

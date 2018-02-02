@@ -20,9 +20,9 @@ button:hover {
 }
 
 #timerDisplay {
-  height: 300px;
+  height: 330px;
   color: rgba(253, 254, 255, 0.7);
-  width: 300px;
+  width: 330px;
 /*  background-color: blue ;
   border: 2px solid black;*/
   cursor: pointer;

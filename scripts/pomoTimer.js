@@ -253,8 +253,9 @@ $(document).ready(function() {
       timerOn = false;
       let tempBreak = $breakLength.text().replace(/\s/g, "");
       tempBreak = tempBreak + ':00';
-      //setTimeout(function() {}, interval);
-      //$timer.text(tempBreak);
+
+      //window.alert('Time to take break!');
+      $('#endAlert').modal();
 
       return tempBreak.split(':', 3);
 
@@ -263,13 +264,13 @@ $(document).ready(function() {
       timerOn = true;
       let tempDisp = $timerLength.text().replace(/\s/g, "");
       tempDisp = tempDisp + ':00';
-      //setTimeout(function() { });
-      //$timer.text(tempDisp);
+
+      //window.alert('Get back to work!');
+      $('#endAlert').modal();
 
       return tempDisp.split(':', 3);
     }
     else {
-      //console.log('continue');
       return newTime.split(':', 3);
     }
 
@@ -287,16 +288,24 @@ $(document).ready(function() {
   function displayAnimation(startFlag) {
 
     if(startFlag) {
-      $timerDisplay.removeClass('timerStart');
-      $pomodoroContainer.removeClass('pomodoroConStart');
-      $sessionSettings.removeClass('timerSettingStart');
-      $breakSettings.removeClass('timerSettingStart');
+      if(timerOn) {
+        $timerDisplay.removeClass('timerStart');
+        $pomodoroContainer.removeClass('pomodoroConStart');
+        $sessionSettings.removeClass('timerSettingStart');
+        $breakSettings.removeClass('timerSettingStart');
 
-      $timerDisplay.addClass('timerDown');
-      $pomodoroContainer.addClass('pomodoroConDown');
-      $sessionSettings.addClass('timerSettingDown');
-      $breakSettings.addClass('timerSettingDown');
+        $timerDisplay.addClass('timerDown');
+        $pomodoroContainer.addClass('pomodoroConDown');
+        $sessionSettings.addClass('timerSettingDown');
+        $breakSettings.addClass('timerSettingDown');
+      }
+      else {
+        $breakSettings.removeClass('timerSettingDown');
+        $timerDisplay.removeClass('timerDown');
 
+        $breakSettings.addClass('timerSettingStart');
+        $timerDisplay.addClass('timerStart');
+      }
 
     }
     else {
@@ -329,6 +338,9 @@ $(document).ready(function() {
     else {
       newVertPos = 100;
 
+      $breakSettings.addClass('timerSettingStart');
+      $timerDisplay.addClass('timerStart');
+
       $timerDisplay.css('background-position', '0% 100%');
       $pomodoroContainer.css('background-position', '0% 100%');
       $sessionSettings.css('background-position', '0% 100%');
@@ -343,6 +355,11 @@ $(document).ready(function() {
      //return console.log("done");
      verticalNum = breakPercent;
     // timerDirect.setVertical()
+     $breakSettings.removeClass('timerSettingDown');
+     $timerDisplay.removeClass('timerDown');
+     $breakSettings.addClass('timerSettingStart');
+     $timerDisplay.addClass('timerStart');
+
      newVertPos = 100;
      return newVertPos;
     }
@@ -350,6 +367,12 @@ $(document).ready(function() {
     	console.log(100 + breakTime * breakPercent);
     	console.log($timerDisplay.css('background-position'));
     	verticalNum = timerPercent;
+
+      $breakSettings.removeClass('timerSettingStart');
+      $timerDisplay.removeClass('timerStart');
+      $breakSettings.addClass('timerSettingDown');
+      $timerDisplay.addClass('timerDown');
+
       newVertPos = 0;
       return newVertPos;
     }

@@ -13,7 +13,7 @@
   </head>
   <body>
     <div class="container">
-      <div id="pomodoroContainer" class="pomodoroConStart row justify-content-center align-items-center">
+      <div id="pomodoroContainer" class="pomodoroConStart row justify-content-center align-items-center mt-4">
         <div  class="col-8">
           <div id="pomodoroPanel" class="d-flex flex-column p-3">
             <div id="heading" class="d-flex justify-content-center mt-3">
@@ -38,6 +38,26 @@
                   25
                 </span>
                 <button id="increaseTimer" type="button" class="btn">+</button>
+              </div>
+            </div>
+
+            <div id="endAlert" class="modal fade" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">End of Time</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Take a break!</p>
+                  </div>
+                  <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
               </div>
             </div>
 

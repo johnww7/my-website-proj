@@ -9,20 +9,19 @@ $(document).ready(function() {
   let $sessionSettings = $('#sessionSettings');
   let $breakSettings = $('#breakSettings');
 
-  var timeID; //identifies the timer created by setTimeout()
+  let timeID; //identifies the timer created by setTimeout()
   let shortTimeID;
-  var timerButtonToggle = false;
-  var timerOn = true;
-  var interval = 1000; //ms
-  //var timeCount = 0;
-  var initialStart;
+  let timerButtonToggle = false;
+  let timerOn = true;
+  let interval = 1000; //ms
+  let initialStart;
 
-  var timerTime = 1500;
-  var breakTime = 300;
-  var newVertPos = 0;
-  var timerPercent = Math.round((100/timerTime) * 100)/100;;
-  var breakPercent = -Math.round((100/breakTime) * 100)/100;
-  var verticalNum = timerPercent;
+  let timerTime = 1500;
+  let breakTime = 300;
+  let newVertPos = 0;
+  let timerPercent = Math.round((100/timerTime) * 100)/100;;
+  let breakPercent = -Math.round((100/breakTime) * 100)/100;
+  let verticalNum = timerPercent;
 
   $('#increaseBreak, #decreaseBreak').on('click', function() {
     let buttonId = $(this).attr('id');
@@ -37,7 +36,7 @@ $(document).ready(function() {
       incBreak =  parseInt(currBreakTime) + 1;
       breakTime = incBreak * 60;
       $breakLength.text(incBreak);
-    //  resetTimerAnimation();
+
     }
     else if(buttonId == 'decreaseBreak' && timerButtonToggle == false && (currBreakTime == '1' || currBreakTime == 1)) {
       $breakLength.text(currBreakTime);
@@ -48,13 +47,14 @@ $(document).ready(function() {
         verticalNum = breakPercent;
         resetTimerAnimation();
       }
-      //resetTimerAnimation();
+
     }
     else if(buttonId == 'decreaseBreak' && timerButtonToggle == false && timerOn == true) {
+
       decBreak = parseInt(currBreakTime) - 1;
       breakTime = decBreak * 60;
       $breakLength.text(decBreak);
-      //resetTimerAnimation();
+
     }
     else if(timerButtonToggle == false && timerOn == false && buttonId == 'increaseBreak') {
       incBreak =  parseInt(currBreakTime) + 1;
@@ -76,7 +76,6 @@ $(document).ready(function() {
       verticalNum = breakPercent;
       resetTimerAnimation();
     }
-  //  else if(timerButtonToggle == false &&)
     else {
       console.log('error');
     }
@@ -134,12 +133,11 @@ $(document).ready(function() {
       console.log('error');
     }
     console.log(timerTime);
-    //timerPercent  = Math.round((100/timerTime) * 100)/100;
-    //verticalNum = timerPercent;
+
     console.log(timerPercent);
   }).css('cursor', 'pointer');
 
-  $('#timerDisplay').on('click', function() {
+  $('#timerDisplay, #heading').on('click', function() {
     let currentDisplay = $timer.text().replace(/\s/g, "");
     let animationTime = parseInt(currentDisplay) * 60;
 
@@ -148,17 +146,15 @@ $(document).ready(function() {
       console.log("State:" + timerButtonToggle);
       timerButtonToggle = true;
       displayAnimation(timerButtonToggle);
-      //initialStart = new Date().getTime();
       initialStart = Date.now() + interval;
       setTimeout(startTime, interval, currentDisplay);
-      //startTime(currentDisplay);
     }
     else {
       console.log("State:" + timerButtonToggle);
       timerButtonToggle = false;
       displayAnimation(timerButtonToggle);
       clearTimeout(timeID);
-    //  clearTimeout(shortTimeID);
+
     }
 
 
@@ -173,7 +169,6 @@ $(document).ready(function() {
     let second = 0;
     let verPosition;
 
-    //timeCount += 1000;
     let drift = Date.now() - initialStart;
 
     timeArr = checkForReset(time);
@@ -240,10 +235,8 @@ $(document).ready(function() {
 
 
     initialStart += interval;
-    //let difference = (new Date().getTime() - initialStart) - timeCount;
-    //console.log("diff: " + difference);
     timeID = setTimeout(startTime, Math.max(0, interval - drift), newTime);
-    //timeID = setTimeout(startTime, 500, newTime);
+
   }
 
 
@@ -254,8 +247,8 @@ $(document).ready(function() {
       let tempBreak = $breakLength.text().replace(/\s/g, "");
       tempBreak = tempBreak + ':00';
 
-      //window.alert('Time to take break!');
-      $('#endAlert').modal();
+      $('.modal-body').html('<h4>Take a break!</h4>');
+      $('#endAlert').modal({backdrop: true});
 
       return tempBreak.split(':', 3);
 
@@ -265,8 +258,9 @@ $(document).ready(function() {
       let tempDisp = $timerLength.text().replace(/\s/g, "");
       tempDisp = tempDisp + ':00';
 
-      //window.alert('Get back to work!');
-      $('#endAlert').modal();
+
+      $('.modal-body').html('<h4>Get back to work!</h4>');
+      $('#endAlert').modal({backdrop: true});
 
       return tempDisp.split(':', 3);
     }
@@ -351,10 +345,7 @@ $(document).ready(function() {
   function changeTransitionDirection(verticalPosition) {
 
 	if((newVertPos >= (timerTime * timerPercent))&& verticalNum == timerPercent) {
-    	console.log($timerDisplay.css('background-position'));
-     //return console.log("done");
      verticalNum = breakPercent;
-    // timerDirect.setVertical()
      $breakSettings.removeClass('timerSettingDown');
      $timerDisplay.removeClass('timerDown');
      $breakSettings.addClass('timerSettingStart');
@@ -364,8 +355,6 @@ $(document).ready(function() {
      return newVertPos;
     }
     else if((newVertPos <= (100 + breakTime * breakPercent))&& verticalNum == breakPercent) {
-    	console.log(100 + breakTime * breakPercent);
-    	console.log($timerDisplay.css('background-position'));
     	verticalNum = timerPercent;
 
       $breakSettings.removeClass('timerSettingStart');

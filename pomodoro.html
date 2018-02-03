@@ -12,6 +12,25 @@
     <link rel="stylesheet" href="styles/pomoStyle.css" type="text/css">
   </head>
   <body>
+
+    <div id="endAlert" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content bg-info text-light">
+          <div class="modal-header">
+            <p class="modal-title">End of Session</p>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+          </div>
+
+            <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
       <div id="pomodoroContainer" class="pomodoroConStart row justify-content-center align-items-center mt-4">
         <div  class="col-8">
@@ -38,26 +57,6 @@
                   25
                 </span>
                 <button id="increaseTimer" type="button" class="btn">+</button>
-              </div>
-            </div>
-
-            <div id="endAlert" class="modal fade" tabindex="-1" role="dialog">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">End of Time</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <p>Take a break!</p>
-                  </div>
-                  <div class="modal-footer">
-
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  </div>
-                </div>
               </div>
             </div>
 

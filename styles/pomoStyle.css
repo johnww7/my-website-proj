@@ -23,26 +23,17 @@ button:hover {
   height: 330px;
   color: rgba(253, 254, 255, 0.7);
   width: 330px;
-/*  background-color: blue ;
-  border: 2px solid black;*/
   cursor: pointer;
-
-/*  border-radius: 50%;*/
   background-size: 100% 200%;
 
   border-radius: 200px 200px 200px 200px;
--moz-border-radius: 200px 200px 200px 200px;
--webkit-border-radius: 200px 200px 200px 200px;
-border: 8px groove #00edc6;
-
-  /*-webkit-clip-path: ellipse(40% 49% at 50% 50%);
-  clip-path: ellipse(40% 49% at 50% 50%);
-  filter: drop-shadow(2px 2px 2px black);*/
+  -moz-border-radius: 200px 200px 200px 200px;
+  -webkit-border-radius: 200px 200px 200px 200px;
+  border: 8px groove #00edc6;
 
 }
 
 .timerStart {
-
   background-size: 100% 200%;
   background-image: linear-gradient(to bottom, #282f35 50%, #1512e6 50%);
 
@@ -59,15 +50,9 @@ border: 8px groove #00edc6;
   background-color: #282f35;
   height: 700px;
   width: auto;
-
-  /*shape-outside: url(~/web-projects/fcc-proj/images/clock.png);*/
-
   -webkit-clip-path: polygon(8% 0, 92% 0, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0 92%, 0 8%);
 clip-path: polygon(8% 0, 92% 0, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0 92%, 0 8%);
-  /*
-  -webkit-clip-path: polygon(0% 15%, 15% 15%, 15% 0%, 85% 0%, 85% 15%, 100% 15%, 100% 85%, 85% 85%, 85% 100%, 15% 100%, 15% 85%, 0% 85%);
-clip-path: polygon(0% 15%, 15% 15%, 15% 0%, 85% 0%, 85% 15%, 100% 15%, 100% 85%, 85% 85%, 85% 100%, 15% 100%, 15% 85%, 0% 85%);
-*/
+
 }
 
 #pomodoroContainer {
@@ -97,33 +82,21 @@ clip-path: circle(50% at 50% 50%);
 
 
 #breakSettings {
-  /*border: 2px solid black;
-  background-color: blue;*/
   height: 160px;
   width: 160px;
   color: rgba(253, 254, 255, 0.7);
-
-  /*-webkit-clip-path: ellipse(50% 49% at 50% 50%);
-clip-path: ellipse(50% 49% at 50% 50%);*/
-
-border-radius: 173px 173px 173px 173px;
--moz-border-radius: 173px 173px 173px 173px;
--webkit-border-radius: 173px 173px 173px 173px;
-border: 4px groove #00edc6;
+  border-radius: 173px 173px 173px 173px;
+  -moz-border-radius: 173px 173px 173px 173px;
+  -webkit-border-radius: 173px 173px 173px 173px;
+  border: 4px groove #00edc6;
  }
 
 
 
 #sessionSettings {
-  /*border: 2px solid black;
-  background-color: blue;*/
   height: 160px;
   width: 160px;
   color: rgba(253, 254, 255, 0.7);
-
-  /*-webkit-clip-path: ellipse(50% 49% at 50% 50%);
-clip-path: ellipse(50% 49% at 50% 50%);*/
-
   border-radius: 173px 173px 173px 173px;
   -moz-border-radius: 173px 173px 173px 173px;
   -webkit-border-radius: 173px 173px 173px 173px;
@@ -150,8 +123,3 @@ clip-path: ellipse(50% 49% at 50% 50%);*/
 #timerPanel {
   margin-top: 50px;
 }
-
-/*
--webkit-clip-path: circle(41.4% at 50% 50%);
-clip-path: circle(41.4% at 50% 50%);
-*/

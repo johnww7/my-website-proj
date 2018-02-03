@@ -10,28 +10,37 @@ $(document).ready(function() {
   let $breakSettings = $('#breakSettings');
 
   let timeID; //identifies the timer created by setTimeout()
-  let shortTimeID;
-  let timerButtonToggle = false;
-  let timerOn = true;
+  let timerButtonToggle = false; //holds timerDisplay on/off value when pressed
+  let timerOn = true; //identifies if timer is on or break is on
   let interval = 1000; //ms
-  let initialStart;
+  let initialStart; //holds initial time of clock in milliseconds elapsed from Unix epoch.
 
-  let timerTime = 1500;
-  let breakTime = 300;
-  let newVertPos = 0;
+  let timerTime = 1500; //holds timer length in seconds.
+  let breakTime = 300; //holds break length in seconds.
+  let newVertPos = 0; //holds vertical position percent for background-position
+  //holds vertical percent increment for timer based on timer length
   let timerPercent = Math.round((100/timerTime) * 100)/100;;
+  //holds vertical percent decrement for break based break length
   let breakPercent = -Math.round((100/breakTime) * 100)/100;
-  let verticalNum = timerPercent;
+  let verticalNum = timerPercent; //holds either break/timer percent value
 
+  /*----------------------------------------------------------------------
+    Listens for click event on increase/decrease buttons for break settings. Either increases,
+    or decreases break value, or stays the same. Also cursor turns to a pointer when hovered
+    over buttons.
+  -----------------------------------------------------------------------*/
   $('#increaseBreak, #decreaseBreak').on('click', function() {
-    let buttonId = $(this).attr('id');
-    let currBreakTime = $breakLength.text().replace(/\s/g, "");
-    let incBreak = 0;
-    let decBreak = 0;
+    let buttonId = $(this).attr('id'); //holds what button has been pressed id
+    let currBreakTime = $breakLength.text().replace(/\s/g, ""); //holds break length value
+    let incBreak = 0; //temp stores updated increased break value
+    let decBreak = 0; //temp stores updated decreased break value.
 
-    console.log(buttonId);
-    console.log('Break off: ' + timerOn + ' timer switch: ' + timerButtonToggle);
-
+    //----------------------------------------------------------------------------
+    //If clock timer has been stopped, and timerOn is true/false, you can increase or decrease break length
+    //unless decrease button pressed and break length is 1, then value stays 1. Calculate new break time
+    //time in seconds, and break decrement percent. Also if timerOn is false
+    //then reset timer animation.
+    //-----------------------------------------------------------------------------
     if(buttonId == 'increaseBreak' && timerButtonToggle == false && timerOn == true) {
       incBreak =  parseInt(currBreakTime) + 1;
       breakTime = incBreak * 60;
@@ -60,7 +69,6 @@ $(document).ready(function() {
       incBreak =  parseInt(currBreakTime) + 1;
       breakTime = incBreak * 60;
       $breakLength.text(incBreak);
-      console.log('increase' + incBreak);
       $timer.text(incBreak + ":00");
       breakPercent = -Math.round((100/breakTime) * 100)/100;
       verticalNum = breakPercent;
@@ -70,7 +78,6 @@ $(document).ready(function() {
       decBreak = parseInt(currBreakTime) - 1;
       breakTime = decBreak * 60;
       $breakLength.text(decBreak);
-      console.log('decrease' + decBreak);
       $timer.text(decBreak + ":00");
       breakPercent = -Math.round((100/breakTime) * 100)/100;
       verticalNum = breakPercent;
@@ -79,16 +86,26 @@ $(document).ready(function() {
     else {
       console.log('error');
     }
-    console.log(breakTime);
+    //Calculate the break decrement percent from break length and round 2 decimal places.
     breakPercent = -Math.round((100/breakTime) * 100)/100;
-    console.log(breakPercent);
+
   }).css('cursor', 'pointer');
 
+  //---------------------------------------------------------------------------
+  //Listens for click event on increase/decrease buttons for session settings. Either increases,
+  //or decreases timer value, or stays the same. Also cursor turns to a pointer when hovered
+  //over buttons.
+  //---------------------------------------------------------------------------
   $('#increaseTimer, #decreaseTimer').on('click', function() {
-    let id = $(this).attr('id');
-    let currTimerTime = $timerLength.text().replace(/\s/g, "");
+    let id = $(this).attr('id'); //holds id of button that has pressed
+    let currTimerTime = $timerLength.text().replace(/\s/g, ""); //hold current value of timer length.
 
-    console.log(id);
+    //-------------------------------------------------------------------------
+    //If clock is stopped, and timerOn is true/false either increase value, decrease value or timer value
+    //stays same if 1 and decreased button is pressed. Also calculate
+    //new timer time in seconds and timer percent increment. If timerOn is true also reset
+    //timer animation.
+    //-------------------------------------------------------------------------
 
     if(id == 'increaseTimer' && timerButtonToggle == false && timerOn == true) {
       let incTime =  parseInt(currTimerTime) + 1;
@@ -132,35 +149,40 @@ $(document).ready(function() {
     else {
       console.log('error');
     }
-    console.log(timerTime);
 
-    console.log(timerPercent);
   }).css('cursor', 'pointer');
 
-  $('#timerDisplay, #heading').on('click', function() {
+  //-----------------------------------------------------------------------------
+  //Listen for click event on timerDisplay or heading id DOM element, or breakSessionLength
+  //class on DOM elements. When pressed toggles timerButtonToggle variable between true/false
+  //for when clock is on(true) or off(false). Also cursor turns to a pointer when hovered on
+  //selected DOM elements.
+  //-----------------------------------------------------------------------------
+  $('#timerDisplay, #heading, .breakSessionLength').on('click', function() {
+    //holds current clock timer time.
     let currentDisplay = $timer.text().replace(/\s/g, "");
-    let animationTime = parseInt(currentDisplay) * 60;
 
-
+    //-----------------------------------------------------------------------
+    //If timerButtonToggle is false when pressed, set it to true, call displayAnimation
+    //function passing timerButtonToggle value to it, initialize in milliseconds start time
+    //for setTimeout function call passing startTime function, interval and current clock timer time.
+    //Else set timerButtonToggle to false, call displayAnimation function and stop clock by calling
+    //clearTimeout function passing timeID variable.
+    //----------------------------------------------------------------------
     if(!timerButtonToggle) {
-      console.log("State:" + timerButtonToggle);
       timerButtonToggle = true;
       displayAnimation(timerButtonToggle);
       initialStart = Date.now() + interval;
       setTimeout(startTime, interval, currentDisplay);
     }
     else {
-      console.log("State:" + timerButtonToggle);
       timerButtonToggle = false;
       displayAnimation(timerButtonToggle);
       clearTimeout(timeID);
 
     }
 
-
-    console.log('timer clicked');
-
-  });
+  }).css('cursor', 'pointer');
 
   function startTime(time) {
   	let timeArr = [];

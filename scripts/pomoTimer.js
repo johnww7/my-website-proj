@@ -184,19 +184,25 @@ $(document).ready(function() {
 
   }).css('cursor', 'pointer');
 
+  //-------------------------------------------------------------------------
+  //Function takes clock time currently displayed when called as a parameter.
+  //Performs clock countdown every second and background color transition movement
+  //based on whether its break time or timer session time.
+  //-------------------------------------------------------------------------
   function startTime(time) {
-  	let timeArr = [];
-    let hour = 0;
-    let minute = 0;
-    let second = 0;
-    let verPosition;
+  	let timeArr = []; //holds hh:mm:ss time in an array format.
+    let hour = 0; //holds hour value from timeArr array
+    let minute = 0; //holds minute value from timeArr array
+    let second = 0; //holds seconds value from timeArr array
 
+    //holds drift value for timer
     let drift = Date.now() - initialStart;
 
+    //calls checkForReset function to see if timer has reached end.
     timeArr = checkForReset(time);
 
-    console.log(timeArr);
-
+    //If timeArr length is 3, assign pos 0 to hour, pos 1 to minute, pos 2 to second
+    //,else pos 0 to minute and pos 1 to second.
     if(timeArr.length == 3) {
     	hour = parseInt(timeArr[0])
     	minute = parseInt(timeArr[1]);
@@ -206,15 +212,11 @@ $(document).ready(function() {
     	minute = parseInt(timeArr[0]);
     	second = parseInt(timeArr[1]);
     }
-
-    console.log('time: ' + hour + ' ' + minute + ' ' + second);
-
-
+    //Calculate current time into seconds.
     let totalTime = (hour * 60 * 60) + (minute * 60) + second;
-    console.log(totalTime);
 
-
-
+    //If time parameter equals 00:00, keep totalTime and newVertPos values same,
+    //else decrease total time by 1 and inc/decrease newVertPos.
     if(time == '00:00') {
       totalTime = totalTime;
       newVertPos = newVertPos;
@@ -224,19 +226,18 @@ $(document).ready(function() {
       newVertPos = newVertPos + verticalNum;
     }
 
-    console.log("new Vert: " +  newVertPos);
+    //Call changeTransitionDirection function passing newVertPos value to see
+    //if vertical position direction should be changed.
     vertPosition = changeTransitionDirection(newVertPos);
-    console.log("vertical perc: " + verticalNum);
 
     let newHour = Math.floor((totalTime/3600) % 24);
     let newMinute = checkTime(Math.floor((totalTime/60) % 60));
     let newSecond = checkTime(Math.floor(totalTime % 60));
 
-    console.log('hour: ' + newHour);
-    console.log('min: ' + newMinute);
-    console.log('sec: ' + newSecond);
-    let newTime = "";
+    let newTime = ""; //holds new time formatted as a string hh:mm:ss
 
+    //If newHour is zero, then newTime is 'mm:ss' format, else newTime is
+    //'hh:mm:ss' format
     if(newHour == 0 ) {
     	newTime = newMinute + ":" + newSecond;
     }
@@ -244,24 +245,28 @@ $(document).ready(function() {
     	newTime = newHour + ":" + newMinute + ":" + newSecond;
     }
 
-
-    let backgroundPos = "0% " + vertPosition  + "%";
-    console.log(backgroundPos);
+    let backgroundPos = "0% " + vertPosition  + "%"; //holds background-position value
+    //sets cached DOM elements background-postion properties to backgroundPos value
     $timerDisplay.css("background-position", backgroundPos);
     $pomodoroContainer.css("background-position", backgroundPos);
     $sessionSettings.css("background-position", backgroundPos);
     $breakSettings.css("background-position", backgroundPos);
 
-    console.log(newTime);
-    $timer.text(newTime);
+    $timer.text(newTime); //timer element text set to newTime
 
+    initialStart += interval; //update initial start time by 1000.
 
-    initialStart += interval;
+    //setTimeout calls startTime function, corrects delay time and passes newTime as an argument
     timeID = setTimeout(startTime, Math.max(0, interval - drift), newTime);
-
   }
 
-
+  //--------------------------------------------------------------------------
+  //Functions checks newTime equal to '00:00', if so and timerOn is true get
+  //text value from breakLength element, call endAlert modal element and return
+  //tempBreak string as an Arry. If timerOn false get timerLength element text
+  //value, call endAlert modal element and return tempDisp string as an array.
+  //Else return newTime string split as an array.
+  //------------------------------------------------------------------------
   function checkForReset(newTime) {
 
     if(newTime == '00:00' && timerOn == true) {
@@ -273,13 +278,11 @@ $(document).ready(function() {
       $('#endAlert').modal({backdrop: true});
 
       return tempBreak.split(':', 3);
-
     }
     else if(newTime == '00:00' && timerOn == false) {
       timerOn = true;
       let tempDisp = $timerLength.text().replace(/\s/g, "");
       tempDisp = tempDisp + ':00';
-
 
       $('.modal-body').html('<h4>Get back to work!</h4>');
       $('#endAlert').modal({backdrop: true});
@@ -289,10 +292,12 @@ $(document).ready(function() {
     else {
       return newTime.split(':', 3);
     }
-
   }
 
-
+  //------------------------------------------------------------------------
+  //Function checks value to see if less then 10, if so return value prepended
+  //with a 0 infront of value. Else just return value back.
+  //------------------------------------------------------------------------
   function checkTime(value) {
   	if(value < 10) {
     	value = "0" + value;
@@ -300,10 +305,17 @@ $(document).ready(function() {
     return value;
   }
 
-
+  //--------------------------------------------------------------------------
+  //Function removes/adds css classes to cached DOM elements based on if startFlag
+  //equals true. Else compute elements background-position, then clear that property
+  //by re-adding background-position property and computed value.
+  //------------------------------------------------------------------------
   function displayAnimation(startFlag) {
 
     if(startFlag) {
+      //If timerOn true, remove initial classes from selected elements and add
+      //new ones, else if timerOn is false removed selected elements class and re-add
+      //initial css class.
       if(timerOn) {
         $timerDisplay.removeClass('timerStart');
         $pomodoroContainer.removeClass('pomodoroConStart');
@@ -337,6 +349,13 @@ $(document).ready(function() {
     }
   }
 
+  //-------------------------------------------------------------------------
+  //Function resets background color transition position. If timerOn is true,
+  //set newVertPos equal to 0, add initial css classes to selected DOM elements
+  //and clear background-position property value for elements. Else set newVertPos
+  //to 100, add css class to selected DOM elements and set css background-position
+  //property to '0% 100%' for selected elements.
+  //------------------------------------------------------------------------
   function resetTimerAnimation() {
     if(timerOn) {
       newVertPos = 0;
@@ -364,9 +383,17 @@ $(document).ready(function() {
     }
   }
 
+  //--------------------------------------------------------------------------
+  //Function has one parameter(verticalPosition), checks to see if vertical position
+  //value for background-position should change to either 0 or 100 and vertical
+  //number percent should change to break or timer percent. Else return verticalPosition
+  //value back.
+  //--------------------------------------------------------------------------
   function changeTransitionDirection(verticalPosition) {
-
-	if((newVertPos >= (timerTime * timerPercent))&& verticalNum == timerPercent) {
+     //If newVertPos greater/equal to expected position percentage and verticalNum value
+     //is timerPercent. Change verticalNum to breakPercent, remove/add css classes to
+     //select elements, and set/return newVertPos equal to 100
+	   if((newVertPos >= (timerTime * timerPercent))&& verticalNum == timerPercent) {
      verticalNum = breakPercent;
      $breakSettings.removeClass('timerSettingDown');
      $timerDisplay.removeClass('timerDown');
@@ -376,9 +403,11 @@ $(document).ready(function() {
      newVertPos = 100;
      return newVertPos;
     }
+    //newVertPos less/equal to expected position percentage and verticalNum is breakPercent
+    //. Change verticalNum to timerPercent, remove/add css classes to selected elements and
+    // set/return newVertPos equal to 0.
     else if((newVertPos <= (100 + breakTime * breakPercent))&& verticalNum == breakPercent) {
     	verticalNum = timerPercent;
-
       $breakSettings.removeClass('timerSettingStart');
       $timerDisplay.removeClass('timerStart');
       $breakSettings.addClass('timerSettingDown');

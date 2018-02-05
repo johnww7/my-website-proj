@@ -1,0 +1,13 @@
+.row {
+  border: 2px solid black;
+}
+
+.boardColumn {
+  border: 1px solid black;
+  height: 100px;
+}
+
+#gameInformation {
+  height: 50px;
+  
+}

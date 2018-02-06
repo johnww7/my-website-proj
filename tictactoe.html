@@ -10,6 +10,26 @@
     <link rel="stylesheet" href="styles/tictacboard.css" type="text/css">
   </head>
   <body>
+
+    <div class="modal fade" id="gameIntro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="introHeader">Tic Tac Toe</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Pick either X or O.</p>
+
+            <button type="button" class="btn btn-secondary">X</button>
+            <button type="button" class="btn btn-primary">O</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
       <div class="row">
         <div id="gameBoard" class="col-12 col-lg-12 ">
@@ -25,40 +45,39 @@
             </div>
           </div>
 
-          <div id="row1" class="row">
-            <div class="col-4 col-lg-4 boardColumn">
+          <div id="board" class="row">
+            <div id="one" class="col-4 col-lg-4 boardColumn">
 
             </div>
-            <div class="col-4 col-lg-4 boardColumn">
+            <div id="two" class="col-4 col-lg-4 boardColumn">
 
             </div>
-            <div class="col-4 col-lg-4 boardColumn">
+            <div id="three" class="col-4 col-lg-4 boardColumn">
 
             </div>
-          </div>
+            <div class="w-100"></div>
 
-          <div id="row2" class="row">
-            <div class="col-4 col-lg-4 boardColumn">
-
-            </div>
-            <div class="col-4 col-lg-4 boardColumn">
+            <div id="four" class="col-4 col-lg-4 boardColumn">
 
             </div>
-            <div class="col-4 col-lg-4 boardColumn">
+            <div id="five" class="col-4 col-lg-4 boardColumn">
 
             </div>
-          </div>
-
-          <div id="row3" class="row">
-            <div class="col-4 col-lg-4 boardColumn">
+            <div id="six" class="col-4 col-lg-4 boardColumn">
 
             </div>
-            <div class="col-4 col-lg-4 boardColumn">
+            <div class="w-100"></div>
+
+            <div id="seven" class="col-4 col-lg-4 boardColumn">
 
             </div>
-            <div class="col-4 col-lg-4 boardColumn">
+            <div id="eight" class="col-4 col-lg-4 boardColumn">
 
             </div>
+            <div id="nine" class="col-4 col-lg-4 boardColumn">
+
+            </div>
+
           </div>
 
         </div>

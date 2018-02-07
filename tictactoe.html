@@ -12,7 +12,7 @@
   <body>
 
     <div class="modal fade" id="gameIntro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="introHeader">Tic Tac Toe</h5>
@@ -21,10 +21,11 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>Pick either X or O.</p>
-
-            <button type="button" class="btn btn-secondary">X</button>
-            <button type="button" class="btn btn-primary">O</button>
+            <p class="text-center">Pick either X or O.</p>
+            <div class="d-flex flex-row justify-content-center">
+              <button id="chooseX" type="button" class="btn btn-primary mr-2">X</button>
+              <button id="chooseY" type="button" class="btn btn-primary ml-2">O</button>
+            </div>
           </div>
         </div>
       </div>
@@ -33,48 +34,50 @@
     <div class="container">
       <div class="row">
         <div id="gameBoard" class="col-12 col-lg-12 ">
-          <div id="gameInformation" class="row">
+          <div id="gameInformation" class="row justify-content-center">
             <div id="playerOne" class="col-4 col-lg-3">
-
+              <span id="playerOneWins">0</span>
+              <span>Player 1</span>
             </div>
             <div id="playerTwo" class="col-4 col-lg-3">
-
+              <span id="playerTwoWins">0</span>
+              <span>Player 2</span>
             </div>
             <div id="resetGame" class="col-3 col-lg-2">
-
+              Reset Game
             </div>
           </div>
 
           <div id="board" class="row">
-            <div id="one" class="col-4 col-lg-4 boardColumn">
+            <div id="zero" class="col-4 col-lg-4 boardColumn boardSpace">
 
             </div>
-            <div id="two" class="col-4 col-lg-4 boardColumn">
+            <div id="one" class="col-4 col-lg-4 boardColumn boardSpace">
 
             </div>
-            <div id="three" class="col-4 col-lg-4 boardColumn">
-
-            </div>
-            <div class="w-100"></div>
-
-            <div id="four" class="col-4 col-lg-4 boardColumn">
-
-            </div>
-            <div id="five" class="col-4 col-lg-4 boardColumn">
-
-            </div>
-            <div id="six" class="col-4 col-lg-4 boardColumn">
+            <div id="two" class="col-4 col-lg-4 boardColumn boardSpace">
 
             </div>
             <div class="w-100"></div>
 
-            <div id="seven" class="col-4 col-lg-4 boardColumn">
+            <div id="three" class="col-4 col-lg-4 boardColumn boardSpace">
 
             </div>
-            <div id="eight" class="col-4 col-lg-4 boardColumn">
+            <div id="four" class="col-4 col-lg-4 boardColumn boardSpace">
 
             </div>
-            <div id="nine" class="col-4 col-lg-4 boardColumn">
+            <div id="five" class="col-4 col-lg-4 boardColumn boardSpace">
+
+            </div>
+            <div class="w-100"></div>
+
+            <div id="six" class="col-4 col-lg-4 boardColumn boardSpace">
+
+            </div>
+            <div id="seven" class="col-4 col-lg-4 boardColumn boardSpace">
+
+            </div>
+            <div id="eight" class="col-4 col-lg-4 boardColumn boardSpace">
 
             </div>
 

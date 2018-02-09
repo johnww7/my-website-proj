@@ -14,11 +14,11 @@
 
 
 .highlightTurn {
-  background: black;
+  background: blue;
   color: white;
 }
 
 .noTurn {
-  background: blue;
-  color: white;
+  background: white;
+  color: black;
 }

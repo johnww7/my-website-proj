@@ -12,4 +12,13 @@
 
 }
 
-￼
+
+.highlightTurn {
+  background: black;
+  color: white;
+}
+
+.noTurn {
+  background: blue;
+  color: white;
+}

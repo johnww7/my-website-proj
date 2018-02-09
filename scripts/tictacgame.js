@@ -1,12 +1,16 @@
 $(document).ready(function() {
-  $('#gameIntro').modal('show');
+  let modalOption = {
+    'backdrop' : 'static',
+    'show' : true
+  }
+  $('#gameIntro').modal(modalOption);
 
   let playerChoice = '';
   let computerChoice = '';
   let originalBoard = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
   let boardID = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
   let newBoard = [];
-  let maxPlayer = true;
+  let realPlayer = true;
 
   let $board = $('#board');
 
@@ -23,30 +27,41 @@ $(document).ready(function() {
 
     }
     newBoard = [...originalBoard];
+    console.log('player: ' + playerChoice + ' computer: ' + computerChoice);
     console.log(newBoard);
 
     $('#gameIntro').modal('hide');
   });
 
+  $('#resetGame').on('click', function() {
+    playerChoice = '';
+    computerChoice = '';
+    $('#playerOneWins').text(0);
+    $('#playerTwoWins').text(0);
+    resetGameBoard();
+    $('#gameIntro').modal(modalOption);
+  }).css('cursor', 'pointer');
+
   $('.boardSpace').on('click', function() {
     let markedSpace = $(this).attr('id');
     let mark = '';
 
-    if(maxPlayer) {
-    //  maxPlayer = false;
-      mark = 'X';
+    if(realPlayer) {
+    //  realPlayer = false;
+      mark = playerChoice;
+
     }
     else {
-    //  maxPlayer = true;
-      mark = 'O';
+    //  realPlayer = true;
+      mark = computerChoice;
     }
 
-    maxPlayer = markBoard(markedSpace, mark);
+    realPlayer = markBoard(markedSpace, mark);
 
-    console.log(maxPlayer);
+    console.log(realPlayer);
 
     let testForWin = checkForWin();
-    //endGame(testForWin);
+    endGame(testForWin);
   });
 
   function markBoard(space, playerMark) {
@@ -60,16 +75,34 @@ $(document).ready(function() {
       console.log(position);
       newBoard[position] = playerMark;
       console.log(newBoard);
-      return !maxPlayer;
+      whosTurn();
+      return !realPlayer;
     }
     /*else if(spaceValue == 'X' || spaceValue == 'O') {
       return;
     }*/
     else {
       $('#' + space).text(spaceValue);
-      return maxPlayer;
+      return realPlayer;
     }
 
+  }
+
+  function whosTurn() {
+    let $playerOne = $('#playerOne');
+    let $playerTwo = $('#playerTwo');
+    if(realPlayer) {
+      $playerOne.removeClass('highlightTurn');
+      $playerTwo.removeClass('noTurn');
+      $playerTwo.addClass('highlightTurn');
+      $playerOne.addClass('noTurn');
+    }
+    else {
+      $playerTwo.removeClass('highlightTurn');
+      $playerOne.removeClass('noTurn');
+      $playerOne.addClass('highlightTurn');
+      $playerTwo.addClass('noTurn');
+    }
   }
 
   function checkForWin() {
@@ -132,9 +165,46 @@ $(document).ready(function() {
   }
 
   function endGame(result) {
-    if(playerChoice == 'X' && result == 1) {
+    let $playerOneWins = $('#playerOneWins');
+    let $playerTwoWins = $('#playerTwoWins');
+    let tempValue = 0;
 
+    if(playerChoice == 'X' && result == 1) {
+      tempValue = $playerOneWins.text().replace(/\s/g, "");
+      $playerOneWins.text(tempValue + 1);
     }
+    else if(playerChoice == 'O' && result == -1) {
+      tempValue = $playerOneWins.text().replace(/\s/g, "");
+      $playerOneWins.text(tempValue + 1);
+    }
+    else if(computerChoice == 'X' && result == 1) {
+      tempValue = $playerTwoWins.text().replace(/\s/g,"");
+      $playerTwoWins.text(tempValue + 1);
+    }
+    else if(computerChoice == 'O' && result == -1) {
+      tempValue = $playerTwoWins.text().replace(/\s/g,"");
+      $playerTwoWins.text(tempValue + 1);
+    }
+    /*else if(result == 0) {
+      alert('Tied Game');
+    }*/
+    else {
+      return;
+    }
+    setTimeout(resetGameBoard, 5000);
+
+  }
+
+  function resetGameBoard() {
+      newBoard.length = 0;
+      newBoard = [...originalBoard];
+
+      boardID.forEach(function(mark) {
+        $('#' + mark).css('color', '');
+        $('#' + mark).css('color', 'black');
+      });
+      $('.boardSpace').empty();
+      //$('.boardSpace').css('color', 'black');
   }
 
 });

@@ -2,7 +2,7 @@
   border: 2px solid black;
 }
 
-.boardColumn {
+.board-column {
   border: 1px solid black;
   height: 100px;
 }
@@ -13,12 +13,12 @@
 }
 
 
-.highlightTurn {
+.highlight-turn {
   background: blue;
   color: white;
 }
 
-.noTurn {
+.no-turn {
   background: white;
   color: black;
 }

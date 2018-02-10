@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   let modalOption = {
     'backdrop' : 'static',
     'show' : true
@@ -11,7 +12,9 @@ $(document).ready(function() {
   let boardID = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
   let newBoard = [];
   let realPlayer = true;
+  let playerNum = 0;
 
+  //Cached DOM
   let $board = $('#board');
 
   $('#chooseX, #chooseY').on('click', function() {
@@ -29,7 +32,7 @@ $(document).ready(function() {
     newBoard = [...originalBoard];
     console.log('player: ' + playerChoice + ' computer: ' + computerChoice);
     console.log(newBoard);
-
+    playerNum = Math.floor(Math.random() * 2);
     $('#gameIntro').modal('hide');
   });
 
@@ -42,27 +45,38 @@ $(document).ready(function() {
     $('#gameIntro').modal(modalOption);
   }).css('cursor', 'pointer');
 
-  $('.boardSpace').on('click', function() {
+  $('.board-space').on('click', function() {
     let markedSpace = $(this).attr('id');
     let mark = '';
 
-    if(realPlayer) {
+    /*if(realPlayer) {
     //  realPlayer = false;
-      mark = playerChoice;
-
+        mark = playerChoice;
     }
     else {
     //  realPlayer = true;
-      mark = computerChoice;
-    }
+        mark = computerChoice;
+
+    }*/
+    mark = playerChoice;
 
     realPlayer = markBoard(markedSpace, mark);
 
     console.log(realPlayer);
 
     let testForWin = checkForWin();
-    endGame(testForWin);
+    if(testForWin == 0) {
+      computerMarkBoard();
+      let testCompWin = checkForWin();
+      endGame(testCompWin);
+    }
+    else {
+      endGame(testForWin);
+    }
+
+
   });
+
 
   function markBoard(space, playerMark) {
     let spaceValue = $('#' + space).text().replace(/\s/g, "");
@@ -76,7 +90,9 @@ $(document).ready(function() {
       newBoard[position] = playerMark;
       console.log(newBoard);
       whosTurn();
+      //realPlayer = !realPlayer;
       return !realPlayer;
+      //return !realPlayer;
     }
     /*else if(spaceValue == 'X' || spaceValue == 'O') {
       return;
@@ -88,20 +104,40 @@ $(document).ready(function() {
 
   }
 
+  function computerMarkBoard() {
+    let compChoice = Math.floor(Math.random() * 9);
+    let idSpot = boardID[compChoice];
+    let $chosenSpace = $('#' + idSpot);
+    let spaceValue = $chosenSpace.text().replace(/\s/g, "");
+
+    if(spaceValue == '' || spaceValue == ' ') {
+      $chosenSpace.text(computerChoice);
+      let position = boardID.indexOf(idSpot);
+      console.log('computer pick: ' + position);
+      newBoard[position] = computerChoice;
+      return;
+    }
+    else {
+      $chosenSpace.text(spaceValue);
+      computerMarkBoard();
+    }
+
+  }
+
   function whosTurn() {
     let $playerOne = $('#playerOne');
     let $playerTwo = $('#playerTwo');
     if(realPlayer) {
-      $playerOne.removeClass('highlightTurn');
-      $playerTwo.removeClass('noTurn');
-      $playerTwo.addClass('highlightTurn');
-      $playerOne.addClass('noTurn');
+      $playerOne.removeClass('highlight-turn');
+      $playerTwo.removeClass('no-turn');
+      $playerTwo.addClass('highlight-turn');
+      $playerOne.addClass('no-turn');
     }
     else {
-      $playerTwo.removeClass('highlightTurn');
-      $playerOne.removeClass('noTurn');
-      $playerOne.addClass('highlightTurn');
-      $playerTwo.addClass('noTurn');
+      $playerTwo.removeClass('highlight-turn');
+      $playerOne.removeClass('no-turn');
+      $playerOne.addClass('highlight-turn');
+      $playerTwo.addClass('no-turn');
     }
   }
 
@@ -149,6 +185,14 @@ $(document).ready(function() {
         return -1;
     }
 
+    //Check for board full
+    let fullBoard = newBoard.filter(function(space) {
+      return space == 'X' || space == 'O';
+    });
+    if(fullBoard.length == newBoard.length) {
+      return 2;
+    }
+
     //No one wins
     return 0;
   }
@@ -171,23 +215,23 @@ $(document).ready(function() {
 
     if(playerChoice == 'X' && result == 1) {
       tempValue = $playerOneWins.text().replace(/\s/g, "");
-      $playerOneWins.text(tempValue + 1);
+      $playerOneWins.text(parseInt(tempValue) + 1);
     }
     else if(playerChoice == 'O' && result == -1) {
       tempValue = $playerOneWins.text().replace(/\s/g, "");
-      $playerOneWins.text(tempValue + 1);
+      $playerOneWins.text(parseInt(tempValue) + 1);
     }
     else if(computerChoice == 'X' && result == 1) {
       tempValue = $playerTwoWins.text().replace(/\s/g,"");
-      $playerTwoWins.text(tempValue + 1);
+      $playerTwoWins.text(parseInt(tempValue) + 1);
     }
     else if(computerChoice == 'O' && result == -1) {
       tempValue = $playerTwoWins.text().replace(/\s/g,"");
-      $playerTwoWins.text(tempValue + 1);
+      $playerTwoWins.text(parseInt(tempValue) + 1);
     }
-    /*else if(result == 0) {
-      alert('Tied Game');
-    }*/
+    else if(result == 2) {
+      console.log('Tied Game');
+    }
     else {
       return;
     }
@@ -203,8 +247,27 @@ $(document).ready(function() {
         $('#' + mark).css('color', '');
         $('#' + mark).css('color', 'black');
       });
-      $('.boardSpace').empty();
-      //$('.boardSpace').css('color', 'black');
+      $('.board-space').empty();
+      //$('.board-space').css('color', 'black');
+  }
+
+  function playerTurn() {
+    //let pick = Math.floor(Math.random() * 2);
+    let markPick = '';
+
+    if(realPlayer == true && playerNum == 0) {
+      markPick = playerChoice;
+    }
+    else if(realPlayer == true && playerNum ==1) {
+      markPick = computerChoice;
+    }
+    else if(realPlayer == false && playerNum == 0) {
+      markPick = playerChoice;
+    }
+    else if (realPlayer == false && playerNum == 1){
+      markPick = computerChoice;
+    }
+    return markPick;
   }
 
 });

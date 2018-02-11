@@ -66,7 +66,7 @@ $(document).ready(function() {
 
     let testForWin = checkForWin();
     if(testForWin == 0) {
-      computerMarkBoard();
+      setTimeout(computerMarkBoard, 1000);
       let testCompWin = checkForWin();
       endGame(testCompWin);
     }
@@ -90,9 +90,7 @@ $(document).ready(function() {
       newBoard[position] = playerMark;
       console.log(newBoard);
       whosTurn();
-      //realPlayer = !realPlayer;
       return !realPlayer;
-      //return !realPlayer;
     }
     /*else if(spaceValue == 'X' || spaceValue == 'O') {
       return;
@@ -115,6 +113,8 @@ $(document).ready(function() {
       let position = boardID.indexOf(idSpot);
       console.log('computer pick: ' + position);
       newBoard[position] = computerChoice;
+      whosTurn();
+      realPlayer = !realPlayer;
       return;
     }
     else {
@@ -248,6 +248,10 @@ $(document).ready(function() {
         $('#' + mark).css('color', 'black');
       });
       $('.board-space').empty();
+
+      if(!realPlayer) {
+        computerMarkBoard();
+      }
       //$('.board-space').css('color', 'black');
   }
 

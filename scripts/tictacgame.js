@@ -6,12 +6,57 @@ $(document).ready(function() {
   }
   $('#gameIntro').modal(modalOption);
 
-  let playerChoice = '';
-  let computerChoice = '';
-  let originalBoard = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
-  let boardID = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
-  let newBoard = [];
-  let realPlayer = true;
+  let boardSettings = (function() {
+    let playerChoice = '';
+    let computerChoice = '';
+    let originalBoard = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
+    let boardID = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
+    let newBoard = [];
+    let realPlayer = true;
+
+    return {
+      setPlayerChoice: function(pChoice) {
+        playerChoice = pChoice;
+      },
+      getPlayerChoice: function() {
+        return playerChoice;
+      },
+      setComputerChoice: function(cChoice) {
+        computerChoice = cChoice;
+      },
+      getComputerChoice: function() {
+        return computerChoice;
+      },
+      getOrigBoard: function() {
+        return originalBoard;
+      },
+      getBoardID: function() {
+        return boardID;
+      },
+      setBoard: function(nBoard) {
+        newBoard = nBoard;
+      },
+      setBoardPos: function(pos, val) {
+        newBoard[pos] = val;
+      },
+      getBoard: function() {
+        return newBoard;
+      },
+      resetBoard: function() {
+        newBoard.length = 0;
+        newBoard = [...originalBoard];
+      },
+      setPlayer: function(real) {
+        realPlayer = real;
+      },
+      getPlayer: function() {
+        return realPlayer;
+      }
+    }
+
+  })()
+
+
   let playerNum = 0;
 
   //Cached DOM
@@ -21,24 +66,24 @@ $(document).ready(function() {
     let choice = $(this).attr('id');
 
     if(choice == 'chooseX') {
-      playerChoice = 'X';
-      computerChoice ='O';
+      boardSettings.setPlayerChoice('X');
+      boardSettings.setComputerChoice('O');
     }
     else {
-      playerChoice = 'O';
-      computerChoice = 'X';
+      boardSettings.setPlayerChoice('O');
+      boardSettings.setComputerChoice('X');
 
     }
-    newBoard = [...originalBoard];
-    console.log('player: ' + playerChoice + ' computer: ' + computerChoice);
-    console.log(newBoard);
+    boardSettings.setBoard([...boardSettings.getOrigBoard()]);
+    console.log('player: ' + boardSettings.getPlayerChoice() + ' computer: ' + boardSettings.getComputerChoice());
+    console.log(boardSettings.getBoard());
     playerNum = Math.floor(Math.random() * 2);
     $('#gameIntro').modal('hide');
   });
 
   $('#resetGame').on('click', function() {
-    playerChoice = '';
-    computerChoice = '';
+    boardSettings.setPlayerChoice('');
+    boardSettings.setComputerChoice('');
     $('#playerOneWins').text(0);
     $('#playerTwoWins').text(0);
     resetGameBoard();
@@ -58,15 +103,17 @@ $(document).ready(function() {
         mark = computerChoice;
 
     }*/
-    mark = playerChoice;
+    mark = boardSettings.getPlayerChoice();
 
-    realPlayer = markBoard(markedSpace, mark);
+    let playerTemp = markBoard(markedSpace, mark);
+    boardSettings.setPlayer(playerTemp);
 
-    console.log(realPlayer);
+    console.log(boardSettings.getPlayer());
 
     let testForWin = checkForWin();
     if(testForWin == 0) {
-      setTimeout(computerMarkBoard, 1000);
+    //  setTimeout(computerMarkBoard, 1000);
+      computerMarkBoard();
       let testCompWin = checkForWin();
       endGame(testCompWin);
     }
@@ -85,36 +132,45 @@ $(document).ready(function() {
     if(spaceValue == '' || spaceValue == ' ') {
       $('#' + space).text(playerMark);
 
-      let position = boardID.indexOf(space);
+      let position = boardSettings.getBoardID().indexOf(space);
       console.log(position);
-      newBoard[position] = playerMark;
-      console.log(newBoard);
+      boardSettings.setBoardPos(position, playerMark);
+      console.log(boardSettings.getBoard());
       whosTurn();
-      return !realPlayer;
+      return !boardSettings.getPlayer();
     }
     /*else if(spaceValue == 'X' || spaceValue == 'O') {
       return;
     }*/
     else {
       $('#' + space).text(spaceValue);
-      return realPlayer;
+      return boardSettings.getPlayer();
     }
 
   }
 
+  function emptySpaces(tempBoard) {
+    return tempBoard.filter(function(spaces) {
+      return spaces != "O" || spaces != 'X';
+    });
+  }
+
   function computerMarkBoard() {
     let compChoice = Math.floor(Math.random() * 9);
-    let idSpot = boardID[compChoice];
+    let tempBoardID = boardSettings.getBoardID();
+    let idSpot = tempBoardID[compChoice];
     let $chosenSpace = $('#' + idSpot);
     let spaceValue = $chosenSpace.text().replace(/\s/g, "");
+    let compMark = boardSettings.getComputerChoice();
 
     if(spaceValue == '' || spaceValue == ' ') {
-      $chosenSpace.text(computerChoice);
-      let position = boardID.indexOf(idSpot);
+      $chosenSpace.text(compMark);
+      let position = tempBoardID.indexOf(idSpot);
       console.log('computer pick: ' + position);
-      newBoard[position] = computerChoice;
+      boardSettings.setBoardPos(position, compMark);
       whosTurn();
-      realPlayer = !realPlayer;
+      let tempPlayer = boardSettings.getPlayer();
+      boardSettings.setPlayer(!tempPlayer);
       return;
     }
     else {
@@ -127,7 +183,7 @@ $(document).ready(function() {
   function whosTurn() {
     let $playerOne = $('#playerOne');
     let $playerTwo = $('#playerTwo');
-    if(realPlayer) {
+    if(boardSettings.getPlayer()) {
       $playerOne.removeClass('highlight-turn');
       $playerTwo.removeClass('no-turn');
       $playerTwo.addClass('highlight-turn');
@@ -142,12 +198,14 @@ $(document).ready(function() {
   }
 
   function checkForWin() {
+    let tempNewBoard = boardSettings.getBoard();
+    console.log('Check for win: ' + tempNewBoard);
     //Check for row win
-    for(let rowIndex = 0; rowIndex < newBoard.length; rowIndex++) {
+    for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex++) {
       if(rowIndex == 0 || rowIndex == 3 || rowIndex == 6) {
-        if(newBoard[rowIndex] == newBoard[rowIndex+1] && newBoard[rowIndex+1] ==newBoard[rowIndex+2]){
+        if(tempNewBoard[rowIndex] == tempNewBoard[rowIndex+1] && tempNewBoard[rowIndex+1] ==tempNewBoard[rowIndex+2]){
             markWin(rowIndex, rowIndex+1, rowIndex+2);
-            if(newBoard[rowIndex] == 'X')
+            if(tempNewBoard[rowIndex] == 'X')
               return 1;
             else
               return -1;
@@ -156,11 +214,11 @@ $(document).ready(function() {
     }
 
     //Check for colum win
-    for(let colIndex = 0; colIndex < newBoard.length; colIndex++) {
+    for(let colIndex = 0; colIndex < tempNewBoard.length; colIndex++) {
       if(colIndex == 0 || colIndex == 1 || colIndex == 2) {
-        if(newBoard[colIndex] == newBoard[colIndex+3] && newBoard[colIndex+3] == newBoard[colIndex+6]){
+        if(tempNewBoard[colIndex] == tempNewBoard[colIndex+3] && tempNewBoard[colIndex+3] == tempNewBoard[colIndex+6]){
           markWin(colIndex, colIndex+3, colIndex+6);
-          if(newBoard[colIndex] == 'X')
+          if(tempNewBoard[colIndex] == 'X')
             return 1;
           else
             return -1;
@@ -169,27 +227,25 @@ $(document).ready(function() {
     }
 
     //Check for diagonal win
-    if(newBoard[0] == newBoard[4] && newBoard[4] == newBoard[8]){
+    if(tempNewBoard[0] == tempNewBoard[4] && tempNewBoard[4] == tempNewBoard[8]){
       markWin(0, 4, 8);
-      if(newBoard[0] == 'X')
+      if(tempNewBoard[0] == 'X')
         return 1;
       else
         return -1;
     }
 
-    if(newBoard[2] == newBoard[4] && newBoard[4] == newBoard[8]){
+    if(tempNewBoard[2] == tempNewBoard[4] && tempNewBoard[4] == tempNewBoard[8]){
       markWin(2, 4, 8);
-      if(newBoard[0] == 'X')
+      if(tempNewBoard[0] == 'X')
         return 1;
       else
         return -1;
     }
 
     //Check for board full
-    let fullBoard = newBoard.filter(function(space) {
-      return space == 'X' || space == 'O';
-    });
-    if(fullBoard.length == newBoard.length) {
+    let fullBoard = emptySpaces(tempNewBoard);
+    if(fullBoard == 0) {
       return 2;
     }
 
@@ -199,10 +255,11 @@ $(document).ready(function() {
 
   function markWin(pos1, pos2, pos3) {
     let winningSpace = [pos1, pos2, pos3];
+    let tempBoardID = boardSettings.getBoardID();
     console.log(winningSpace);
 
     winningSpace.forEach(function(elem) {
-      let id = boardID[elem];
+      let id = tempBoardID[elem];
       $('#' + id).css('color', 'red');
     });
     return;
@@ -213,19 +270,19 @@ $(document).ready(function() {
     let $playerTwoWins = $('#playerTwoWins');
     let tempValue = 0;
 
-    if(playerChoice == 'X' && result == 1) {
+    if(boardSettings.getPlayerChoice() == 'X' && result == 1) {
       tempValue = $playerOneWins.text().replace(/\s/g, "");
       $playerOneWins.text(parseInt(tempValue) + 1);
     }
-    else if(playerChoice == 'O' && result == -1) {
+    else if(boardSettings.getPlayerChoice() == 'O' && result == -1) {
       tempValue = $playerOneWins.text().replace(/\s/g, "");
       $playerOneWins.text(parseInt(tempValue) + 1);
     }
-    else if(computerChoice == 'X' && result == 1) {
+    else if(boardSettings.getComputerChoice() == 'X' && result == 1) {
       tempValue = $playerTwoWins.text().replace(/\s/g,"");
       $playerTwoWins.text(parseInt(tempValue) + 1);
     }
-    else if(computerChoice == 'O' && result == -1) {
+    else if(boardSettings.getComputerChoice() == 'O' && result == -1) {
       tempValue = $playerTwoWins.text().replace(/\s/g,"");
       $playerTwoWins.text(parseInt(tempValue) + 1);
     }
@@ -240,16 +297,16 @@ $(document).ready(function() {
   }
 
   function resetGameBoard() {
-      newBoard.length = 0;
-      newBoard = [...originalBoard];
+      boardSettings.resetBoard();
+      let tempBoardID = boardSettings.getBoardID();
 
-      boardID.forEach(function(mark) {
+      tempBoardID.forEach(function(mark) {
         $('#' + mark).css('color', '');
         $('#' + mark).css('color', 'black');
       });
       $('.board-space').empty();
 
-      if(!realPlayer) {
+      if(!boardSettings.getPlayer()) {
         computerMarkBoard();
       }
       //$('.board-space').css('color', 'black');
@@ -259,17 +316,17 @@ $(document).ready(function() {
     //let pick = Math.floor(Math.random() * 2);
     let markPick = '';
 
-    if(realPlayer == true && playerNum == 0) {
-      markPick = playerChoice;
+    if(boardSettings.getPlayer() == true && playerNum == 0) {
+      markPick = boardSettings.getPlayerChoice();
     }
-    else if(realPlayer == true && playerNum ==1) {
-      markPick = computerChoice;
+    else if(boardSettings.getPlayer() == true && playerNum ==1) {
+      markPick = boardSettings.getComputerChoice();
     }
-    else if(realPlayer == false && playerNum == 0) {
-      markPick = playerChoice;
+    else if(boardSettings.getPlayer() == false && playerNum == 0) {
+      markPick = boardSettings.getPlayerChoice();
     }
-    else if (realPlayer == false && playerNum == 1){
-      markPick = computerChoice;
+    else if (boardSettings.getPlayer() == false && playerNum == 1){
+      markPick = boardSettings.getComputerChoice();
     }
     return markPick;
   }

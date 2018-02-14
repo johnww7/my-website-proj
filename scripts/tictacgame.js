@@ -33,6 +33,12 @@ $(document).ready(function() {
       getBoardID: function() {
         return boardID;
       },
+      getIDValue: function(num) {
+        return boardID[num];
+      },
+      getIDIndex: function(index) {
+        return boardID.indexOf(index);
+      },
       setBoard: function(nBoard) {
         newBoard = nBoard;
       },
@@ -109,12 +115,14 @@ $(document).ready(function() {
     boardSettings.setPlayer(playerTemp);
 
     console.log(boardSettings.getPlayer());
-
-    let testForWin = checkForWin();
+    let tempPlayerBoard = boardSettings.getBoard();
+    let testForWin = checkForWin(tempPlayerBoard);
     if(testForWin == 0) {
     //  setTimeout(computerMarkBoard, 1000);
       computerMarkBoard();
-      let testCompWin = checkForWin();
+      let tempCompBoard = boardSettings.getBoard();
+      console.log('comp board: ' + tempCompBoard);
+      let testCompWin = checkForWin(tempCompBoard);
       endGame(testCompWin);
     }
     else {
@@ -158,14 +166,16 @@ $(document).ready(function() {
   function computerMarkBoard() {
     let compChoice = Math.floor(Math.random() * 9);
     let tempBoardID = boardSettings.getBoardID();
-    let idSpot = tempBoardID[compChoice];
+    //console.log('board id: ' + tempBoardID);
+    let idSpot = boardSettings.getIDValue(compChoice);
+    console.log('id: ' + idSpot);
     let $chosenSpace = $('#' + idSpot);
     let spaceValue = $chosenSpace.text().replace(/\s/g, "");
     let compMark = boardSettings.getComputerChoice();
 
     if(spaceValue == '' || spaceValue == ' ') {
       $chosenSpace.text(compMark);
-      let position = tempBoardID.indexOf(idSpot);
+      let position = boardSettings.getIDIndex(idSpot);
       console.log('computer pick: ' + position);
       boardSettings.setBoardPos(position, compMark);
       whosTurn();
@@ -197,8 +207,8 @@ $(document).ready(function() {
     }
   }
 
-  function checkForWin() {
-    let tempNewBoard = boardSettings.getBoard();
+  function checkForWin(tempNewBoard) {
+  //  let tempNewBoard = boardSettings.getBoard();
     console.log('Check for win: ' + tempNewBoard);
     //Check for row win
     for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex++) {
@@ -235,8 +245,8 @@ $(document).ready(function() {
         return -1;
     }
 
-    if(tempNewBoard[2] == tempNewBoard[4] && tempNewBoard[4] == tempNewBoard[8]){
-      markWin(2, 4, 8);
+    if(tempNewBoard[2] == tempNewBoard[4] && tempNewBoard[4] == tempNewBoard[6]){
+      markWin(2, 4, 6);
       if(tempNewBoard[0] == 'X')
         return 1;
       else
@@ -245,7 +255,7 @@ $(document).ready(function() {
 
     //Check for board full
     let fullBoard = emptySpaces(tempNewBoard);
-    if(fullBoard == 0) {
+    if(fullBoard.length === 0) {
       return 2;
     }
 

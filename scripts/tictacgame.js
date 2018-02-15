@@ -116,13 +116,13 @@ $(document).ready(function() {
 
     console.log(boardSettings.getPlayer());
     let tempPlayerBoard = boardSettings.getBoard();
-    let testForWin = checkForWin(tempPlayerBoard);
+    let testForWin = checkForWin();
     if(testForWin == 0) {
     //  setTimeout(computerMarkBoard, 1000);
       computerMarkBoard();
       let tempCompBoard = boardSettings.getBoard();
       console.log('comp board: ' + tempCompBoard);
-      let testCompWin = checkForWin(tempCompBoard);
+      let testCompWin = checkForWin();
       endGame(testCompWin);
     }
     else {
@@ -157,11 +157,6 @@ $(document).ready(function() {
 
   }
 
-  function emptySpaces(tempBoard) {
-    return tempBoard.filter(function(spaces) {
-      return spaces != "O" || spaces != 'X';
-    });
-  }
 
   function computerMarkBoard() {
     let compChoice = Math.floor(Math.random() * 9);
@@ -207,8 +202,8 @@ $(document).ready(function() {
     }
   }
 
-  function checkForWin(tempNewBoard) {
-  //  let tempNewBoard = boardSettings.getBoard();
+  function checkForWin() {
+    let tempNewBoard = boardSettings.getBoard();
     console.log('Check for win: ' + tempNewBoard);
     //Check for row win
     for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex++) {
@@ -253,14 +248,23 @@ $(document).ready(function() {
         return -1;
     }
 
+    let fullBoard = tempNewBoard.filter(function(ele) {
+      return ele != 'O' || ele != 'X';
+    });
     //Check for board full
-    let fullBoard = emptySpaces(tempNewBoard);
+    //let fullBoard = emptySpaces(tempNewBoard);
     if(fullBoard.length === 0) {
       return 2;
     }
 
     //No one wins
     return 0;
+  }
+
+  function emptySpaces(tempBoard) {
+    return tempBoard.filter(function(spaces) {
+      return spaces != "O" || spaces != 'X';
+    });
   }
 
   function markWin(pos1, pos2, pos3) {

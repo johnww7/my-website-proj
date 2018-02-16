@@ -116,13 +116,13 @@ $(document).ready(function() {
 
     console.log(boardSettings.getPlayer());
     let tempPlayerBoard = boardSettings.getBoard();
-    let testForWin = checkForWin();
+    let testForWin = checkForWin(tempPlayerBoard);
     if(testForWin == 0) {
     //  setTimeout(computerMarkBoard, 1000);
       computerMarkBoard();
       let tempCompBoard = boardSettings.getBoard();
       console.log('comp board: ' + tempCompBoard);
-      let testCompWin = checkForWin();
+      let testCompWin = checkForWin(tempCompBoard);
       endGame(testCompWin);
     }
     else {
@@ -185,6 +185,40 @@ $(document).ready(function() {
 
   }
 
+  function negaMax(board, turnColor) {
+    let availableSpaces = emptySpaces(board);
+
+    if(checkForWin(board) === 1) {
+      return 10 * turnColor;
+    }
+
+    if(checkForWin(board) === -1) {
+      return -10 * turnColor;
+    }
+
+    if(availableSpaces.length === 0) {
+      return 0;
+    }
+
+    let best = -1000;
+    for(let i = 0; i < availableSpaces.length; i++) {
+      let mark = ''
+      if(turnColor === -1) {
+        mark = boardSettings.getComputerChoice();
+      }
+      else {
+        mark = boardSettings.getPlayerChoice();
+      }
+      let tempMove = board[availableSpaces[i]];
+      board[availableSpaces[i]] = mark;
+
+      best = Math.max(best, -negaMax(board, -turnColor));
+
+      board[availableSpaces[i]] = tempMove;
+    }
+    return best; 
+  }
+
   function whosTurn() {
     let $playerOne = $('#playerOne');
     let $playerTwo = $('#playerTwo');
@@ -202,8 +236,8 @@ $(document).ready(function() {
     }
   }
 
-  function checkForWin() {
-    let tempNewBoard = boardSettings.getBoard();
+  function checkForWin(tempNewBoard) {
+    //let tempNewBoard = boardSettings.getBoard();
     console.log('Check for win: ' + tempNewBoard);
     //Check for row win
     for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex++) {
@@ -249,11 +283,11 @@ $(document).ready(function() {
     }
 
     let fullBoard = tempNewBoard.filter(function(ele) {
-      return ele != 'O' || ele != 'X';
+      return ele == 'O' || ele == 'X';
     });
     //Check for board full
     //let fullBoard = emptySpaces(tempNewBoard);
-    if(fullBoard.length === 0) {
+    if(fullBoard.length === tempNewBoard.length) {
       return 2;
     }
 

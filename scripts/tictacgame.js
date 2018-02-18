@@ -118,7 +118,7 @@ $(document).ready(function() {
     let tempPlayerBoard = boardSettings.getBoard();
     let testForWin = checkForWin(tempPlayerBoard);
     if(testForWin == 0) {
-    //  setTimeout(computerMarkBoard, 1000);
+      //setTimeout(computerMarkBoard, 1000);
       computerMarkBoard();
       let tempCompBoard = boardSettings.getBoard();
       console.log('comp board: ' + tempCompBoard);
@@ -158,7 +158,7 @@ $(document).ready(function() {
   }
 
 
-  function computerMarkBoard() {
+  /*function computerMarkBoard() {
     let compChoice = Math.floor(Math.random() * 9);
     let tempBoardID = boardSettings.getBoardID();
     //console.log('board id: ' + tempBoardID);
@@ -183,16 +183,59 @@ $(document).ready(function() {
       computerMarkBoard();
     }
 
+  }*/
+  function computerMarkBoard() {
+    let tempBoardID = boardSettings.getBoardID();
+    let computerTurnBoard = boardSettings.getBoard();
+
+    let computerMove = computerBestMove(computerTurnBoard);
+    let idSpot = boardSettings.getIDValue(computerMove);
+    let $chosenSpace = $('#' + idSpot);
+    let compMark = boardSettings.getComputerChoice();
+
+    $chosenSpace.text(compMark);
+    let position = boardSettings.getIDIndex(idSpot);
+    console.log('computer pick: ' + position);
+    boardSettings.setBoardPos(position, compMark);
+    whosTurn();
+    let tempPlayer = boardSettings.getPlayer();
+    boardSettings.setPlayer(!tempPlayer);
+    return;
+  }
+
+  function computerBestMove(board) {
+  	let bestVal = -1000;
+    let bestMoveIndex = 0;
+    let available = emptySpaces(board);
+    let color = -1;
+    console.log('available: ' + available);
+
+    for(let ind = 0; ind < available.length; ind++) {
+    	let tempInd = board[parseInt(available[ind], 10)];
+      board[parseInt(available[ind], 10)] = boardSettings.getComputerChoice();
+      console.log('best move board: ' + board);
+      let moveVal = -negaMax(board, -color);
+      board[parseInt(available[ind], 10)] = tempInd;
+      if(moveVal > bestVal) {
+      	bestVal = moveVal;
+        bestMoveIndex = tempInd;
+      }
+      console.log('BestVal: ' + bestVal + 'BestMove: ' + bestMoveIndex);
+    }
+    console.log('Value of best move: ' + bestVal);
+    return bestMoveIndex;
   }
 
   function negaMax(board, turnColor) {
     let availableSpaces = emptySpaces(board);
-
-    if(checkForWin(board) === 1) {
+    let score = checkForWin(board);
+    console.log('available spots: ' + availableSpaces);
+    console.log('Whats score: ' + score);
+    if(score == 1) {
       return 10 * turnColor;
     }
 
-    if(checkForWin(board) === -1) {
+    if(score == -1) {
       return -10 * turnColor;
     }
 
@@ -204,19 +247,24 @@ $(document).ready(function() {
     for(let i = 0; i < availableSpaces.length; i++) {
       let mark = ''
       if(turnColor === -1) {
+        //mark = computerChoice;
         mark = boardSettings.getComputerChoice();
       }
       else {
+        //mark = playerChoice;
         mark = boardSettings.getPlayerChoice();
       }
-      let tempMove = board[availableSpaces[i]];
-      board[availableSpaces[i]] = mark;
-
+     // let index = availableSpaces[i];
+      console.log('avail spaces: ' + parseInt(availableSpaces[i], 10));
+      let tempMove = board[parseInt(availableSpaces[i], 10)];
+      console.log('temp move: ' + tempMove);
+      board[parseInt(availableSpaces[i], 10)] = mark;
+      console.log('board spot: ' + board[parseInt(availableSpaces[i], 10)]);
       best = Math.max(best, -negaMax(board, -turnColor));
 
-      board[availableSpaces[i]] = tempMove;
+      board[parseInt(availableSpaces[i], 10)] = tempMove;
     }
-    return best; 
+    return best;
   }
 
   function whosTurn() {
@@ -297,7 +345,7 @@ $(document).ready(function() {
 
   function emptySpaces(tempBoard) {
     return tempBoard.filter(function(spaces) {
-      return spaces != "O" || spaces != 'X';
+      return spaces != "O" && spaces != 'X';
     });
   }
 

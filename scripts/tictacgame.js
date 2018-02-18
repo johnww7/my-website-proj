@@ -158,7 +158,7 @@ $(document).ready(function() {
   }
 
 
-  /*function computerMarkBoard() {
+  function computerMarkRandom() {
     let compChoice = Math.floor(Math.random() * 9);
     let tempBoardID = boardSettings.getBoardID();
     //console.log('board id: ' + tempBoardID);
@@ -180,13 +180,18 @@ $(document).ready(function() {
     }
     else {
       $chosenSpace.text(spaceValue);
-      computerMarkBoard();
+      computerMarkRandom();
     }
 
-  }*/
+  }
+
   function computerMarkBoard() {
+
     let tempBoardID = boardSettings.getBoardID();
     let computerTurnBoard = boardSettings.getBoard();
+    let emptyIndex = emptySpaces(computerTurnBoard);
+
+    if(emptyIndex.length <= 6) {
 
     let computerMove = computerBestMove(computerTurnBoard);
     let idSpot = boardSettings.getIDValue(computerMove);
@@ -201,6 +206,11 @@ $(document).ready(function() {
     let tempPlayer = boardSettings.getPlayer();
     boardSettings.setPlayer(!tempPlayer);
     return;
+    }
+    else {
+      computerMarkRandom();
+      return;
+    }
   }
 
   function computerBestMove(board) {

@@ -191,26 +191,26 @@ $(document).ready(function() {
     let computerTurnBoard = boardSettings.getBoard();
     let emptyIndex = emptySpaces(computerTurnBoard);
 
-    if(emptyIndex.length <= 6) {
+    //if(emptyIndex.length <= 7) {
 
-    let computerMove = computerBestMove(computerTurnBoard);
-    let idSpot = boardSettings.getIDValue(computerMove);
-    let $chosenSpace = $('#' + idSpot);
-    let compMark = boardSettings.getComputerChoice();
+      let computerMove = computerBestMove(computerTurnBoard);
+      let idSpot = boardSettings.getIDValue(computerMove);
+      let $chosenSpace = $('#' + idSpot);
+      let compMark = boardSettings.getComputerChoice();
 
-    $chosenSpace.text(compMark);
-    let position = boardSettings.getIDIndex(idSpot);
-    console.log('computer pick: ' + position);
-    boardSettings.setBoardPos(position, compMark);
-    whosTurn();
-    let tempPlayer = boardSettings.getPlayer();
-    boardSettings.setPlayer(!tempPlayer);
-    return;
-    }
+      $chosenSpace.text(compMark);
+      let position = boardSettings.getIDIndex(idSpot);
+      console.log('computer pick: ' + position);
+      boardSettings.setBoardPos(position, compMark);
+      whosTurn();
+      let tempPlayer = boardSettings.getPlayer();
+      boardSettings.setPlayer(!tempPlayer);
+      return;
+  /*  }
     else {
       computerMarkRandom();
       return;
-    }
+    }*/
   }
 
   function computerBestMove(board) {
@@ -218,29 +218,29 @@ $(document).ready(function() {
     let bestMoveIndex = 0;
     let available = emptySpaces(board);
     let color = -1;
-    console.log('available: ' + available);
+    //console.log('available: ' + available);
 
     for(let ind = 0; ind < available.length; ind++) {
     	let tempInd = board[parseInt(available[ind], 10)];
       board[parseInt(available[ind], 10)] = boardSettings.getComputerChoice();
-      console.log('best move board: ' + board);
+      //console.log('best move board: ' + board);
       let moveVal = -negaMax(board, -color);
       board[parseInt(available[ind], 10)] = tempInd;
       if(moveVal > bestVal) {
       	bestVal = moveVal;
         bestMoveIndex = tempInd;
       }
-      console.log('BestVal: ' + bestVal + 'BestMove: ' + bestMoveIndex);
+      //console.log('BestVal: ' + bestVal + 'BestMove: ' + bestMoveIndex);
     }
-    console.log('Value of best move: ' + bestVal);
+    //console.log('Value of best move: ' + bestVal);
     return bestMoveIndex;
   }
 
   function negaMax(board, turnColor) {
     let availableSpaces = emptySpaces(board);
     let score = checkForWin(board);
-    console.log('available spots: ' + availableSpaces);
-    console.log('Whats score: ' + score);
+    //console.log('available spots: ' + availableSpaces);
+    //console.log('Whats score: ' + score);
     if(score == 1) {
       return 10 * turnColor;
     }
@@ -265,11 +265,11 @@ $(document).ready(function() {
         mark = boardSettings.getPlayerChoice();
       }
      // let index = availableSpaces[i];
-      console.log('avail spaces: ' + parseInt(availableSpaces[i], 10));
+      //console.log('avail spaces: ' + parseInt(availableSpaces[i], 10));
       let tempMove = board[parseInt(availableSpaces[i], 10)];
-      console.log('temp move: ' + tempMove);
+      //console.log('temp move: ' + tempMove);
       board[parseInt(availableSpaces[i], 10)] = mark;
-      console.log('board spot: ' + board[parseInt(availableSpaces[i], 10)]);
+      //console.log('board spot: ' + board[parseInt(availableSpaces[i], 10)]);
       best = Math.max(best, -negaMax(board, -turnColor));
 
       board[parseInt(availableSpaces[i], 10)] = tempMove;
@@ -296,7 +296,7 @@ $(document).ready(function() {
 
   function checkForWin(tempNewBoard) {
     //let tempNewBoard = boardSettings.getBoard();
-    console.log('Check for win: ' + tempNewBoard);
+    //console.log('Check for win: ' + tempNewBoard);
     //Check for row win
     for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex++) {
       if(rowIndex == 0 || rowIndex == 3 || rowIndex == 6) {
@@ -362,7 +362,7 @@ $(document).ready(function() {
   function markWin(pos1, pos2, pos3) {
     let winningSpace = [pos1, pos2, pos3];
     let tempBoardID = boardSettings.getBoardID();
-    console.log(winningSpace);
+    //console.log(winningSpace);
 
     winningSpace.forEach(function(elem) {
       let id = tempBoardID[elem];

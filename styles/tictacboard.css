@@ -1,6 +1,6 @@
-.row {
+/*.row {
   border: 2px solid black;
-}
+}*/
 
 .board-column {
   border: 1px solid black;
@@ -9,9 +9,14 @@
 
 #gameInformation {
   height: 50px;
+  margin-top: 10px;
 
 }
 
+#gameBoard {
+  border: 2px solid black;
+  margin-top: 10%;
+}
 
 .highlight-turn {
   background: blue;
@@ -21,4 +26,20 @@
 .no-turn {
   background: white;
   color: black;
+}
+
+#board {
+  margin: 5px 3% 3% 3%;
+}
+
+#resetGame {
+  color: black;
+}
+
+#resetGame:hover {
+  background-color: green;
+  color: white;
+  box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
+-webkit-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
+-moz-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
 }

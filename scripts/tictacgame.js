@@ -13,6 +13,7 @@ $(document).ready(function() {
     let boardID = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
     let newBoard = [];
     let realPlayer = true;
+    let winningArray = [];
 
     return {
       setPlayerChoice: function(pChoice) {
@@ -57,6 +58,14 @@ $(document).ready(function() {
       },
       getPlayer: function() {
         return realPlayer;
+      },
+      setMarkWin: function(pos1, pos2, pos3) {
+        winningArray[0] = pos1;
+        winningArray[1] = pos2;
+        winningArray[2] = pos3;
+      },
+      getMarkWin: function() {
+        return winningArray;
       }
     }
 
@@ -117,12 +126,15 @@ $(document).ready(function() {
     console.log(boardSettings.getPlayer());
     let tempPlayerBoard = boardSettings.getBoard();
     let testForWin = checkForWin(tempPlayerBoard);
+    markWin(testForWin);
+
     if(testForWin == 0) {
       //setTimeout(computerMarkBoard, 1000);
       computerMarkBoard();
       let tempCompBoard = boardSettings.getBoard();
       console.log('comp board: ' + tempCompBoard);
       let testCompWin = checkForWin(tempCompBoard);
+      markWin(testCompWin);
       endGame(testCompWin);
     }
     else {
@@ -301,7 +313,8 @@ $(document).ready(function() {
     for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex++) {
       if(rowIndex == 0 || rowIndex == 3 || rowIndex == 6) {
         if(tempNewBoard[rowIndex] == tempNewBoard[rowIndex+1] && tempNewBoard[rowIndex+1] ==tempNewBoard[rowIndex+2]){
-            markWin(rowIndex, rowIndex+1, rowIndex+2);
+            boardSettings.setMarkWin(rowIndex, rowIndex+1, rowIndex+2);
+            //markWin(rowIndex, rowIndex+1, rowIndex+2);
             if(tempNewBoard[rowIndex] == 'X')
               return 1;
             else
@@ -314,7 +327,8 @@ $(document).ready(function() {
     for(let colIndex = 0; colIndex < tempNewBoard.length; colIndex++) {
       if(colIndex == 0 || colIndex == 1 || colIndex == 2) {
         if(tempNewBoard[colIndex] == tempNewBoard[colIndex+3] && tempNewBoard[colIndex+3] == tempNewBoard[colIndex+6]){
-          markWin(colIndex, colIndex+3, colIndex+6);
+          boardSettings.setMarkWin(colIndex, colIndex+3, colIndex+6);
+          //markWin(colIndex, colIndex+3, colIndex+6);
           if(tempNewBoard[colIndex] == 'X')
             return 1;
           else
@@ -325,7 +339,8 @@ $(document).ready(function() {
 
     //Check for diagonal win
     if(tempNewBoard[0] == tempNewBoard[4] && tempNewBoard[4] == tempNewBoard[8]){
-      markWin(0, 4, 8);
+      boardSettings.setMarkWin(0, 4, 8);
+      //markWin(0, 4, 8);
       if(tempNewBoard[0] == 'X')
         return 1;
       else
@@ -333,7 +348,8 @@ $(document).ready(function() {
     }
 
     if(tempNewBoard[2] == tempNewBoard[4] && tempNewBoard[4] == tempNewBoard[6]){
-      markWin(2, 4, 6);
+      boardSettings.setMarkWin(2, 4, 6);
+      //markWin(2, 4, 6);
       if(tempNewBoard[0] == 'X')
         return 1;
       else
@@ -359,15 +375,18 @@ $(document).ready(function() {
     });
   }
 
-  function markWin(pos1, pos2, pos3) {
-    let winningSpace = [pos1, pos2, pos3];
+  function markWin(winResult) {
+    //let winningSpace = [pos1, pos2, pos3];
+    let winningSpace = boardSettings.getMarkWin();
     let tempBoardID = boardSettings.getBoardID();
     //console.log(winningSpace);
-
-    winningSpace.forEach(function(elem) {
-      let id = tempBoardID[elem];
-      $('#' + id).css('color', 'red');
-    });
+    if(winResult == 1 || winResult == -1) {
+      winningSpace.forEach(function(elem) {
+        let id = tempBoardID[elem];
+        $('#' + id).css('color', 'red');
+      });
+      return;
+    }
     return;
   }
 
@@ -411,6 +430,7 @@ $(document).ready(function() {
         $('#' + mark).css('color', 'black');
       });
       $('.board-space').empty();
+      boardSettings.setMarkWin(0, 0 ,0);
 
       if(!boardSettings.getPlayer()) {
         computerMarkBoard();
@@ -418,7 +438,7 @@ $(document).ready(function() {
       //$('.board-space').css('color', 'black');
   }
 
-  function playerTurn() {
+/*  function playerTurn() {
     //let pick = Math.floor(Math.random() * 2);
     let markPick = '';
 
@@ -435,6 +455,6 @@ $(document).ready(function() {
       markPick = boardSettings.getComputerChoice();
     }
     return markPick;
-  }
+  }*/
 
 });

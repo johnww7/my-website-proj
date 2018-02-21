@@ -205,8 +205,9 @@ $(document).ready(function() {
 
     //if(emptyIndex.length <= 7) {
 
-      let computerMove = computerBestMove(computerTurnBoard);
-      let idSpot = boardSettings.getIDValue(computerMove);
+      //let computerMove = computerBestMove(computerTurnBoard);
+      let computerMove = miniMax(computerTurnBoard, boardSettings.getComputerChoice());
+      let idSpot = boardSettings.getIDValue(computerMove.index);
       let $chosenSpace = $('#' + idSpot);
       let compMark = boardSettings.getComputerChoice();
 
@@ -229,23 +230,131 @@ $(document).ready(function() {
   	let bestVal = -1000;
     let bestMoveIndex = 0;
     let available = emptySpaces(board);
-    let color = -1;
+    //let color = 1;
     //console.log('available: ' + available);
 
-    for(let ind = 0; ind < available.length; ind++) {
+    bestMoveIndex = miniMax(board, boardSettings.getComputerChoice());
+
+    /*for(let ind = 0; ind < available.length; ind++) {
     	let tempInd = board[parseInt(available[ind], 10)];
       board[parseInt(available[ind], 10)] = boardSettings.getComputerChoice();
       //console.log('best move board: ' + board);
-      let moveVal = -negaMax(board, -color);
+      //let moveVal = negaMax(board, -color);
+      let moveVal = miniMax(board, boardSettings.getPlayerChoice());
       board[parseInt(available[ind], 10)] = tempInd;
       if(moveVal > bestVal) {
       	bestVal = moveVal;
         bestMoveIndex = tempInd;
       }
-      //console.log('BestVal: ' + bestVal + 'BestMove: ' + bestMoveIndex);
-    }
+      console.log('BestVal: ' + bestVal + 'BestMove: ' + bestMoveIndex);
+    }*/
     //console.log('Value of best move: ' + bestVal);
     return bestMoveIndex;
+  }
+
+  function miniMax(board, player) {
+    let availableSpaces = emptySpaces(board);
+    let score = checkForWin(board);
+
+    if(score === 1) {
+      return {point: 10};
+    }
+    if(score === -1) {
+      return {point: -10};
+    }
+    if(availableSpaces.length === 0) {
+      return {point: 0};
+    }
+
+    let movesArray = [];
+    for(let i=0; i < availableSpaces.length; i++) {
+      let move ={};
+      let tempIndex = parseInt(availableSpaces[i], 10);
+      move.index = board[tempIndex];
+      board[tempIndex] = player;
+      //console.log('board: ' + board);
+      //let result = 0;
+
+
+      if(player === boardSettings.getComputerChoice()) {
+        let result = miniMax(board, boardSettings.getPlayerChoice());
+        move.point = result.point;
+    //    console.log('result: ' + result);
+      }
+      else {
+        let result = miniMax(board, boardSettings.getComputerChoice());
+        move.point = result.point;
+      //  console.log('result: ' + result);
+      }
+      board[tempIndex] = move.index;
+
+      //console.log('move: ' + move.index + ' move sc: ' + move['point']);
+      movesArray.push(move);
+    }
+
+    let bestMove = 0;
+    if(player === boardSettings.getComputerChoice()) {
+      let best = -1000;
+      for (let j = 0; j < movesArray.length; j++) {
+        if(movesArray[j].point > best) {
+
+          best = movesArray[j].point;
+          bestMove = j;
+          console.log('bestA: ' + best + ' move: ' +bestMove);
+        }
+      }
+      /*movesArray.forEach(function(elem, index) {
+        if(elem.score > best) {
+          best = elem.score;
+          bestMove = index;
+        }
+      });*/
+    }
+    else {
+      let best = 1000;
+      for (let x = 0; x < movesArray.length; x++) {
+        if(movesArray[x].point < best) {
+
+          best = movesArray[x].point;
+          bestMove = x;
+          console.log('bestB: ' + best + ' move: ' +bestMove);
+        }
+      }
+      /*movesArray.forEach(function(elem, index) {
+        if(elem.score < best) {
+          best = elem.score;
+          bestMove = index;
+        }
+      });*/
+    }
+    //console.log('Moves array: ' + movesArray.point + ' best move: ' + bestMove);
+    return movesArray[bestMove];
+    /*if(player === boardSettings.getComputerChoice()) {
+      let best = -1000;
+      for(let i = 0; i < availableSpaces.length; i++) {
+        let tempMove = board[parseInt(availableSpaces[i], 10)];
+        //console.log('temp move: ' + tempMove);
+        board[parseInt(availableSpaces[i], 10)] = player;
+        //console.log('board spot: ' + board[parseInt(availableSpaces[i], 10)]);
+        best = Math.max(best, miniMax(board, boardSettings.getPlayerChoice()));
+
+        board[parseInt(availableSpaces[i], 10)] = tempMove;
+      }
+      return best;
+    }
+    else {
+      let best = 1000;
+      for(let i = 0; i < availableSpaces.length; i++) {
+        let tempMove = board[parseInt(availableSpaces[i], 10)];
+        //console.log('temp move: ' + tempMove);
+        board[parseInt(availableSpaces[i], 10)] = player;
+        //console.log('board spot: ' + board[parseInt(availableSpaces[i], 10)]);
+        best = Math.max(best, miniMax(board, boardSettings.getComputerChoice()));
+
+        board[parseInt(availableSpaces[i], 10)] = tempMove;
+      }
+      return best;
+    }*/
   }
 
   function negaMax(board, turnColor) {

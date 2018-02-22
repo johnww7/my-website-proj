@@ -202,14 +202,16 @@ $(document).ready(function() {
     let tempBoardID = boardSettings.getBoardID();
     let computerTurnBoard = boardSettings.getBoard();
     let emptyIndex = emptySpaces(computerTurnBoard);
+    let compMark = boardSettings.getComputerChoice();
 
-    //if(emptyIndex.length <= 7) {
+    if(emptyIndex.length <= 7) {
 
       //let computerMove = computerBestMove(computerTurnBoard);
-      let computerMove = miniMax(computerTurnBoard, boardSettings.getComputerChoice());
+      let computerMove = miniMax(computerTurnBoard, boardSettings.getPlayerChoice());
+      console.log(computerMove);
       let idSpot = boardSettings.getIDValue(computerMove.index);
       let $chosenSpace = $('#' + idSpot);
-      let compMark = boardSettings.getComputerChoice();
+
 
       $chosenSpace.text(compMark);
       let position = boardSettings.getIDIndex(idSpot);
@@ -219,11 +221,11 @@ $(document).ready(function() {
       let tempPlayer = boardSettings.getPlayer();
       boardSettings.setPlayer(!tempPlayer);
       return;
-  /*  }
+    }
     else {
       computerMarkRandom();
       return;
-    }*/
+    }
   }
 
   function computerBestMove(board) {
@@ -233,7 +235,7 @@ $(document).ready(function() {
     //let color = 1;
     //console.log('available: ' + available);
 
-    bestMoveIndex = miniMax(board, boardSettings.getComputerChoice());
+    //bestMoveIndex = miniMax(board, boardSettings.getComputerChoice());
 
     /*for(let ind = 0; ind < available.length; ind++) {
     	let tempInd = board[parseInt(available[ind], 10)];
@@ -255,14 +257,20 @@ $(document).ready(function() {
   function miniMax(board, player) {
     let availableSpaces = emptySpaces(board);
     let score = checkForWin(board);
+    let compPlayer = boardSettings.getComputerChoice();
+    let huPlayer = boardSettings.getPlayerChoice();
 
-    if(score === 1) {
+    console.log('score: ' + score);
+    if(checkForWin(board) === 1) {
       return {point: 10};
     }
-    if(score === -1) {
+    else if(checkForWin(board) === -1) {
       return {point: -10};
     }
-    if(availableSpaces.length === 0) {
+    else if(availableSpaces.length === 0) {
+      return {point: 0};
+    }
+    else if(checkForWin(board) === 2){
       return {point: 0};
     }
 
@@ -276,13 +284,15 @@ $(document).ready(function() {
       //let result = 0;
 
 
-      if(player === boardSettings.getComputerChoice()) {
-        let result = miniMax(board, boardSettings.getPlayerChoice());
+      if(player === compPlayer) {
+        console.log('comp: ' + compPlayer);
+        let result = miniMax(board, huPlayer);
         move.point = result.point;
     //    console.log('result: ' + result);
       }
       else {
-        let result = miniMax(board, boardSettings.getComputerChoice());
+        console.log('player: ' + huPlayer);
+        let result = miniMax(board, compPlayer);
         move.point = result.point;
       //  console.log('result: ' + result);
       }
@@ -292,17 +302,20 @@ $(document).ready(function() {
       movesArray.push(move);
     }
 
-    let bestMove = 0;
-    if(player === boardSettings.getComputerChoice()) {
-      let best = -1000;
+    //console.log(movesArray);
+    let bestMove;
+    if(player === compPlayer) {
+      var best = -10000;
       for (let j = 0; j < movesArray.length; j++) {
         if(movesArray[j].point > best) {
-
           best = movesArray[j].point;
           bestMove = j;
-          console.log('bestA: ' + best + ' move: ' +bestMove);
+          //console.log('bestA: ' + best + ' move: ' +bestMove);
+
         }
       }
+      //console.log(movesArray);
+  //    console.log('Comp: ' + player);
       /*movesArray.forEach(function(elem, index) {
         if(elem.score > best) {
           best = elem.score;
@@ -311,15 +324,19 @@ $(document).ready(function() {
       });*/
     }
     else {
-      let best = 1000;
+      var bestVal = 10000;
       for (let x = 0; x < movesArray.length; x++) {
-        if(movesArray[x].point < best) {
+        if(movesArray[x].point < bestVal) {
+          //console.log(movesArray);
 
-          best = movesArray[x].point;
+          bestVal = movesArray[x].point;
           bestMove = x;
-          console.log('bestB: ' + best + ' move: ' +bestMove);
+          //console.log('bestB: ' + best + ' move: ' +bestMove);
+
         }
-      }
+
+    }
+    //console.log('Player: ' + player);
       /*movesArray.forEach(function(elem, index) {
         if(elem.score < best) {
           best = elem.score;
@@ -327,7 +344,9 @@ $(document).ready(function() {
         }
       });*/
     }
-    //console.log('Moves array: ' + movesArray.point + ' best move: ' + bestMove);
+    //console.log('Moves array: ' + movesArray[bestMove].point + ' best move: ' + movesArray[bestMove].index);
+
+    console.log(movesArray);
     return movesArray[bestMove];
     /*if(player === boardSettings.getComputerChoice()) {
       let best = -1000;
@@ -337,6 +356,7 @@ $(document).ready(function() {
         board[parseInt(availableSpaces[i], 10)] = player;
         //console.log('board spot: ' + board[parseInt(availableSpaces[i], 10)]);
         best = Math.max(best, miniMax(board, boardSettings.getPlayerChoice()));
+
 
         board[parseInt(availableSpaces[i], 10)] = tempMove;
       }
@@ -419,14 +439,16 @@ $(document).ready(function() {
     //let tempNewBoard = boardSettings.getBoard();
     //console.log('Check for win: ' + tempNewBoard);
     //Check for row win
+    let computerChoice = boardSettings.getComputerChoice();
+    let humanChoice = boardSettings.getPlayerChoice();
     for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex++) {
       if(rowIndex == 0 || rowIndex == 3 || rowIndex == 6) {
         if(tempNewBoard[rowIndex] == tempNewBoard[rowIndex+1] && tempNewBoard[rowIndex+1] ==tempNewBoard[rowIndex+2]){
             boardSettings.setMarkWin(rowIndex, rowIndex+1, rowIndex+2);
             //markWin(rowIndex, rowIndex+1, rowIndex+2);
-            if(tempNewBoard[rowIndex] == 'X')
+            if(tempNewBoard[rowIndex] === humanChoice)
               return 1;
-            else
+            else if(tempNewBoard[rowIndex] === computerChoice)
               return -1;
         }
       }
@@ -438,9 +460,9 @@ $(document).ready(function() {
         if(tempNewBoard[colIndex] == tempNewBoard[colIndex+3] && tempNewBoard[colIndex+3] == tempNewBoard[colIndex+6]){
           boardSettings.setMarkWin(colIndex, colIndex+3, colIndex+6);
           //markWin(colIndex, colIndex+3, colIndex+6);
-          if(tempNewBoard[colIndex] == 'X')
+          if(tempNewBoard[colIndex] === humanChoice)
             return 1;
-          else
+          else if(tempNewBoard[colIndex] === computerChoice)
             return -1;
         }
       }
@@ -450,18 +472,18 @@ $(document).ready(function() {
     if(tempNewBoard[0] == tempNewBoard[4] && tempNewBoard[4] == tempNewBoard[8]){
       boardSettings.setMarkWin(0, 4, 8);
       //markWin(0, 4, 8);
-      if(tempNewBoard[0] == 'X')
+      if(tempNewBoard[0] === humanChoice)
         return 1;
-      else
+      else if(tempNewBoard[0] === computerChoice)
         return -1;
     }
 
     if(tempNewBoard[2] == tempNewBoard[4] && tempNewBoard[4] == tempNewBoard[6]){
       boardSettings.setMarkWin(2, 4, 6);
       //markWin(2, 4, 6);
-      if(tempNewBoard[0] == 'X')
+      if(tempNewBoard[0] === humanChoice)
         return 1;
-      else
+      else if(tempNewBoard[0] === computerChoice)
         return -1;
     }
 

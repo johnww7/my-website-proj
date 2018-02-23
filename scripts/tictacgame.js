@@ -204,10 +204,12 @@ $(document).ready(function() {
     let emptyIndex = emptySpaces(computerTurnBoard);
     let compMark = boardSettings.getComputerChoice();
 
-    if(emptyIndex.length <= 7) {
+    if(emptyIndex.length <= 8) {
 
       //let computerMove = computerBestMove(computerTurnBoard);
-      let computerMove = miniMax(computerTurnBoard, boardSettings.getPlayerChoice());
+      //let computerMove = miniMax(computerTurnBoard, boardSettings.getPlayerChoice());
+      console.log('-----------------------------------------');
+      let computerMove = miniMax(boardSettings.getComputerChoice());
       console.log(computerMove);
       let idSpot = boardSettings.getIDValue(computerMove.index);
       let $chosenSpace = $('#' + idSpot);
@@ -254,30 +256,31 @@ $(document).ready(function() {
     return bestMoveIndex;
   }
 
-  function miniMax(board, player) {
+  function miniMax(player) {
+    let board = boardSettings.getBoard();
     let availableSpaces = emptySpaces(board);
     let score = checkForWin(board);
     let compPlayer = boardSettings.getComputerChoice();
     let huPlayer = boardSettings.getPlayerChoice();
 
-    console.log('score: ' + score);
-    if(checkForWin(board) === 1) {
-      return {point: 10};
-    }
-    else if(checkForWin(board) === -1) {
+    //console.log('score: ' + score);
+    if(checkForWin() === 1) {
       return {point: -10};
+    }
+    else if(checkForWin() === -1) {
+      return {point: 10};
     }
     else if(availableSpaces.length === 0) {
       return {point: 0};
     }
-    else if(checkForWin(board) === 2){
+    /*else if(checkForWin(board) === 2){
       return {point: 0};
-    }
+    }*/
 
     let movesArray = [];
     for(let i=0; i < availableSpaces.length; i++) {
       let move ={};
-      let tempIndex = parseInt(availableSpaces[i], 10);
+      let tempIndex = parseInt(availableSpaces[i]);
       move.index = board[tempIndex];
       board[tempIndex] = player;
       //console.log('board: ' + board);
@@ -285,15 +288,17 @@ $(document).ready(function() {
 
 
       if(player === compPlayer) {
-        console.log('comp: ' + compPlayer);
-        let result = miniMax(board, huPlayer);
-        move.point = result.point;
+        //console.log('comp: ' + compPlayer);
+        //let resultA = miniMax(board, huPlayer);
+        let resultA = miniMax(huPlayer);
+        move.point = resultA.point;
     //    console.log('result: ' + result);
       }
       else {
-        console.log('player: ' + huPlayer);
-        let result = miniMax(board, compPlayer);
-        move.point = result.point;
+        //console.log('player: ' + huPlayer);
+        //let resultB = miniMax(board, compPlayer);
+        let resultB = miniMax(compPlayer);
+        move.point = resultB.point;
       //  console.log('result: ' + result);
       }
       board[tempIndex] = move.index;
@@ -303,7 +308,7 @@ $(document).ready(function() {
     }
 
     //console.log(movesArray);
-    let bestMove;
+    var bestMove;
     if(player === compPlayer) {
       var best = -10000;
       for (let j = 0; j < movesArray.length; j++) {
@@ -345,7 +350,7 @@ $(document).ready(function() {
       });*/
     }
     //console.log('Moves array: ' + movesArray[bestMove].point + ' best move: ' + movesArray[bestMove].index);
-
+    console.log(player);
     console.log(movesArray);
     return movesArray[bestMove];
     /*if(player === boardSettings.getComputerChoice()) {
@@ -435,10 +440,11 @@ $(document).ready(function() {
     }
   }
 
-  function checkForWin(tempNewBoard) {
+  function checkForWin() {
     //let tempNewBoard = boardSettings.getBoard();
     //console.log('Check for win: ' + tempNewBoard);
     //Check for row win
+    let tempNewBoard = boardSettings.getBoard();
     let computerChoice = boardSettings.getComputerChoice();
     let humanChoice = boardSettings.getPlayerChoice();
     for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex++) {

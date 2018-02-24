@@ -447,7 +447,7 @@ $(document).ready(function() {
     let tempNewBoard = boardSettings.getBoard();
     let computerChoice = boardSettings.getComputerChoice();
     let humanChoice = boardSettings.getPlayerChoice();
-    for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex++) {
+    for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex+=3) {
       if(rowIndex == 0 || rowIndex == 3 || rowIndex == 6) {
         if(tempNewBoard[rowIndex] == tempNewBoard[rowIndex+1] && tempNewBoard[rowIndex+1] ==tempNewBoard[rowIndex+2]){
             boardSettings.setMarkWin(rowIndex, rowIndex+1, rowIndex+2);
@@ -461,7 +461,7 @@ $(document).ready(function() {
     }
 
     //Check for colum win
-    for(let colIndex = 0; colIndex < tempNewBoard.length; colIndex++) {
+    for(let colIndex = 0; colIndex < 3; colIndex++) {
       if(colIndex == 0 || colIndex == 1 || colIndex == 2) {
         if(tempNewBoard[colIndex] == tempNewBoard[colIndex+3] && tempNewBoard[colIndex+3] == tempNewBoard[colIndex+6]){
           boardSettings.setMarkWin(colIndex, colIndex+3, colIndex+6);

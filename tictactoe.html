@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet'>
     <link rel="stylesheet" href="styles/tictacboard.css" type="text/css">
   </head>
   <body>
@@ -35,12 +36,12 @@
       <div class="row">
         <div id="gameBoard" class="col-12 col-lg-12 ">
           <div id="gameInformation" class="row justify-content-center">
-            <div id="playerOne" class="col-4 col-lg-3 highlight-turn text-center">
-              <span id="playerOneWins">0</span>
+            <div id="playerOne" class="col-3 col-lg-2 highlight-turn text-center">
+              <span id="playerOneWins" class="badge">0</span>
               <span>Player 1</span>
             </div>
-            <div id="playerTwo" class="col-4 col-lg-3 no-turn text-center">
-              <span id="playerTwoWins">0</span>
+            <div id="playerTwo" class="col-3 col-lg-2 no-turn text-center">
+              <span id="playerTwoWins" class="badge">0</span>
               <span>Player 2</span>
             </div>
             <div id="resetGame" class="col-3 col-lg-2 text-center">
@@ -49,24 +50,24 @@
           </div>
 
           <div id="board" class="row">
-            <div id="zero" class="col-4 col-lg-4 board-column board-space">
+            <div id="zero" class="col-4 col-lg-4 board-column board-space board-col-bottom">
 
             </div>
-            <div id="one" class="col-4 col-lg-4 board-column board-space">
+            <div id="one" class="col-4 col-lg-4 board-column board-space board-col-bottom board-col-edges">
 
             </div>
-            <div id="two" class="col-4 col-lg-4 board-column board-space">
+            <div id="two" class="col-4 col-lg-4 board-column board-space board-col-bottom">
 
             </div>
             <div class="w-100"></div>
 
-            <div id="three" class="col-4 col-lg-4 board-column board-space">
+            <div id="three" class="col-4 col-lg-4 board-column board-space board-col-bottom">
 
             </div>
-            <div id="four" class="col-4 col-lg-4 board-column board-space">
+            <div id="four" class="col-4 col-lg-4 board-column board-space board-col-bottom board-col-edges">
 
             </div>
-            <div id="five" class="col-4 col-lg-4 board-column board-space">
+            <div id="five" class="col-4 col-lg-4 board-column board-space board-col-bottom">
 
             </div>
             <div class="w-100"></div>
@@ -74,7 +75,7 @@
             <div id="six" class="col-4 col-lg-4 board-column board-space">
 
             </div>
-            <div id="seven" class="col-4 col-lg-4 board-column board-space">
+            <div id="seven" class="col-4 col-lg-4 board-column board-space board-col-edges">
 
             </div>
             <div id="eight" class="col-4 col-lg-4 board-column board-space">

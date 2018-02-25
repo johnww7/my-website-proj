@@ -3,8 +3,17 @@
 }*/
 
 .board-column {
-  border: 1px solid black;
-  height: 100px;
+/*  border: 1px solid black;*/
+  height: 125px;
+}
+
+.board-col-bottom {
+  border-bottom: 3px solid rgba(227, 223, 188, 0.8);
+}
+
+.board-col-edges {
+  border-left: 3px solid rgba(227, 223, 188, 0.8);
+  border-right: 3px solid rgba(227, 223, 188, 0.8);
 }
 
 #gameInformation {
@@ -16,20 +25,38 @@
 #gameBoard {
   border: 2px solid black;
   margin-top: 10%;
+  background-color: rgba(33, 37, 40, 0.3);
+  border-radius: 90% / 5%;
 }
 
 .highlight-turn {
-  background: blue;
-  color: white;
+  background: #1f0097;
+  color: #ecff00;
+}
+
+.highlight-turn:hover {
+  box-shadow: 1px 1px 15px 3px rgba(0,0,236,0.8);
+-webkit-box-shadow: 1px 1px 15px 3px rgba(0,0,236,0.8);
+-moz-box-shadow: 1px 1px 15px 3px rgba(0,0,236,0.8);
 }
 
 .no-turn {
-  background: white;
+  background: background-color: rgba(33, 37, 40, 0.3);;
   color: black;
+}
+
+.no-turn:hover {
+  box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
+-webkit-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
+-moz-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
 }
 
 #board {
   margin: 5px 3% 3% 3%;
+  background-color: rgba(10, 10, 48, 0.97);
+  color: rgba(0, 255, 251, 0.9);
+  font-size: 75px;
+  font-family: 'Orbitron';
 }
 
 #resetGame {
@@ -42,4 +69,8 @@
   box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
 -webkit-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
 -moz-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
+}
+
+.badge {
+  background-color: rgba(44, 112, 23, 0.8);
 }

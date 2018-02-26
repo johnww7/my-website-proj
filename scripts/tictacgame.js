@@ -520,7 +520,7 @@ $(document).ready(function() {
     if(winResult == 1 || winResult == -1) {
       winningSpace.forEach(function(elem) {
         let id = tempBoardID[elem];
-        $('#' + id).css('color', 'red');
+        $('#' + id).css('color', 'rgba(0, 255, 251, 0.9)');
       });
       return;
     }

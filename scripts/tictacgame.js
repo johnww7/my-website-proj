@@ -382,46 +382,6 @@ $(document).ready(function() {
     }*/
   }
 
-  function negaMax(board, turnColor) {
-    let availableSpaces = emptySpaces(board);
-    let score = checkForWin(board);
-    //console.log('available spots: ' + availableSpaces);
-    //console.log('Whats score: ' + score);
-    if(score == 1) {
-      return 10 * turnColor;
-    }
-
-    if(score == -1) {
-      return -10 * turnColor;
-    }
-
-    if(availableSpaces.length === 0) {
-      return 0;
-    }
-
-    let best = -1000;
-    for(let i = 0; i < availableSpaces.length; i++) {
-      let mark = ''
-      if(turnColor === -1) {
-        //mark = computerChoice;
-        mark = boardSettings.getComputerChoice();
-      }
-      else {
-        //mark = playerChoice;
-        mark = boardSettings.getPlayerChoice();
-      }
-     // let index = availableSpaces[i];
-      //console.log('avail spaces: ' + parseInt(availableSpaces[i], 10));
-      let tempMove = board[parseInt(availableSpaces[i], 10)];
-      //console.log('temp move: ' + tempMove);
-      board[parseInt(availableSpaces[i], 10)] = mark;
-      //console.log('board spot: ' + board[parseInt(availableSpaces[i], 10)]);
-      best = Math.max(best, -negaMax(board, -turnColor));
-
-      board[parseInt(availableSpaces[i], 10)] = tempMove;
-    }
-    return best;
-  }
 
   function whosTurn() {
     let $playerOne = $('#playerOne');

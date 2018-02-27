@@ -204,7 +204,7 @@ $(document).ready(function() {
     let emptyIndex = emptySpaces(computerTurnBoard);
     let compMark = boardSettings.getComputerChoice();
 
-    if(emptyIndex.length <= 8) {
+    //if(emptyIndex.length <= 8) {
 
       //let computerMove = computerBestMove(computerTurnBoard);
       //let computerMove = miniMax(computerTurnBoard, boardSettings.getPlayerChoice());
@@ -223,11 +223,11 @@ $(document).ready(function() {
       let tempPlayer = boardSettings.getPlayer();
       boardSettings.setPlayer(!tempPlayer);
       return;
-    }
+  /*  }
     else {
       computerMarkRandom();
       return;
-    }
+    }*/
   }
 
   function computerBestMove(board) {
@@ -524,7 +524,7 @@ $(document).ready(function() {
 
       tempBoardID.forEach(function(mark) {
         $('#' + mark).css('color', '');
-        $('#' + mark).css('color', 'black');
+        $('#' + mark).css('color', '#ffe500');
       });
       $('.board-space').empty();
       boardSettings.setMarkWin(0, 0 ,0);

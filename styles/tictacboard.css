@@ -94,8 +94,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F4DFF', end
 .modal-box {
   background-color: rgba(31, 9, 240, 0.5);
   color: #c0fa1f;
-  /*sheight: 20%;
-  width: 30%;*/
+  sheight: 300px;
+
 }
 
 .choose-btn-style {
@@ -106,6 +106,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F4DFF', end
 
 .modal {
    background-color: rgba(93, 0, 250, 0.4) !important;
+}
+
+.modal-body {
+  padding: 10%;
+}
+
+.pick-size {
+  font-size: 30px;
 }
 
 .modal.show .modal-dialog {

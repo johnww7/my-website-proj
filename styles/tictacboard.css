@@ -4,13 +4,13 @@ html {
 
 body {
   height: 100%;
-background: -moz-radial-gradient(center, ellipse cover, rgba(79,77,255,1) 0%, rgba(79,77,255,1) 29%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%); /* ff3.6+ */
-background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(79,77,255,1)), color-stop(29%, rgba(79,77,255,1)), color-stop(59%, rgba(0,0,0,1)), color-stop(100%, rgba(0,0,0,1))); /* safari4+,chrome */
-background:-webkit-radial-gradient(center, ellipse cover, rgba(79,77,255,1) 0%, rgba(79,77,255,1) 29%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%); /* safari5.1+,chrome10+ */
-background: -o-radial-gradient(center, ellipse cover, rgba(79,77,255,1) 0%, rgba(79,77,255,1) 29%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%); /* opera 11.10+ */
-background: -ms-radial-gradient(center, ellipse cover, rgba(79,77,255,1) 0%, rgba(79,77,255,1) 29%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%); /* ie10+ */
-background:radial-gradient(ellipse at center, rgba(79,77,255,1) 0%, rgba(79,77,255,1) 29%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%); /* w3c */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F4DFF', endColorstr='#000000',GradientType=1 );  /*ie6-9*/
+  background: -moz-radial-gradient(center, ellipse cover, rgba(79,77,255,1) 0%, rgba(79,77,255,1) 29%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%); /* ff3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(79,77,255,1)), color-stop(29%, rgba(79,77,255,1)), color-stop(59%, rgba(0,0,0,1)), color-stop(100%, rgba(0,0,0,1))); /* safari4+,chrome */
+  background:-webkit-radial-gradient(center, ellipse cover, rgba(79,77,255,1) 0%, rgba(79,77,255,1) 29%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%); /* safari5.1+,chrome10+ */
+  background: -o-radial-gradient(center, ellipse cover, rgba(79,77,255,1) 0%, rgba(79,77,255,1) 29%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%); /* opera 11.10+ */
+  background: -ms-radial-gradient(center, ellipse cover, rgba(79,77,255,1) 0%, rgba(79,77,255,1) 29%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%); /* ie10+ */
+  background:radial-gradient(ellipse at center, rgba(79,77,255,1) 0%, rgba(79,77,255,1) 29%, rgba(0,0,0,1) 59%, rgba(0,0,0,1) 100%); /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F4DFF', endColorstr='#000000',GradientType=1 );  /*ie6-9*/
 }
 
 
@@ -51,8 +51,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F4DFF', end
 
 .highlight-turn:hover {
   box-shadow: 1px 1px 15px 3px rgba(0,0,236,0.8);
--webkit-box-shadow: 1px 1px 15px 3px rgba(0,0,236,0.8);
--moz-box-shadow: 1px 1px 15px 3px rgba(0,0,236,0.8);
+  -webkit-box-shadow: 1px 1px 15px 3px rgba(0,0,236,0.8);
+  -moz-box-shadow: 1px 1px 15px 3px rgba(0,0,236,0.8);
 }
 
 .no-turn {
@@ -62,8 +62,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F4DFF', end
 
 .no-turn:hover {
   box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
--webkit-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
--moz-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
+  -webkit-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
+  -moz-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
 }
 
 #board {
@@ -83,8 +83,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F4DFF', end
   background-color: green;
   color: white;
   box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
--webkit-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
--moz-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
+  -webkit-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
+  -moz-box-shadow: 1px 1px 15px 3px rgba(0,0,0,0.58);
 }
 
 .badge {
@@ -94,7 +94,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F4DFF', end
 .modal-box {
   background-color: rgba(31, 9, 240, 0.5);
   color: #c0fa1f;
-  sheight: 300px;
+  height: 300px;
 
 }
 
@@ -105,7 +105,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F4DFF', end
 }
 
 .modal {
-   background-color: rgba(93, 0, 250, 0.4) !important;
+  background-color: rgba(93, 0, 250, 0.4) !important;
 }
 
 .modal-body {
@@ -117,9 +117,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4F4DFF', end
 }
 
 .modal.show .modal-dialog {
-    -webkit-transform: translate(0,-50%);
-    -o-transform: translate(0,-50%);
-    transform: translate(0,-50%);
-    top: 50%;
-    margin: 0 auto;
+  -webkit-transform: translate(0,-50%);
+  -o-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+  top: 50%;
+  margin: 0 auto;
 }

@@ -1,11 +1,18 @@
 $(document).ready(function() {
 
+  //Object provides modal with options for not closing when clicked and showing
+  //when initialized.
   let modalOption = {
     'backdrop' : 'static',
     'show' : true
   }
+  //Calls modal when page loads
   $('#gameIntro').modal(modalOption);
 
+  //-------------------------------------------------------------------------
+  //Closure contains variables used to hold player/AI mark choices, gameboard
+  //DOM ID's and position values, player toggle switch and winning combination.
+  //-------------------------------------------------------------------------
   let boardSettings = (function() {
     let playerChoice = '';
     let computerChoice = '';
@@ -77,6 +84,11 @@ $(document).ready(function() {
   //Cached DOM
   let $board = $('#board');
 
+  //-----------------------------------------------------------------------
+  //Event listener attached to modal buttons for choice of either X or O marks.
+  //When pressed sets human player to X or O, and computer player to choice that
+  //human player didn't pick.
+  //------------------------------------------------------------------------
   $('#chooseX, #chooseY').on('click', function() {
     let choice = $(this).attr('id');
 
@@ -94,6 +106,11 @@ $(document).ready(function() {
     $('#gameIntro').modal('hide');
   });
 
+  //----------------------------------------------------------------------
+  //Event listener attached to reset game element, if clicked resets the game
+  //board, player one/two wins and player/computer choices. Then brings up intro
+  //modal.
+  //-------------------------------------------------------------------
   $('#resetGame').on('click', function() {
     boardSettings.setPlayerChoice('');
     boardSettings.setComputerChoice('');
@@ -103,6 +120,12 @@ $(document).ready(function() {
     $('#gameIntro').modal(modalOption);
   }).css('cursor', 'pointer');
 
+  //-----------------------------------------------------------------------
+  //Event listener attached to each board space on the game board through a CSS
+  //class. When element clicked on by human player, marks it with players choice
+  //checks for win/tie and then allows computer to make move, and then checks for
+  //win/tie.
+  //---------------------------------------------------------------------
   $('.board-space').on('click', function() {
     let markedSpace = $(this).attr('id');
     let mark = '';
@@ -114,9 +137,9 @@ $(document).ready(function() {
 
     let testForWin = checkForWin(mark);
 
+    //If no tie/win, computers turn is iniatied or else mark win for player or tie.
     if(testForWin == 0) {
       computerMarkBoard();
-
       mark = boardSettings.getComputerChoice();
       let testCompWin = checkForWin(mark);
       markWin(testCompWin);
@@ -126,11 +149,12 @@ $(document).ready(function() {
       markWin(testForWin);
       endGame(testForWin);
     }
-
-
   });
 
-
+  //-----------------------------------------------------------------------
+  //Marks humnan player move if space is empty, or else returns back to function
+  //that made the call if space is not empty.
+  //-------------------------------------------------------------------
   function markBoard(space, playerMark) {
     let spaceValue = $('#' + space).text().replace(/\s/g, "");
 
@@ -149,7 +173,10 @@ $(document).ready(function() {
 
   }
 
-
+  //-------------------------------------------------------------------
+  //Function makes computer players mark by randomingly picking an empty slot
+  //on game board.
+  //-------------------------------------------------------------------
   function computerMarkRandom() {
     let compChoice = Math.floor(Math.random() * 9);
     let tempBoardID = boardSettings.getBoardID();
@@ -160,6 +187,8 @@ $(document).ready(function() {
     let spaceValue = $chosenSpace.text().replace(/\s/g, "");
     let compMark = boardSettings.getComputerChoice();
 
+    //If space is empty make mark or else call computerMarkRandom function until
+    //empty slot is chosen.
     if(spaceValue == '' || spaceValue == ' ') {
       $chosenSpace.text(compMark);
       let position = boardSettings.getIDIndex(idSpot);
@@ -382,11 +411,13 @@ $(document).ready(function() {
     if(result == -1) {
       tempValue = $playerOneWins.text().replace(/\s/g, "");
       $playerOneWins.text(parseInt(tempValue) + 1);
+      console.log('You Win!');
       setTimeout(resetGameBoard, 2000);
     }
     else if(result == 1) {
       tempValue = $playerTwoWins.text().replace(/\s/g,"");
       $playerTwoWins.text(parseInt(tempValue) + 1);
+      console.log('AI wins!');
       setTimeout(resetGameBoard, 2000);
     }
     else if(result == 2) {

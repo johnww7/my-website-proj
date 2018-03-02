@@ -206,6 +206,10 @@ $(document).ready(function() {
 
   }
 
+  //------------------------------------------------------------------------
+  //Based on how many empty spaces on board, computer makes move either by miniMax
+  //algorithm or by calling computerMarkRandom function to make a random move.
+  //-------------------------------------------------------------------------
   function computerMarkBoard() {
 
     let tempBoardID = boardSettings.getBoardID();
@@ -213,6 +217,7 @@ $(document).ready(function() {
     let emptyIndex = emptySpaces(computerTurnBoard);
     let compMark = boardSettings.getComputerChoice();
 
+    //If empty spaces less than or equal to 7 use miniMax algorithm.
     if(emptyIndex.length <= 7) {
 
       let computerMove = miniMax(boardSettings.getComputerChoice());
@@ -234,7 +239,10 @@ $(document).ready(function() {
     }
   }
 
-
+  //--------------------------------------------------------------------------
+  //Function uses minimax algorithm for the computer player to make a move by scoring
+  //in depth the moves/outcomes of the human player and itself.
+  //--------------------------------------------------------------------------------
   function miniMax(player) {
     let board = boardSettings.getBoard();
     let availableSpaces = emptySpaces(board);
@@ -242,6 +250,7 @@ $(document).ready(function() {
     let compPlayer = boardSettings.getComputerChoice();
     let huPlayer = boardSettings.getPlayerChoice();
 
+    //Score possible outcomes of moves by comp/human player
     if(checkForWin(compPlayer) === 1) {
       return {point: 10};
     }
@@ -253,6 +262,7 @@ $(document).ready(function() {
     }
 
     let movesArray = [];
+    //Increment over all available spaces making moves for hu/comp player
     for(let i=0; i < availableSpaces.length; i++) {
       let move ={};
       let tempIndex = parseInt(availableSpaces[i]);
@@ -260,7 +270,6 @@ $(document).ready(function() {
       board[tempIndex] = player;
 
       if(player === compPlayer) {
-
         let resultA = miniMax(huPlayer);
         move.point = resultA.point;
       }
@@ -270,9 +279,11 @@ $(document).ready(function() {
       }
       board[tempIndex] = move.index;
 
+      //Push index/points of each move to an array.
       movesArray.push(move);
     }
 
+    //Find best move for comp/human players when it's there turn.
     var bestMove;
     if(player === compPlayer) {
       var best = -10000;
@@ -297,11 +308,13 @@ $(document).ready(function() {
 
     }
 
+    //Return best index/points pair to calling function.
     return movesArray[bestMove];
-
   }
 
-
+  //--------------------------------------------------------------------
+  //Function highlights either player one/two based on who's turn it is
+  //-------------------------------------------------------------------
   function whosTurn() {
     let $playerOne = $('#playerOne');
     let $playerTwo = $('#playerTwo');
@@ -319,12 +332,17 @@ $(document).ready(function() {
     }
   }
 
+  //------------------------------------------------------------------------
+  //Function checks to see if comp or human player has won by checking for
+  //possible horizontal, vertical and diagonal winning combinations, or for a
+  //tied game
+  //-------------------------------------------------------------------------
   function checkForWin(mark) {
 
-    //Check for row win
     let tempNewBoard = boardSettings.getBoard();
     let computerChoice = boardSettings.getComputerChoice();
     let humanChoice = boardSettings.getPlayerChoice();
+    //Check for row win
     for(let rowIndex = 0; rowIndex < tempNewBoard.length; rowIndex+=3) {
       if(rowIndex == 0 || rowIndex == 3 || rowIndex == 6) {
         if(tempNewBoard[rowIndex] == tempNewBoard[rowIndex+1] && tempNewBoard[rowIndex+1] ==tempNewBoard[rowIndex+2]){
@@ -361,7 +379,6 @@ $(document).ready(function() {
       else if(tempNewBoard[0] === mark && mark === computerChoice)
         return 1;
     }
-
     if(tempNewBoard[2] == tempNewBoard[4] && tempNewBoard[4] == tempNewBoard[6]){
       boardSettings.setMarkWin(2, 4, 6);
       //markWin(2, 4, 6);
@@ -379,16 +396,22 @@ $(document).ready(function() {
       return 2;
     }
 
-    //No one wins
+    //No one wins and board not full
     return 0;
   }
 
+  //---------------------------------------
+  //Checks and returns empty spaces.
+  //---------------------------------------
   function emptySpaces(tempBoard) {
     return tempBoard.filter(function(spaces) {
       return spaces != "O" && spaces != 'X';
     });
   }
 
+  //-------------------------------------------------------------------------
+  //Marks winning combination on board for either computer or human player.
+  //------------------------------------------------------------------------
   function markWin(winResult) {
     let winningSpace = boardSettings.getMarkWin();
     let tempBoardID = boardSettings.getBoardID();
@@ -403,6 +426,11 @@ $(document).ready(function() {
     return;
   }
 
+  //-------------------------------------------------------------------------
+  //Function increases score for either player one or two based on parameter result
+  //value, or console.logs tied game, then makes a delay call to resetGameBoard
+  //function.
+  //------------------------------------------------------------------------
   function endGame(result) {
     let $playerOneWins = $('#playerOneWins');
     let $playerTwoWins = $('#playerTwoWins');
@@ -430,6 +458,10 @@ $(document).ready(function() {
 
   }
 
+  //-------------------------------------------------------------------------------
+  //Function reset's game board to blank, clears board array, and winning combination
+  //array too. Makes call to computerMarkBoard if it's computers turn after board resets
+  //---------------------------------------------------------------------------------
   function resetGameBoard() {
       boardSettings.resetBoard();
       let tempBoardID = boardSettings.getBoardID();

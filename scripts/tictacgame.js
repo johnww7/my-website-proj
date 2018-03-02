@@ -287,25 +287,24 @@ $(document).ready(function() {
     var bestMove;
     if(player === compPlayer) {
       var best = -10000;
-      for (let j = 0; j < movesArray.length; j++) {
-        if(movesArray[j].point > best) {
-          best = movesArray[j].point;
-          bestMove = j;
+      movesArray.forEach(function(ele, index) {
+        let tempA = ele.point;
+        if(tempA > best) {
+          best = tempA;
+          bestMove = index;
         }
-      }
+      });
 
     }
     else {
       var bestVal = 10000;
-      for (let x = 0; x < movesArray.length; x++) {
-        if(movesArray[x].point < bestVal) {
-
-          bestVal = movesArray[x].point;
-          bestMove = x;
+      movesArray.forEach(function(elem, ind) {
+        let tempB = elem.point
+        if(tempB < bestVal) {
+          bestVal = tempB;
+          bestMove = ind;
         }
-
-      }
-
+      });
     }
 
     //Return best index/points pair to calling function.

@@ -6,11 +6,28 @@ $(document).ready(function() {
   //drawLine();
   drawGradient();
   //drawTransformation();
+  drawHit();
 
 
   var sun = new Image();
   var moon = new Image();
   var earth = new Image();
+
+  function drawHit() {
+    let canvas = document.getElementById('boardHit');
+    let ctx = canvas.getContext('2d');
+
+    ctx.beginPath();
+    ctx.arc(70, 80, 10, 0, 2 * Math.PI, false);
+    ctx.fill();
+    ctx.addHitRegion({id: 'circle'});
+
+    canvas.addEventListener('mousemove', function(event) {
+      if (event.region) {
+        alert('hit region: ' + event.region);
+      }
+    });
+  }
 
   function init() {
     sun.src = 'https://mdn.mozillademos.org/files/1456/Canvas_sun.png';

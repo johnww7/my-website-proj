@@ -4,6 +4,21 @@
   height: 200px;
 }
 
-canvas {
+#simonBoard {
+  border: 2px solid black;
+  border-radius: 50%;
+  height: 900px;
+  width: 900px;
+}
+
+.outside-border {
+  border: 2px solid black;
+}
+
+.upper-circle {
   border: 1px solid black;
+  border-top-left-radius: 1800px;
+  border-top-right-radius: 1800px;
+  height: 200px;
+
 }

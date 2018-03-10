@@ -1,24 +1,92 @@
-.conic-shape {
-  background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
-  border: 2px solid black;
-  height: 200px;
-}
 
 #simonBoard {
   border: 2px solid black;
-  border-radius: 50%;
-  height: 900px;
-  width: 900px;
+/*  border-radius: 50%;*/
+  height: 450px;
+  width: 450px;
 }
 
 .outside-border {
   border: 2px solid black;
 }
 
-.upper-circle {
+
+#topLeft {
+  width:100px;
+  height:200px;
+  border:1px solid #000;
+  background: orange;
+  border-radius: 300px 0 0 0;
+}
+
+#topRight {
+  width:100px;
+  height:200px;
+  border:1px solid #000;
+  background: orange;
+  border-radius: 0 300px 0 0;
+}
+
+#bottomRight {
+  width:100px;
+  height:200px;
+  border:1px solid #000;
+  background: orange;
+  border-radius: 0 0 300px 0;
+}
+
+#bottomLeft {
+  width:100px;
+  height:200px;
+  border:1px solid #000;
+  background: orange;
+  border-radius: 0 0 0 300px;
+}
+
+#simonBoard2 {
+  border: 2px solid black;
+  height: 450px;
+  width: 450px;
+}
+
+.board {
+  position: relative;
+  margin: 10px auto;
   border: 1px solid black;
-  border-top-left-radius: 1800px;
-  border-top-right-radius: 1800px;
-  height: 200px;
+  padding: 0;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  list-style: none;
+}
+
+.sector {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 50%;
+  transform-origin: 0% 100%;
+
+}
+
+.sector-contents {
+  position: absolute;
+	left: -100%;
+	width: 200%; height: 200%;
+	border-radius: 50%;
+	background: lightblue;
+	text-align: center;
+	transition: background-color .5s;
+}
+
+.sector:first-child {
+  transform: rotate(30deg) skewY(-40.0deg);
+
+}
+
+.sector:first-child .sector-contents{
+  transform: skewY(40deg) rotate(25deg);
 
 }

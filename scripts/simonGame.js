@@ -1,28 +1,25 @@
 $(document).ready(function() {
+  drawSimonBoard();
 
-  /*
-  <div id="topPanel" class="row outside-border justify-content-center">
-    <div class="col-sm-11 upper-circle">
-    </div>
-  </div>
+  function drawSimonBoard() {
+    let board = document.getElementById('simonCanvas').getContext('2d');
 
-  <div id="middlePanel" class="row outside-border">
-    <div class="col-sm">
+    //Draws game board
+    board.beginPath();
+    board.arc(350,350,325,0,2*Math.PI)
+    board.stroke();
 
-    </div>
-    <div class="col-sm">
+    //draw vertical line
+    board.beginPath();
+    board.moveTo(350, 25);
+    board.lineTo(350, 675);
+    board.stroke();
 
-    </div>
-    <div class="col-sm">
-    </div>
-  </div>
-
-  <div id="bottomPanel" class="row outside-border">
-    <div class="col-sm-12">
-
-    </div>
-  </div>
-
-  */
+    //draw horizontal lineTo
+    board.beginPath();
+    board.moveTo(25,350);
+    board.lineTo(675, 350);
+    board.stroke();
+  }
 
 });

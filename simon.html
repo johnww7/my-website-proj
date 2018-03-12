@@ -11,8 +11,10 @@
   </head>
   <body>
     <div class="container">
+
       <div id="simonBoard" class="row">
       <!--  <div  class="col-sm-12"> -->
+          <div id="gameControl" ></div>
           <div id="topLeft" class="col-sm mr-2"> </div>
           <div id="topRight" class="col-sm ml-2"></div>
           <div class="w-100"></div>
@@ -35,11 +37,20 @@
             <li id="panelBottomLeft" class="sector">
               <div class="sector-contents"></div>
             </li>
+            <li id="panelSettings" class="settings">
 
+            </li>
           </ul>
 
         </div>
       </div>
+
+      <div class="row mt-3">
+        <div class="col-sm-12">
+          <canvas id="simonCanvas" width="700px" height="700px"></canvas>
+        </div>
+      </div>
+
     </div>
 
     <!-- Optional JavaScript -->

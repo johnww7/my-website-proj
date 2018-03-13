@@ -147,7 +147,10 @@
 /*Simon game board using canvas*/
 canvas {
   border: 2px solid black;
+  position:absolute;
 }
+
+
 
 .circle-panel {
   border: 2px solid black;
@@ -155,10 +158,21 @@ canvas {
   width: 100px;
   height: 100px;
   background: purple;
-  top: 12%;
-  left: 17%;
+  top: 42%;
+  left: 27%;
   box-shadow: 0 0 .75em;
   position: absolute;
   z-index: 5;
+  display: block;
 
+}
+
+.board-container{
+  position: relative;
+  margin: 10px auto;
+  /*border: 1px solid black;*/
+  padding: 0;
+
+  /*border-radius: 50%;*/
+  list-style: none;
 }

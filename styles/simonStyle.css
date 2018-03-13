@@ -148,3 +148,17 @@
 canvas {
   border: 2px solid black;
 }
+
+.circle-panel {
+  border: 2px solid black;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background: purple;
+  top: 12%;
+  left: 17%;
+  box-shadow: 0 0 .75em;
+  position: absolute;
+  z-index: 5;
+
+}

@@ -63,6 +63,26 @@
   width: 450px;
 }
 
+li:first-child {
+  border-left: 10px solid black;
+  border-bottom: 10px solid black;
+}
+
+li:nth-child(2){
+  border-bottom: 10px solid black;
+  border-left: 10px solid black;
+}
+
+li:nth-child(3) {
+  border-left: 10px solid black;
+  border-bottom: 10px solid black;
+}
+
+li:nth-child(4) {
+  border-left:  10px solid black;
+  border-bottom: 10px solid black;
+}
+
 .board {
   position: relative;
   margin: 10px auto;
@@ -92,6 +112,7 @@
 	width: 200%; height: 200%;
 	border-radius: 50%;
 	/*background: lightblue;*/
+  border: 5px solid black;
 	text-align: center;
 	transition: background-color .5s;
 }
@@ -145,9 +166,13 @@
 }
 
 /*Simon game board using canvas*/
-canvas {
+#simonCanvas {
   border: 2px solid black;
   position:absolute;
+  padding: 0;
+  margin: auto;
+  display: block;
+
 }
 
 
@@ -158,13 +183,22 @@ canvas {
   width: 100px;
   height: 100px;
   background: purple;
-  top: 42%;
-  left: 27%;
+  top: 290px;
+  left: 300px;
   box-shadow: 0 0 .75em;
   position: absolute;
   z-index: 5;
-  display: block;
+  /*display: block;*/
+/*  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;*/
+}
 
+.simon-container {
+  position: relative;
+  /*margin: 0px auto;
+  text-align: center;*/
 }
 
 .board-container{

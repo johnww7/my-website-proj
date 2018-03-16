@@ -1,6 +1,18 @@
 $(document).ready(function() {
+
+  let const shapeArray = [
+    {'id': 1, 'color': ["rgba(250, 5, 5, 0.5)", "#ff0000"], 'start': [355,25],'lines': [355, 345, 675, 345],
+    'arc': [355, 345, 320, ((Math.PI/180) * 270), ((Math.PI/180) *360)]},
+    {'id': 2, 'color': ["#4d44a9", "#0024ff"], 'start': [355,675],'lines': [355, 355, 675, 355],
+    'arc': [355, 355, 320, ((Math.PI/180) * 360), ((Math.PI/180) *90)]},
+    {'id': 3, 'color': ["#3b8a3b", "#00ff00"], 'start': [345,675],'lines': [345, 355, 25, 355],
+    'arc': [345, 355, 320, ((Math.PI/180) * 90), ((Math.PI/180) *180)]},
+    {'id': 4, 'color': ["rgba(255, 255, 0, 0.5)", "#ffff00"], 'start': [345,25],'lines': [345, 345, 25, 345],
+    'arc': [345, 345, 320, ((Math.PI/180) * 180), ((Math.PI/180) *270)]}
+  ];
+
   drawSimonBoard();
-  setTimeout(drawHighlight, 5000);
+  //setTimeout(drawHighlight, 5000);
 
   function drawSimonBoard() {
     let canvas = document.getElementById('simonCanvas');
@@ -30,39 +42,51 @@ $(document).ready(function() {
     board.lineTo(675, 350);
     board.stroke();*/
 
+    //{'id': 1, 'color': ["rgba(250, 5, 5, 0.5)", "#ff0000"], 'start': [355,25],
+    //'lines': [355, 345, 675, 345], 'arc': [355, 345, 320, ((Math.PI/180) * 270), ((Math.PI/180) *360)]};
+
     //draw panel 1 slice
     board.beginPath();
     //board.lineWidth = "2";
 
     board.moveTo(355, 25);
     board.lineTo(355, 345);
-    board.moveTo(675, 345);
-    board.lineTo(355, 345);
+    board.lineTo(675, 345);
+    //board.moveTo(675, 345);
+    //board.lineTo(355, 345);
     let panelOneStart = (Math.PI/180) * 270;
     let panelOneEnd = (Math.PI/180) *360;
     board.arc(355, 345, 320, panelOneStart, panelOneEnd);
-    board.closePath();
+    //board.closePath();
     board.lineWidth = "2"
     board.strokeStyle = "black";
-    board.fillStyle = "red";
+    board.fillStyle = "rgba(250, 5, 5, 0.5)";
+    //board.fillStyle= '#ff0000';
     board.fill();
-    board.stroke();
+    //board.stroke();
+
+    //{'id': 2, 'color': ["#4d44a9", "#0024ff"], 'start': [355,675],
+    //'lines': [355, 355, 675, 355], 'arc': [355, 355, 320, ((Math.PI/180) * 360), ((Math.PI/180) *90)]};
 
     //draw panel 2 slice
     board.beginPath();
     board.moveTo(355, 675);
-    board.lineTo(355, 355);
     board.lineTo(675, 355);
 
     let panelTwoStart = (Math.PI/180) * 360;
     let panelTwoEnd = (Math.PI/180) * 90;
+    board.lineTo(355, 355);
     board.arc(355, 355, 320, panelTwoStart, panelTwoEnd);
     board.closePath();
     board.lineWidth = "2"
     board.strokeStyle = "black";
-    board.fillStyle = "blue";
+    board.fillStyle = "#4d44a9";
+    //board.fillStyle = '#0024ff'
     board.fill();
-    board.stroke();
+    //board.stroke();
+
+    //{'id': 3, 'color': ["#3b8a3b", "#00ff00"], 'start': [345,675],
+    //'lines': [345, 355, 25, 355], 'arc': [345, 355, 320, ((Math.PI/180) * 90), ((Math.PI/180) *180)]};
 
     //draw panel 3 slice
     board.beginPath();
@@ -70,14 +94,19 @@ $(document).ready(function() {
 
     board.moveTo(345,675);
     board.lineTo(345, 355);
-    board.moveTo(25, 355);
-    board.lineTo(345, 355);
+    board.lineTo(25, 355);
+    //board.moveTo(25, 355);
+    //board.lineTo(345, 355);
     let panelThreeStart = (Math.PI/180) * 90;
     let panelThreeEnd = (Math.PI/180) *180;
     board.arc(345, 355, 320, panelThreeStart, panelThreeEnd);
     board.closePath();
-    board.fillStyle = "green";
+    board.fillStyle = "#3b8a3b";
+    //board.fillStyle = '#00ff00';
     board.fill();
+
+    //{'id': 4, 'color': ["rgba(255, 255, 0, 0.5)", "#ffff00"], 'start': [345,25],
+    //'lines': [345, 345, 25, 345], 'arc': [345, 345, 320, ((Math.PI/180) * 180), ((Math.PI/180) *270)]};
 
     //draw panel 4 slice
     board.beginPath();
@@ -93,9 +122,10 @@ $(document).ready(function() {
     board.closePath();
     board.lineWidth = "2";
     board.strokeStyle = 'black';
-    board.fillStyle = "yellow";
+    board.fillStyle = 'rgba(255, 255, 0, 0.5)';
+    //board.fillStyle = "#ffff00";
     board.fill();
-    board.stroke();
+    //board.stroke();
   }
 
   function drawHighlight() {

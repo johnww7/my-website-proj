@@ -2,6 +2,7 @@ $(document).ready(function() {
 
   let canvas = document.getElementById('simonCanvas');
   let board = canvas.getContext('2d');
+  let panelSound = '';
 //#ff0000
   const SHAPE_ARRAY = [
     {'id': 1, 'color': ["#e97c7c", "#ff0000"], 'start': [355,25],'lines': [355, 345, 675, 345],
@@ -13,6 +14,10 @@ $(document).ready(function() {
     {'id': 4, 'color': ["#ffffb8", "#ffff00"], 'start': [345,25],'lines': [345, 345, 25, 345],
     'arc': [345, 345, 320, ((Math.PI/180) * 180), ((Math.PI/180) *270)]}
   ];
+
+  let shapeOneSound = new Howl({
+    src: ['https://s3.amazonaws.com/freecodecamp/simonSound1.mp3']
+  });
 
   //drawSimonBoard();
   //setTimeout(drawHighlight, 5000);
@@ -92,8 +97,12 @@ $(document).ready(function() {
 
       switch(event.region) {
         case '1':
-          console.log('shape 1');
+          //console.log('shape 1');
+          //shapeOneSound.play();
+          panelSound = new beepSound("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3");
+          panelSound.play();
           drawShape(SHAPE_ARRAY[0], true);
+
           break;
         case '2':
           //alert('shape 2');
@@ -116,7 +125,10 @@ $(document).ready(function() {
       switch(event.region) {
         case '1':
           //alert('shape 1');
+          //shapeOneSound.stop();
+          panelSound.stop();
           drawShape(SHAPE_ARRAY[0], false);
+
           break;
         case '2':
           //alert('shape 2');
@@ -133,6 +145,22 @@ $(document).ready(function() {
       }
     }
   });
+
+  function beepSound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function() {
+      this.sound.play();
+    }
+    this.stop = function() {
+      this.sound.pause();
+      document.body.removeChild(this.sound);
+    }
+  }
 
 
   function drawSimonBoard() {

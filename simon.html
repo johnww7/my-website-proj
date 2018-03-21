@@ -12,62 +12,49 @@
   <body>
     <div class="container">
 
-    <!--  <div id="simonBoard" class="row">
-
-          <div id="gameControl" ></div>
-          <div id="topLeft" class="col-sm mr-2"> </div>
-          <div id="topRight" class="col-sm ml-2"></div>
-          <div class="w-100"></div>
-          <div id="bottomLeft" class="col-sm mr-2"></div>
-          <div id="bottomRight" class="col-sm ml-2"></div>
-      </div> -->
-
-    <!--  <div class="row">
-          <div id="simonBoard" class="col-sm">
-            <ul class="board-setting">
-              <li id="gameControl" ></li>
-              <li id="topLeft" class="col-sm mr-2"> </li>
-              <li id="topRight" class="col-sm ml-2"></li>
-
-              <li id="bottomLeft" class="col-sm mr-2"></li>
-              <li id="bottomRight" class="col-sm ml-2"></li>
-            </ul>
-          </div>
-      </div>-->
-
-
-      <div class="row">
-        <div id="simonBoard2" class="col-sm">
-          <ul class="board">
-            <li id="panelTopLeft" class="sector">
-              <div class="sector-contents"></div>
-            </li>
-            <li id="panelTopRight" class="sector">
-              <div class="sector-contents"></div>
-            </li>
-            <li id="panelBottomRight" class="sector">
-              <div class="sector-contents"></div>
-            </li>
-            <li id="panelBottomLeft" class="sector">
-              <div class="sector-contents"></div>
-            </li>
-            <li id="panelSettings" class="settings">
-
-            </li>
-          </ul>
-
-        </div>
-      </div>
-
       <div class="row mt-3">
         <div class="col-sm-12">
           <div class="simon-container">
             <canvas id="simonCanvas" width="700px" height="700px">
 
             </canvas>
-            <div class="circle-panel"></div>
+            <div class="circle-panel d-flex flex-column justify-content center align-items-center">
+              <div class="d-flex flex-row">
+                <div id="countScreen" class="circle-panel-settings d-flex flex-column">
+                  <span id="count">00</span>
+                  <span>Count</span>
+                </div>
+                <div id="start" class="circle-panel-settings d-flex flex-column">
+                  <span><button type="button" class="btn btn-primary"></button></span>
+                  <span>Start</span>
+                </div>
+                <div id="strickMode"class="circle-panel-settings d-flex flex-column align-self-center">
+                  <button type="button" class="btn btn-danger"></button>
+                  <span>Strict</span>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div id="switch d-flex flex-row align-items-center">
+
+                  <span>Off</span>
+                  <div class="onoffswitch">
+                    
+                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+                    <label class="onoffswitch-label" for="myonoffswitch">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+
+                  </div>
+                  <span>On</span>
+
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        </div>
+
 
       </div>
 

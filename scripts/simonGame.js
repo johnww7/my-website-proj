@@ -1,9 +1,6 @@
 $(document).ready(function() {
 
-  let canvas = document.getElementById('simonCanvas');
-  let board = canvas.getContext('2d');
-  let panelSound;
-//#ff0000
+
   const SHAPE_ARRAY = [
     {'id': 1, 'color': ["#e97c7c", "#ff0000"], 'start': [355,25],'lines': [355, 345, 675, 345],
     'arc': [355, 345, 320, ((Math.PI/180) * 270), ((Math.PI/180) *360)]},
@@ -38,6 +35,11 @@ $(document).ready(function() {
     options: {type: 'sine', frequency: 750}
 
   });
+
+  //cached elements and global variables
+  let canvas = document.getElementById('simonCanvas');
+  let board = canvas.getContext('2d');
+  let panelSound;
 
   //drawSimonBoard();
   //setTimeout(drawHighlight, 5000);
@@ -117,12 +119,7 @@ $(document).ready(function() {
 
       switch(event.region) {
         case '1':
-          //console.log('shape 1');
-          //shapeOneSound.play();
-          //panelSound = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3");
-          //panelSound.loop = true;
-          //panelSound.play();
-          //beepSound();
+
           shapeOneSound.play();
           drawShape(SHAPE_ARRAY[0], true);
 
@@ -151,8 +148,7 @@ $(document).ready(function() {
       switch(event.region) {
         case '1':
           //alert('shape 1');
-          //shapeOneSound.stop();
-          //panelSound.pause();
+
           shapeOneSound.stop();
           drawShape(SHAPE_ARRAY[0], false);
 

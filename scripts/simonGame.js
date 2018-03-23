@@ -14,7 +14,7 @@ $(document).ready(function() {
 
   let shapeOneSound = new Pizzicato.Sound({
     source: 'wave',
-    options: {type: 'sine', frequency: 550}
+    options: {type: 'sine', frequency: 500}
 
   });
 
@@ -26,13 +26,13 @@ $(document).ready(function() {
 
   let shapeThreeSound = new Pizzicato.Sound({
     source: 'wave',
-    options: {type: 'sine', frequency: 300}
+    options: {type: 'sine', frequency: 350}
 
   });
 
   let shapeFourSound = new Pizzicato.Sound({
     source: 'wave',
-    options: {type: 'sine', frequency: 750}
+    options: {type: 'sine', frequency: 650}
 
   });
 
@@ -41,6 +41,12 @@ $(document).ready(function() {
   let board = canvas.getContext('2d');
   let panelSound;
 
+  let ctx = new AudioContext();
+  let panelOneSound = new beepSound(ctx);
+  let panelTwoSound = new beepSound(ctx);
+  let panelThreeSound = new beepSound(ctx);
+  let panelFourSound = new beepSound(ctx);
+
   //drawSimonBoard();
   //setTimeout(drawHighlight, 5000);
   drawBoard();
@@ -48,35 +54,8 @@ $(document).ready(function() {
   function drawBoard() {
 
     for(let i = 0; i < SHAPE_ARRAY.length; i++) {
-      let keys = Object.keys(SHAPE_ARRAY[i]);
-      let shapeStart = keys[2];
-      let shapeLines = keys[3];
-      let shapeArc = keys[4];
-      let id = keys[0];
-      let color = SHAPE_ARRAY[i]['color'][0];
-      let startPoint = SHAPE_ARRAY[i][shapeStart];
-      let lines = SHAPE_ARRAY[i][shapeLines];
-      let arc = SHAPE_ARRAY[i][shapeArc];
-      let regionID = SHAPE_ARRAY[i][id];
-
-      console.log('spot: ' + i + ' id: ' + regionID + typeof regionID);
-      console.log('key: ' + keys + ' keyNames: ' + shapeStart + ', ' + shapeLines + ', ' +
-      shapeArc);
-      console.log('color: ' + color);
-      console.log(startPoint);
-      console.log(lines);
-      console.log(arc);
-      console.log('------------------------');
-
-      board.beginPath();
-      board.moveTo(startPoint[0], startPoint[1]);
-      board.lineTo(lines[0], lines[1]);
-      board.lineTo(lines[2], lines[3]);
-      board.arc(arc[0], arc[1], arc[2], arc[3], arc[4]);
-
-      board.fillStyle = color;
-      board.fill();
-      board.addHitRegion({id: regionID});
+      console.log(SHAPE_ARRAY[i]);
+      drawShape(SHAPE_ARRAY[i], false);
     }
   }
 
@@ -100,7 +79,15 @@ $(document).ready(function() {
     }
     //board.clearRect(arc[0], arc[1], arc[0]+320, arc[1]+320);
     //board.clearRect(0, 0, canvas.width, canvas.height);
-    console.log(color);
+
+    console.log(' id: ' + regionID + typeof regionID);
+    console.log('key: ' + keys + ' keyNames: ' + shapeStart + ', ' + shapeLines + ', ' +
+    shapeArc);
+    console.log('color: ' + color);
+    console.log(startPoint);
+    console.log(lines);
+    console.log(arc);
+    console.log('------------------------');
 
     board.beginPath();
     board.moveTo(startPoint[0], startPoint[1]);
@@ -120,23 +107,36 @@ $(document).ready(function() {
       switch(event.region) {
         case '1':
 
-          shapeOneSound.play();
+          panelOneSound.play(500);
+          //shapeOneSound.play();
           drawShape(SHAPE_ARRAY[0], true);
 
           break;
         case '2':
           //alert('shape 2');
-          shapeTwoSound.play();
+
+          panelTwoSound.play(200);
+          //beepSound.setFrequency(200);
+          //beepSound.start();
+          //shapeTwoSound.play();
           drawShape(SHAPE_ARRAY[1], true);
           break;
         case '3':
           //alert('shape 3');
-          shapeThreeSound.play();
+
+          panelThreeSound.play(350);
+          //beepSound.setFrequency(350);
+          //beepSound.start();
+          //shapeThreeSound.play();
           drawShape(SHAPE_ARRAY[2], true);
           break;
         case '4':
           //alert('shape 4');
-          shapeFourSound.play();
+
+          panelFourSound.play(650);
+          //beepSound.setFrequency(650);
+          //beepSound.start();
+          //shapeFourSound.play();
           drawShape(SHAPE_ARRAY[3],true);
           break;
       }
@@ -148,39 +148,77 @@ $(document).ready(function() {
       switch(event.region) {
         case '1':
           //alert('shape 1');
-
-          shapeOneSound.stop();
+          panelOneSound.stop();
+          //beepSound.stop();
+          //shapeOneSound.stop();
           drawShape(SHAPE_ARRAY[0], false);
 
           break;
         case '2':
           //alert('shape 2');
-          shapeTwoSound.stop();
+          panelTwoSound.stop();
+          //beepSound.stop();
+          //shapeTwoSound.stop();
           drawShape(SHAPE_ARRAY[1], false);
           break;
         case '3':
           //alert('shape 3');
-          shapeThreeSound.stop();
+          panelThreeSound.stop();
+          //beepSound.stop();
+          //shapeThreeSound.stop();
           drawShape(SHAPE_ARRAY[2],false);
           break;
         case '4':
           //alert('shape 4');
-          shapeFourSound.stop();
+          panelFourSound.stop();
+          //beepSound.stop();
+          //shapeFourSound.stop();
           drawShape(SHAPE_ARRAY[3], false);
           break;
       }
     }
   });
 
-  function beepSound() {
-    var audioContext = new AudioContext();
-    var context = new AudioContext();
-    var oscillator = context.createOscillator();
+  var beepSound = function(context) {
+    let audioContext = new AudioContext();
+    this.context = context;
+    let oscillator;
+    //var oscillator = context.createOscillator();
+    //var soundFrequency = 0;
 
-    oscillator.connect(context.destination);
-    oscillator.start(context.currentTime);
-    oscillator.stop(context.currentTime + 3);
-  }
+    //oscillator.type = 'sine';
+    //oscillator.frequency.value = soundFrequency;
+    //oscillator.connect(context.destination);
+
+    this.setup = function() {
+      oscillator = context.createOscillator();
+      oscillator.type = 'sine';
+      oscillator.connect(context.destination);
+    }
+
+    this.play = function(frequency) {
+      this.setup();
+      oscillator.frequency.value = frequency;
+      oscillator.start(0);
+    }
+
+    this.stop = function() {
+      oscillator.stop();
+    }
+
+    /*return {
+      setFrequency: function(value) {
+        soundFrequency = value;
+      },
+      start: function() {
+        oscillator.start(0);
+      },
+      stop: function() {
+        oscillator.stop();
+      }
+    }*/
+
+  };
 
   /*function beepSound(src) {
     this.sound = document.createElement("audio");

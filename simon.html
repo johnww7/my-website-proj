@@ -14,48 +14,43 @@
 
       <div class="row mt-3">
         <div class="col-sm-12">
-          <div class="simon-container">
+          
             <canvas id="simonCanvas" width="700px" height="700px">
 
             </canvas>
-            <div class="circle-panel d-flex flex-column justify-content center align-items-center">
-              <div class="d-flex flex-row">
-                <div id="countScreen" class="circle-panel-settings d-flex flex-column">
-                  <span id="count">00</span>
-                  <span>Count</span>
+            <div class="circle-panel">
+              <div id="upper-row">
+                <div id="countScreen" class="circle-panel-settings">
+                  <div id="count">00</div>
+                  <div>Count</div>
                 </div>
-                <div id="start" class="circle-panel-settings d-flex flex-column">
-                  <span><button type="button" class="btn btn-primary"></button></span>
-                  <span>Start</span>
+                <div id="start" class="circle-panel-settings">
+                  <button type="button" class="btn btn-primary"></button>
+                  <div>Start</div>
                 </div>
-                <div id="strickMode"class="circle-panel-settings d-flex flex-column align-self-center">
+                <div id="strickMode" class="circle-panel-settings">
                   <button type="button" class="btn btn-danger"></button>
-                  <span>Strict</span>
+                  <div>Strict</div>
                 </div>
               </div>
 
-              <div class="d-flex flex-row">
-                <div id="switch d-flex flex-row align-items-center">
+              <div id="switch">
 
-                  <span>Off</span>
-                  <div class="onoffswitch">
-                    
-                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
-                    <label class="onoffswitch-label" for="myonoffswitch">
-                        <span class="onoffswitch-inner"></span>
-                        <span class="onoffswitch-switch"></span>
-                    </label>
+                <div id="offLabel">Off</div>
+                <div class="onoffswitch">
 
-                  </div>
-                  <span>On</span>
+                  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+                  <label class="onoffswitch-label" for="myonoffswitch">
+                      <span class="onoffswitch-inner"></span>
+                      <span class="onoffswitch-switch"></span>
+                  </label>
 
                 </div>
+                <div id="onLabel">On</div>
               </div>
             </div>
-          </div>
+
         </div>
-
-
       </div>
 
     </div>

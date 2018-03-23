@@ -11,19 +11,15 @@
 .circle-panel {
   border: 2px solid black;
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
   background: purple;
-  top: 290px;
-  left: 300px;
+  top: 205px;
+  left: 225px;
   box-shadow: 0 0 .75em;
   position: absolute;
   z-index: 5;
-  /*display: block;*/
-/*  padding-left: 0;
-  padding-right: 0;
-  margin-left: auto;
-  margin-right: auto;*/
+
 }
 
 .simon-container {
@@ -47,24 +43,72 @@
 
 }
 
+#upper-row {
+	position: absolute;
+
+	top: 20%;
+	left: 15%;
+	width: 200px;
+	height: 100px;
+	border: 1px solid black;
+}
+
 #countScreen {
   margin-left: 5px;
   margin-right: 5px;
+  left: 1%;
+  top: 10%;
+  position: absolute;
+  display: inline-block;
+  border: 1px solid black;
 }
 
 #start {
+  left: 40%;
+	top: 10%;
   margin-left: 5px;
   margin-right: 5px;
+	position: absolute;
+	display: inline-block;
+	border: 1px solid black;
 }
 
 #strickMode {
+  left: 70%;
+	top: 10%;
+	position: absolute;
   margin-right: 5px;
   margin-left: 5px;
+	display: inline-block;
+	border: 1px solid black;
+}
+
+#switch {
+	position: absolute;
+	top: 60%;
+	left: 15%;
+	width: 200px;
+	height: 50px;
+	border: 1px solid black;
+}
+
+#offLabel {
+	position: absolute;
+	top: 10%;
+	left:5%;
+}
+
+#onLabel {
+	position: absolute;
+	top: 10%;
+	left: 80%;
 }
 
 .onoffswitch {
     position: relative; width: 101px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    top: 10%;
+    left: 25%;
 }
 .onoffswitch-checkbox {
     display: none;

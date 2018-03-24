@@ -41,11 +41,6 @@ $(document).ready(function() {
   let board = canvas.getContext('2d');
   let panelSound;
 
-  let ctx = new AudioContext();
-  let panelOneSound = new beepSound(ctx);
-  let panelTwoSound = new beepSound(ctx);
-  let panelThreeSound = new beepSound(ctx);
-  let panelFourSound = new beepSound(ctx);
 
   //drawSimonBoard();
   //setTimeout(drawHighlight, 5000);
@@ -107,7 +102,8 @@ $(document).ready(function() {
       switch(event.region) {
         case '1':
 
-          panelOneSound.play(500);
+          beepSound.setFrequency(500);
+          beepSound.start();
           //shapeOneSound.play();
           drawShape(SHAPE_ARRAY[0], true);
 
@@ -115,27 +111,25 @@ $(document).ready(function() {
         case '2':
           //alert('shape 2');
 
-          panelTwoSound.play(200);
-          //beepSound.setFrequency(200);
-          //beepSound.start();
+
+          beepSound.setFrequency(200);
+          beepSound.start();
           //shapeTwoSound.play();
           drawShape(SHAPE_ARRAY[1], true);
           break;
         case '3':
           //alert('shape 3');
 
-          panelThreeSound.play(350);
-          //beepSound.setFrequency(350);
-          //beepSound.start();
+          beepSound.setFrequency(350);
+          beepSound.start();
           //shapeThreeSound.play();
           drawShape(SHAPE_ARRAY[2], true);
           break;
         case '4':
           //alert('shape 4');
 
-          panelFourSound.play(650);
-          //beepSound.setFrequency(650);
-          //beepSound.start();
+          beepSound.setFrequency(650);
+          beepSound.start();
           //shapeFourSound.play();
           drawShape(SHAPE_ARRAY[3],true);
           break;
@@ -148,30 +142,30 @@ $(document).ready(function() {
       switch(event.region) {
         case '1':
           //alert('shape 1');
-          panelOneSound.stop();
-          //beepSound.stop();
+
+          beepSound.stop();
           //shapeOneSound.stop();
           drawShape(SHAPE_ARRAY[0], false);
 
           break;
         case '2':
           //alert('shape 2');
-          panelTwoSound.stop();
-          //beepSound.stop();
+
+          beepSound.stop();
           //shapeTwoSound.stop();
           drawShape(SHAPE_ARRAY[1], false);
           break;
         case '3':
           //alert('shape 3');
-          panelThreeSound.stop();
-          //beepSound.stop();
+
+          beepSound.stop();
           //shapeThreeSound.stop();
           drawShape(SHAPE_ARRAY[2],false);
           break;
         case '4':
           //alert('shape 4');
-          panelFourSound.stop();
-          //beepSound.stop();
+
+          beepSound.stop();
           //shapeFourSound.stop();
           drawShape(SHAPE_ARRAY[3], false);
           break;
@@ -179,10 +173,21 @@ $(document).ready(function() {
     }
   });
 
-  var beepSound = function(context) {
+  document.getElementById('myonoffswitch').addEventListener('change', function(e) {
+
+    if(this.checked) {
+      console.log('on');
+    }
+    else {
+      console.log('off');
+    }
+
+  });
+
+  var beepSound = (function() {
     let audioContext = new AudioContext();
-    this.context = context;
-    let oscillator;
+    let context = new AudioContext();
+    let oscillator = null;
     //var oscillator = context.createOscillator();
     //var soundFrequency = 0;
 
@@ -190,51 +195,26 @@ $(document).ready(function() {
     //oscillator.frequency.value = soundFrequency;
     //oscillator.connect(context.destination);
 
-    this.setup = function() {
-      oscillator = context.createOscillator();
-      oscillator.type = 'sine';
-      oscillator.connect(context.destination);
-    }
-
-    this.play = function(frequency) {
-      this.setup();
-      oscillator.frequency.value = frequency;
-      oscillator.start(0);
-    }
-
-    this.stop = function() {
-      oscillator.stop();
-    }
-
-    /*return {
+    return {
       setFrequency: function(value) {
-        soundFrequency = value;
+        oscillator = context.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = value;
       },
       start: function() {
+        oscillator.connect(context.destination);
         oscillator.start(0);
       },
       stop: function() {
         oscillator.stop();
+        oscillator.disconnect(context.destination);
+        oscillator = null;
       }
-    }*/
-
-  };
-
-  /*function beepSound(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-    this.play = function() {
-      this.sound.play();
     }
-    this.stop = function() {
-      this.sound.pause();
-      document.body.removeChild(this.sound);
-    }
-  }*/
+
+  })()
+
+
 
 
 

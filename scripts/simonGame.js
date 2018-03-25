@@ -1,5 +1,25 @@
 $(document).ready(function() {
 
+  let simonSettings = (function() {
+    let onOffValue = false;
+    let startResetValue = false;
+
+    return {
+      setOnOffVal:  function(value) {
+        onOffValue = value;
+      },
+      getOnOffVal: function() {
+        return onOffValue;
+      },
+      setStartReset: function(value) {
+        startResetValue = value;
+      },
+      getStartReset: function() {
+        return startResetValue;
+      }
+    }
+
+  })()
 
   const SHAPE_ARRAY = [
     {'id': 1, 'color': ["#e97c7c", "#ff0000"], 'start': [355,25],'lines': [355, 345, 675, 345],
@@ -39,6 +59,7 @@ $(document).ready(function() {
   //cached elements and global variables
   let canvas = document.getElementById('simonCanvas');
   let board = canvas.getContext('2d');
+  let count = document.getElementById('count');
   let panelSound;
 
 
@@ -98,88 +119,114 @@ $(document).ready(function() {
 
   document.getElementById('simonCanvas').addEventListener("mousedown", function(event) {
     if (event.region) {
+      if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true){
+        switch(event.region) {
+          case '1':simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true
+            beepSound.setFrequency(500);
+            beepSound.start();
+            //shapeOneSound.play();
+            drawShape(SHAPE_ARRAY[0], true);
 
-      switch(event.region) {
-        case '1':
-
-          beepSound.setFrequency(500);
-          beepSound.start();
-          //shapeOneSound.play();
-          drawShape(SHAPE_ARRAY[0], true);
-
-          break;
-        case '2':
-          //alert('shape 2');
-
-
-          beepSound.setFrequency(200);
-          beepSound.start();
-          //shapeTwoSound.play();
-          drawShape(SHAPE_ARRAY[1], true);
-          break;
-        case '3':
-          //alert('shape 3');
-
-          beepSound.setFrequency(350);
-          beepSound.start();
-          //shapeThreeSound.play();
-          drawShape(SHAPE_ARRAY[2], true);
-          break;
-        case '4':
-          //alert('shape 4');
-
-          beepSound.setFrequency(650);
-          beepSound.start();
-          //shapeFourSound.play();
-          drawShape(SHAPE_ARRAY[3],true);
-          break;
+            break;
+          case '2':
+            //alert('shape 2');
+            beepSound.setFrequency(200);
+            beepSound.start();
+            //shapeTwoSound.play();
+            drawShape(SHAPE_ARRAY[1], true);
+            break;
+          case '3':
+            //alert('shape 3');
+            beepSound.setFrequency(350);
+            beepSound.start();
+            //shapeThreeSound.play();
+            drawShape(SHAPE_ARRAY[2], true);
+            break;
+          case '4':
+            //alert('shape 4');
+            beepSound.setFrequency(650);
+            beepSound.start();
+            //shapeFourSound.play();
+            drawShape(SHAPE_ARRAY[3],true);
+            break;
+        }
+      }
+      else {
+        console.log('start game');
       }
     }
+
   });
 
   document.getElementById('simonCanvas').addEventListener("mouseup", function(event) {
     if(event.region) {
-      switch(event.region) {
-        case '1':
-          //alert('shape 1');
+      if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true){
+        switch(event.region) {
+          case '1':
+            //alert('shape 1');
+            beepSound.stop();
+            //shapeOneSound.stop();
+            drawShape(SHAPE_ARRAY[0], false);
 
-          beepSound.stop();
-          //shapeOneSound.stop();
-          drawShape(SHAPE_ARRAY[0], false);
-
-          break;
-        case '2':
-          //alert('shape 2');
-
-          beepSound.stop();
-          //shapeTwoSound.stop();
-          drawShape(SHAPE_ARRAY[1], false);
-          break;
-        case '3':
-          //alert('shape 3');
-
-          beepSound.stop();
-          //shapeThreeSound.stop();
-          drawShape(SHAPE_ARRAY[2],false);
-          break;
-        case '4':
-          //alert('shape 4');
-
-          beepSound.stop();
-          //shapeFourSound.stop();
-          drawShape(SHAPE_ARRAY[3], false);
-          break;
+            break;
+          case '2':
+            //alert('shape 2');
+            beepSound.stop();
+            //shapeTwoSound.stop();
+            drawShape(SHAPE_ARRAY[1], false);
+            break;
+          case '3':
+            //alert('shape 3');
+            beepSound.stop();
+            //shapeThreeSound.stop();
+            drawShape(SHAPE_ARRAY[2],false);
+            break;
+          case '4':
+            //alert('shape 4');
+            beepSound.stop();
+            //shapeFourSound.stop();
+            drawShape(SHAPE_ARRAY[3], false);
+            break;
+        }
+      }
+      else {
+        console.log('Start game');
       }
     }
+
   });
 
   document.getElementById('myonoffswitch').addEventListener('change', function(e) {
-
     if(this.checked) {
-      console.log('on');
+
+      simonSettings.setOnOffVal(true);
+      count.innerHTML = '--';
+      console.log('on: ' + simonSettings.getOnOffVal());
     }
     else {
-      console.log('off');
+
+      simonSettings.setOnOffVal(false);
+      count.innerHTML = '00';
+      console.log('off: ' + simonSettings.getOnOffVal());
+    }
+  });
+
+  document.getElementById('startBtn').addEventListener('click', function() {
+
+    if(simonSettings.getOnOffVal() === true && count.innerHTML === '--') {
+      simonSettings.setStartReset(true);
+      console.log(simonSettings.getStartReset());
+      console.log(count.innerHTML + ' ' + typeof count.innerHTML);
+      //start game
+    }
+    else if(simonSettings.getOnOffVal() === true) {
+      count.innerHTML = '--';
+
+      //Reset count and start sequence again
+
+    }
+    else {
+      console.log('Turn game on');
     }
 
   });

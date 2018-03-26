@@ -3,6 +3,8 @@ $(document).ready(function() {
   let simonSettings = (function() {
     let onOffValue = false;
     let startResetValue = false;
+    let sequence = [];
+    let count = 0;
 
     return {
       setOnOffVal:  function(value) {
@@ -16,10 +18,45 @@ $(document).ready(function() {
       },
       getStartReset: function() {
         return startResetValue;
+      },
+      setNextSeq: function(num) {
+        sequence.push(num);
+        count = sequence.length;
+      },
+      getSequence: function() {
+        return sequence();
+      },
+      getCount: function() {
+        return count;
       }
     }
 
   })()
+
+  var beepSound = (function() {
+    let audioContext = new AudioContext();
+    let context = new AudioContext();
+    let oscillator = null;
+
+    return {
+      setFrequency: function(value) {
+        oscillator = context.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = value;
+      },
+      start: function() {
+        oscillator.connect(context.destination);
+        oscillator.start(0);
+      },
+      stop: function() {
+        oscillator.stop();
+        oscillator.disconnect(context.destination);
+        oscillator = null;
+      }
+    }
+
+  })()
+
 
   const SHAPE_ARRAY = [
     {'id': 1, 'color': ["#e97c7c", "#ff0000"], 'start': [355,25],'lines': [355, 345, 675, 345],
@@ -211,13 +248,26 @@ $(document).ready(function() {
     }
   });
 
+  let blinkingDisplay;
+
   document.getElementById('startBtn').addEventListener('click', function() {
 
     if(simonSettings.getOnOffVal() === true && count.innerHTML === '--') {
       simonSettings.setStartReset(true);
       console.log(simonSettings.getStartReset());
       console.log(count.innerHTML + ' ' + typeof count.innerHTML);
+
       //start game
+      setTimeout(displayBlank, 500);
+      setTimeout(displayErrorSign, 1000);
+      setTimeout(displayBlank, 1500);
+      setTimeout(displayErrorSign, 2000);
+      console.log('start sequence');
+
+      //console.log(Object.keys(SHAPE_ARRAY[0]));
+      console.log(SHAPE_ARRAY[0]['id']);
+      //simonSays();
+
     }
     else if(simonSettings.getOnOffVal() === true) {
       count.innerHTML = '--';
@@ -231,38 +281,61 @@ $(document).ready(function() {
 
   });
 
-  var beepSound = (function() {
-    let audioContext = new AudioContext();
-    let context = new AudioContext();
-    let oscillator = null;
-    //var oscillator = context.createOscillator();
-    //var soundFrequency = 0;
+  function displayBlank() {
+    count.innerHTML = ' ';
+  }
 
-    //oscillator.type = 'sine';
-    //oscillator.frequency.value = soundFrequency;
-    //oscillator.connect(context.destination);
+  function displayErrorSign() {
+    //count.innerHTML = '';
+    count.innerHTML = '--';
 
-    return {
-      setFrequency: function(value) {
-        oscillator = context.createOscillator();
-        oscillator.type = 'sine';
-        oscillator.frequency.value = value;
-      },
-      start: function() {
-        oscillator.connect(context.destination);
-        oscillator.start(0);
-      },
-      stop: function() {
-        oscillator.stop();
-        oscillator.disconnect(context.destination);
-        oscillator = null;
-      }
+  }
+
+  function simonSays() {
+
+    //Check for count =21
+
+    //Start sequence generator
+    generateSequence();
+
+    //set count display
+    let tempCount = count.innerHTML;
+    setCountDisplay(tempCount);
+
+    //Display sequence to player
+    presentSequence();
+  }
+
+  function generateSequence() {
+    let nextSequence = Math.floor(Math.random()*(4-1+1) + 1);
+
+    simonSettings.setNextSeq(nextSequnce);
+  }
+
+  function setCountDisplay(count) {
+    if(count === '--' && typeof(count) === 'string') {
+      count.innerHTML = '01';
+      return;
     }
 
-  })()
+    let tempCount = parseInt(count);
+    let newCount = 0;
+    if(tempCount >= 1 && tempCount <= 9) {
+      newCount = simonSettings.getCount();
+      count.innerHTML = '0' + newCount;
+    }
+    else if(tempCount >= 10) {
+      newCount = simonSettings.getCount();
+      count.innerHTML = newCount;
+    }
+    else {
+      alert('Error!');
+    }
+    return;
+  }
 
+  function presentSequence() {
 
-
-
+  }
 
 });

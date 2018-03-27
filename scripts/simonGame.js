@@ -24,7 +24,7 @@ $(document).ready(function() {
         count = sequence.length;
       },
       getSequence: function() {
-        return sequence();
+        return sequence;
       },
       getCount: function() {
         return count;
@@ -52,6 +52,14 @@ $(document).ready(function() {
         oscillator.stop();
         oscillator.disconnect(context.destination);
         oscillator = null;
+      },
+      timedStart: function() {
+        oscillator.connect(context.destination);
+        let now = context.currentTime;
+        oscillator.start(now);
+        oscillator.stop(now + 1);
+        oscillator.disconnect(context.destination);
+        oscillator =  null;
       }
     }
 
@@ -158,7 +166,7 @@ $(document).ready(function() {
     if (event.region) {
       if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true){
         switch(event.region) {
-          case '1':simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true
+          case '1':
             beepSound.setFrequency(500);
             beepSound.start();
             //shapeOneSound.play();
@@ -248,7 +256,7 @@ $(document).ready(function() {
     }
   });
 
-  let blinkingDisplay;
+
 
   document.getElementById('startBtn').addEventListener('click', function() {
 
@@ -259,9 +267,9 @@ $(document).ready(function() {
 
       //start game
       setTimeout(displayBlank, 500);
-      setTimeout(displayErrorSign, 1000);
+      setTimeout(displayEmptySign, 1000);
       setTimeout(displayBlank, 1500);
-      setTimeout(displayErrorSign, 2000);
+      setTimeout(displayEmptySign, 2000);
       console.log('start sequence');
 
       //console.log(Object.keys(SHAPE_ARRAY[0]));
@@ -285,11 +293,17 @@ $(document).ready(function() {
     count.innerHTML = ' ';
   }
 
-  function displayErrorSign() {
+  function displayEmptySign() {
     //count.innerHTML = '';
     count.innerHTML = '--';
-
   }
+
+  function displayErrorSign() {
+    count.innerHTML= '!!';
+  }
+
+  let timeOut;
+  let stoppedTimer = false;
 
   function simonSays() {
 
@@ -304,12 +318,19 @@ $(document).ready(function() {
 
     //Display sequence to player
     presentSequence();
+
+    //start time out clock for waiting for input
+    timeOut = setInterval(timedOut, 4000);
+
+    if(stoppedTimer = true) {
+
+    }
   }
 
   function generateSequence() {
     let nextSequence = Math.floor(Math.random()*(4-1+1) + 1);
 
-    simonSettings.setNextSeq(nextSequnce);
+    simonSettings.setNextSeq(nextSequence);
   }
 
   function setCountDisplay(count) {
@@ -335,7 +356,64 @@ $(document).ready(function() {
   }
 
   function presentSequence() {
+    let sequenceArray = simonSettings.getSequence();
 
+    for(let index = 0; index < sequenceArray.length; index++) {
+      switch(sequenceArray[index]) {
+        case 1:
+          beepSound.setFrequency(500);
+          beepSound.timedStart();
+          drawShape(SHAPE_ARRAY[0], true);
+          setTimeout(drawShape, 1000, SHAPE_ARRAY[0], false);
+          break;
+        case 2:
+          beepSound.setFrequency(200);
+          beepSound.timedStart();
+          drawShape(SHAPE_ARRAY[1], true);
+          setTimeout(drawShape, 1000, SHAPE_ARRAY[1], false);
+          break;
+        case 3:
+          beepSound.setFrequency(350);
+          beepSound.timedStart();
+          drawShape(SHAPE_ARRAY[2], true);
+          setTimeout(drawShape, 1000, SHAPE_ARRAY[2], false);
+          break;
+        case 4:
+          beepSound.setFrequency(650);
+          beepSound.timedStart();
+          drawShape(SHAPE_ARRAY[3],true);
+          setTimeout(drawShape, 1000, SHAPE_ARRAY[3], false);
+          break;
+        default:
+          console.log('Error occured');
+
+      }
+    }
+    return;
+  }
+
+  function timedOut() {
+    let currentCount = count.innerHTML;
+
+    beepSound.setFrequency(1000);
+    beepSound.start();
+    setTimeout(beepSound.stop, 2000);
+
+    count.innerHTML = ' ';
+    setTimeout(displayErrorSign, 500);
+    setTimeout(displayBlank, 1000);
+    setTimeout(displayErrorSign,1500);
+    setTimeout(function(){count.innerHTML = currentCount;}, 2200);
+
+    presentSequence();
+
+    timeOut = setInterval(timedOut, 4000);
+
+  }
+
+  function stopTimeOut() {
+    clearTimeout(timeOut);
+    stoppedTimer = true;
   }
 
 });

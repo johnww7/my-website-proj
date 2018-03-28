@@ -141,14 +141,14 @@ $(document).ready(function() {
     //board.clearRect(arc[0], arc[1], arc[0]+320, arc[1]+320);
     //board.clearRect(0, 0, canvas.width, canvas.height);
 
-    console.log(' id: ' + regionID + typeof regionID);
+    /*console.log(' id: ' + regionID + typeof regionID);
     console.log('key: ' + keys + ' keyNames: ' + shapeStart + ', ' + shapeLines + ', ' +
     shapeArc);
     console.log('color: ' + color);
     console.log(startPoint);
     console.log(lines);
     console.log(arc);
-    console.log('------------------------');
+    console.log('------------------------');*/
 
     board.beginPath();
     board.moveTo(startPoint[0], startPoint[1]);
@@ -273,8 +273,8 @@ $(document).ready(function() {
       console.log('start sequence');
 
       //console.log(Object.keys(SHAPE_ARRAY[0]));
-      console.log(SHAPE_ARRAY[0]['id']);
-      //simonSays();
+      //console.log(SHAPE_ARRAY[0]['id']);
+      setTimeout(simonSays, 2500);
 
     }
     else if(simonSettings.getOnOffVal() === true) {
@@ -308,23 +308,29 @@ $(document).ready(function() {
   function simonSays() {
 
     //Check for count =21
+    if(simonSettings.getCount() === 21) {
+    	return;
+    }
 
     //Start sequence generator
     generateSequence();
 
     //set count display
     let tempCount = count.innerHTML;
+    console.log('Count: ' + tempCount + ' :' + typeof(tempCount));
     setCountDisplay(tempCount);
 
     //Display sequence to player
     presentSequence();
 
     //start time out clock for waiting for input
-    timeOut = setInterval(timedOut, 4000);
+    /*timeOut = setInterval(timedOut, 4000);
 
     if(stoppedTimer = true) {
 
-    }
+    }*/
+
+    setTimeout(simonSays, 10000);
   }
 
   function generateSequence() {
@@ -335,19 +341,23 @@ $(document).ready(function() {
 
   function setCountDisplay(count) {
     if(count === '--' && typeof(count) === 'string') {
-      count.innerHTML = '01';
+      document.getElementById('count').innerHTML = 01;
+      console.log('started count: ' + count.innerHTML);
       return;
     }
 
     let tempCount = parseInt(count);
     let newCount = 0;
+    console.log('current count: ' + tempCount);
     if(tempCount >= 1 && tempCount <= 9) {
       newCount = simonSettings.getCount();
-      count.innerHTML = '0' + newCount;
+      console.log('new count: ' + newCount);
+      document.getElementById('count').innerHTML = '0' + newCount;
     }
     else if(tempCount >= 10) {
       newCount = simonSettings.getCount();
-      count.innerHTML = newCount;
+      console.log('new count: ' + newCount);
+      document.getElementById('count').innerHTML = newCount;
     }
     else {
       alert('Error!');
@@ -357,38 +367,68 @@ $(document).ready(function() {
 
   function presentSequence() {
     let sequenceArray = simonSettings.getSequence();
+    console.log('Current Sequence: ' + sequenceArray);
 
     for(let index = 0; index < sequenceArray.length; index++) {
+      console.log('sequence num: ' + sequenceArray[index] + ' : ' + typeof(sequenceArray[index]));
       switch(sequenceArray[index]) {
         case 1:
           beepSound.setFrequency(500);
-          beepSound.timedStart();
+          beepSound.start();
           drawShape(SHAPE_ARRAY[0], true);
-          setTimeout(drawShape, 1000, SHAPE_ARRAY[0], false);
+          //setTimeout(drawShape, 1000, SHAPE_ARRAY[0], false);
+          //setTimeout(beepSound.stop, 1000);
+          stopSequence(SHAPE_ARRAY[0], false);
+          beepSound.stop();
           break;
         case 2:
           beepSound.setFrequency(200);
-          beepSound.timedStart();
+          beepSound.start();
           drawShape(SHAPE_ARRAY[1], true);
-          setTimeout(drawShape, 1000, SHAPE_ARRAY[1], false);
+          //setTimeout(drawShape, 1000, SHAPE_ARRAY[1], false);
+          //setTimeout(beepSound.stop, 1000);
+          stopSequence(SHAPE_ARRAY[1], false);
+          beepSound.stop();
           break;
         case 3:
           beepSound.setFrequency(350);
-          beepSound.timedStart();
+          beepSound.start();
           drawShape(SHAPE_ARRAY[2], true);
-          setTimeout(drawShape, 1000, SHAPE_ARRAY[2], false);
+        //  setTimeout(drawShape, 1000, SHAPE_ARRAY[2], false);
+        //  setTimeout(beepSound.stop, 1000);
+          stopSequence(SHAPE_ARRAY[2], false);
+          beepSound.stop();
           break;
         case 4:
           beepSound.setFrequency(650);
-          beepSound.timedStart();
+          beepSound.start();
           drawShape(SHAPE_ARRAY[3],true);
-          setTimeout(drawShape, 1000, SHAPE_ARRAY[3], false);
+          //setTimeout(drawShape, 1000, SHAPE_ARRAY[3], false);
+          //setTimeout(beepSound.stop, 1000);
+          stopSequence(SHAPE_ARRAY[3], false);
+          beepSound.stop();
           break;
         default:
           console.log('Error occured');
 
       }
     }
+    return;
+  }
+
+  function stopSequence(shape, light) {
+    let second = 1000;
+    let counter = 0;
+    let interval = 2 * second;
+
+    let stopTimeout = setInterval(function() {
+      counter = (counter + second) % interval;
+      if(counter == 0) {
+        drawShape(shape, light);
+        //beepSound.stop();
+        clearInterval(stopTimeout);
+      }
+    }, second);
     return;
   }
 

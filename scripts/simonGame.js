@@ -4,6 +4,7 @@ $(document).ready(function() {
     let onOffValue = false;
     let startResetValue = false;
     let sequence = [];
+    let playerMoves = [];
     let count = 0;
 
     return {
@@ -28,6 +29,15 @@ $(document).ready(function() {
       },
       getCount: function() {
         return count;
+      },
+      setPlayer: function(move) {
+        playerMoves.push(move);
+      },
+      getPlayer: function() {
+        return playerMoves;
+      },
+      clearPlayer: function() {
+        playerMoves.length = 0;
       }
     }
 
@@ -105,8 +115,9 @@ $(document).ready(function() {
   let canvas = document.getElementById('simonCanvas');
   let board = canvas.getContext('2d');
   let count = document.getElementById('count');
-  let panelSound;
 
+  let panelSound;
+  let timeOut;
 
   //drawSimonBoard();
   //setTimeout(drawHighlight, 5000);
@@ -171,7 +182,9 @@ $(document).ready(function() {
             beepSound.start();
             //shapeOneSound.play();
             drawShape(SHAPE_ARRAY[0], true);
-
+            stopTimeOut();
+            simonSettings.setPlayer(1);
+            playerMove(1);
             break;
           case '2':
             //alert('shape 2');
@@ -179,6 +192,9 @@ $(document).ready(function() {
             beepSound.start();
             //shapeTwoSound.play();
             drawShape(SHAPE_ARRAY[1], true);
+            stopTimeOut();
+            simonSettings.setPlayer(2);
+            playerMove(2);
             break;
           case '3':
             //alert('shape 3');
@@ -186,6 +202,9 @@ $(document).ready(function() {
             beepSound.start();
             //shapeThreeSound.play();
             drawShape(SHAPE_ARRAY[2], true);
+            stopTimeOut();
+            simonSettings.setPlayer(3);
+            playerMove(3);
             break;
           case '4':
             //alert('shape 4');
@@ -193,6 +212,9 @@ $(document).ready(function() {
             beepSound.start();
             //shapeFourSound.play();
             drawShape(SHAPE_ARRAY[3],true);
+            stopTimeOut();
+            simonSettings.setPlayer(4);
+            playerMove(4);
             break;
         }
       }
@@ -212,25 +234,28 @@ $(document).ready(function() {
             beepSound.stop();
             //shapeOneSound.stop();
             drawShape(SHAPE_ARRAY[0], false);
-
+            timeOut = setTimeout(timedOut, 5000);
             break;
           case '2':
             //alert('shape 2');
             beepSound.stop();
             //shapeTwoSound.stop();
             drawShape(SHAPE_ARRAY[1], false);
+            timeOut = setTimeout(timedOut, 5000);
             break;
           case '3':
             //alert('shape 3');
             beepSound.stop();
             //shapeThreeSound.stop();
             drawShape(SHAPE_ARRAY[2],false);
+            timeOut = setTimeout(timedOut, 5000);
             break;
           case '4':
             //alert('shape 4');
             beepSound.stop();
             //shapeFourSound.stop();
             drawShape(SHAPE_ARRAY[3], false);
+            timeOut = setTimeout(timedOut, 5000);
             break;
         }
       }
@@ -302,13 +327,13 @@ $(document).ready(function() {
     count.innerHTML= '!!';
   }
 
-  let timeOut;
+
   let stoppedTimer = false;
 
   function simonSays() {
-
+    let gameCount = simonSettings.getCount();
     //Check for count =21
-    if(simonSettings.getCount() === 21) {
+    if(gameCount === 20) {
     	return;
     }
 
@@ -321,8 +346,11 @@ $(document).ready(function() {
     setCountDisplay(tempCount);
 
     //Display sequence to player
-    presentSequence();
+    let shown = presentSequence();
 
+    if(shown) {
+      timeout = setTimeout(timedOut, 5000);
+    }
     //start time out clock for waiting for input
     /*timeOut = setInterval(timedOut, 4000);
 
@@ -330,7 +358,7 @@ $(document).ready(function() {
 
     }*/
 
-    setTimeout(simonSays, 10000);
+    setTimeout(simonSays, (gameCount+1) * 1300);
   }
 
   function generateSequence() {
@@ -367,52 +395,72 @@ $(document).ready(function() {
 
   function presentSequence() {
     let sequenceArray = simonSettings.getSequence();
-    console.log('Current Sequence: ' + sequenceArray);
+    let count = 0;
 
-    for(let index = 0; index < sequenceArray.length; index++) {
-      console.log('sequence num: ' + sequenceArray[index] + ' : ' + typeof(sequenceArray[index]));
-      switch(sequenceArray[index]) {
+    var displayMoves = setInterval(function() {
+      highLightSequence(sequenceArray[count], true);
+      count++;
+
+      if(count >= sequenceArray.length) {
+        clearInterval(displayMoves);
+      }
+
+    }, 1000);
+    return true;
+  }
+
+  function playerMove(move) {
+    let playerMoves = simonSettings.getPlayer();
+    let sequence = simonSettings.getSequence();
+
+    if(playerMoves[playerMoves.length - 1] !== sequence[playerMoves.length - 1]) {
+      //Create wrong move function
+      alert('Wrong move');
+      presentSequence();
+    }
+    else {
+      
+    }
+  }
+
+  function highLightSequence(id, highlight) {
+    //let sequenceArray = simonSettings.getSequence();
+    let shapeValue = 0;
+
+      switch(id) {
         case 1:
           beepSound.setFrequency(500);
           beepSound.start();
-          drawShape(SHAPE_ARRAY[0], true);
-          //setTimeout(drawShape, 1000, SHAPE_ARRAY[0], false);
-          //setTimeout(beepSound.stop, 1000);
-          stopSequence(SHAPE_ARRAY[0], false);
-          beepSound.stop();
+          shapeValue = 0;
+          drawShape(SHAPE_ARRAY[0], highlight);
           break;
         case 2:
           beepSound.setFrequency(200);
           beepSound.start();
-          drawShape(SHAPE_ARRAY[1], true);
-          //setTimeout(drawShape, 1000, SHAPE_ARRAY[1], false);
-          //setTimeout(beepSound.stop, 1000);
-          stopSequence(SHAPE_ARRAY[1], false);
-          beepSound.stop();
+          shapeValue = 1;
+          drawShape(SHAPE_ARRAY[1], highlight);
           break;
         case 3:
           beepSound.setFrequency(350);
           beepSound.start();
-          drawShape(SHAPE_ARRAY[2], true);
-        //  setTimeout(drawShape, 1000, SHAPE_ARRAY[2], false);
-        //  setTimeout(beepSound.stop, 1000);
-          stopSequence(SHAPE_ARRAY[2], false);
-          beepSound.stop();
+          shapeValue = 2;
+          drawShape(SHAPE_ARRAY[2], highlight);
           break;
         case 4:
           beepSound.setFrequency(650);
           beepSound.start();
-          drawShape(SHAPE_ARRAY[3],true);
-          //setTimeout(drawShape, 1000, SHAPE_ARRAY[3], false);
-          //setTimeout(beepSound.stop, 1000);
-          stopSequence(SHAPE_ARRAY[3], false);
-          beepSound.stop();
+          shapeValue = 3;
+          drawShape(SHAPE_ARRAY[3],highlight);
           break;
         default:
           console.log('Error occured');
 
       }
-    }
+      setTimeout(function() {
+        beepSound.stop();
+        drawShape(SHAPE_ARRAY[shapeValue], !highlight);
+      }, 800);
+
     return;
   }
 
@@ -435,9 +483,9 @@ $(document).ready(function() {
   function timedOut() {
     let currentCount = count.innerHTML;
 
-    beepSound.setFrequency(1000);
+    /*beepSound.setFrequency(1000);
     beepSound.start();
-    setTimeout(beepSound.stop, 2000);
+    setTimeout(beepSound.stop, 2000);*/
 
     count.innerHTML = ' ';
     setTimeout(displayErrorSign, 500);
@@ -447,13 +495,69 @@ $(document).ready(function() {
 
     presentSequence();
 
-    timeOut = setInterval(timedOut, 4000);
+    timeOut = setTimeout(timedOut, 5000);
 
   }
 
   function stopTimeOut() {
     clearTimeout(timeOut);
-    stoppedTimer = true;
+    //stoppedTimer = true;
   }
 
 });
+
+
+
+
+/*
+function presentSequence() {
+  let sequenceArray = simonSettings.getSequence();
+  console.log('Current Sequence: ' + sequenceArray);
+
+  for(let index = 0; index < sequenceArray.length; index++) {
+    console.log('sequence num: ' + sequenceArray[index] + ' : ' + typeof(sequenceArray[index]));
+    switch(sequenceArray[index]) {
+      case 1:
+        beepSound.setFrequency(500);
+        beepSound.start();
+        drawShape(SHAPE_ARRAY[0], true);
+        //setTimeout(drawShape, 1000, SHAPE_ARRAY[0], false);
+        //setTimeout(beepSound.stop, 1000);
+        stopSequence(SHAPE_ARRAY[0], false);
+        beepSound.stop();
+        break;
+      case 2:
+        beepSound.setFrequency(200);
+        beepSound.start();
+        drawShape(SHAPE_ARRAY[1], true);
+        //setTimeout(drawShape, 1000, SHAPE_ARRAY[1], false);
+        //setTimeout(beepSound.stop, 1000);
+        stopSequence(SHAPE_ARRAY[1], false);
+        beepSound.stop();
+        break;
+      case 3:
+        beepSound.setFrequency(350);
+        beepSound.start();
+        drawShape(SHAPE_ARRAY[2], true);
+      //  setTimeout(drawShape, 1000, SHAPE_ARRAY[2], false);
+      //  setTimeout(beepSound.stop, 1000);
+        stopSequence(SHAPE_ARRAY[2], false);
+        beepSound.stop();
+        break;
+      case 4:
+        beepSound.setFrequency(650);
+        beepSound.start();
+        drawShape(SHAPE_ARRAY[3],true);
+        //setTimeout(drawShape, 1000, SHAPE_ARRAY[3], false);
+        //setTimeout(beepSound.stop, 1000);
+        stopSequence(SHAPE_ARRAY[3], false);
+        beepSound.stop();
+        break;
+      default:
+        console.log('Error occured');
+
+    }
+  }
+  return;
+}
+*/

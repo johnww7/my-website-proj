@@ -234,28 +234,28 @@ $(document).ready(function() {
             beepSound.stop();
             //shapeOneSound.stop();
             drawShape(SHAPE_ARRAY[0], false);
-            timeOut = setTimeout(timedOut, 5000);
+          //  timeOut = setTimeout(timedOut, 5000);
             break;
           case '2':
             //alert('shape 2');
             beepSound.stop();
             //shapeTwoSound.stop();
             drawShape(SHAPE_ARRAY[1], false);
-            timeOut = setTimeout(timedOut, 5000);
+            //timeOut = setTimeout(timedOut, 5000);
             break;
           case '3':
             //alert('shape 3');
             beepSound.stop();
             //shapeThreeSound.stop();
             drawShape(SHAPE_ARRAY[2],false);
-            timeOut = setTimeout(timedOut, 5000);
+            //timeOut = setTimeout(timedOut, 5000);
             break;
           case '4':
             //alert('shape 4');
             beepSound.stop();
             //shapeFourSound.stop();
             drawShape(SHAPE_ARRAY[3], false);
-            timeOut = setTimeout(timedOut, 5000);
+            //timeOut = setTimeout(timedOut, 5000);
             break;
         }
       }
@@ -346,11 +346,11 @@ $(document).ready(function() {
     setCountDisplay(tempCount);
 
     //Display sequence to player
-    let shown = presentSequence();
+    presentSequence();
 
-    if(shown) {
+    /*if(shown) {
       timeout = setTimeout(timedOut, 5000);
-    }
+    }*/
     //start time out clock for waiting for input
     /*timeOut = setInterval(timedOut, 4000);
 
@@ -358,7 +358,7 @@ $(document).ready(function() {
 
     }*/
 
-    setTimeout(simonSays, (gameCount+1) * 1300);
+    //setTimeout(simonSays, (gameCount+1) * 1300);
   }
 
   function generateSequence() {
@@ -396,6 +396,7 @@ $(document).ready(function() {
   function presentSequence() {
     let sequenceArray = simonSettings.getSequence();
     let count = 0;
+    let startClock = false;
 
     var displayMoves = setInterval(function() {
       highLightSequence(sequenceArray[count], true);
@@ -403,10 +404,13 @@ $(document).ready(function() {
 
       if(count >= sequenceArray.length) {
         clearInterval(displayMoves);
+        console.log('start timer');
+        timeOut = setTimeout(timedOut, 5000);
       }
 
     }, 1000);
-    return true;
+
+    //return true;
   }
 
   function playerMove(move) {
@@ -415,11 +419,17 @@ $(document).ready(function() {
 
     if(playerMoves[playerMoves.length - 1] !== sequence[playerMoves.length - 1]) {
       //Create wrong move function
-      alert('Wrong move');
-      presentSequence();
+      //alert('Wrong move');
+      setTimeout(presentSequence, 3000);
     }
     else {
-      
+      if(playerMoves.length == sequence.length) {
+        simonSettings.clearPlayer();
+        simonSays();
+      }
+      else {
+        timeOut = setTimeout(timedOut, 5000);
+      }
     }
   }
 
@@ -482,12 +492,30 @@ $(document).ready(function() {
 
   function timedOut() {
     let currentCount = count.innerHTML;
-
+    let errorCount = 0;
     /*beepSound.setFrequency(1000);
     beepSound.start();
     setTimeout(beepSound.stop, 2000);*/
 
-    count.innerHTML = ' ';
+    let errorDisplay = setTimeout(function() {
+      $('#count').fadeOut(300, function() {
+        let $this = $(this);
+        $this.text($this.text() == ' ' ? '!!' : ' ');
+        $this.fadeIn(300);
+      });
+      errorCount++
+      if(errorCount >= 4) {
+        clearInterVal(errorDisplay);
+      }
+
+    }, 800);
+
+    setTimeout(function() {
+      document.getElementById('count').innerHTML = currentCount;
+      presentSequence();
+    }, 5000);
+
+    /*count.innerHTML = ' ';
     setTimeout(displayErrorSign, 500);
     setTimeout(displayBlank, 1000);
     setTimeout(displayErrorSign,1500);
@@ -495,7 +523,7 @@ $(document).ready(function() {
 
     presentSequence();
 
-    timeOut = setTimeout(timedOut, 5000);
+    timeOut = setTimeout(timedOut, 5000);*/
 
   }
 

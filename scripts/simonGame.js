@@ -401,15 +401,17 @@ $(document).ready(function() {
     var displayMoves = setInterval(function() {
       highLightSequence(sequenceArray[count], true);
       count++;
-
+      console.log(sequenceArray);
       if(count >= sequenceArray.length) {
         clearInterval(displayMoves);
         console.log('start timer');
-        timeOut = setTimeout(timedOut, 5000);
+        //timeOut = setTimeout(timedOut, 5000);
+        timedOut();
       }
 
     }, 1000);
-
+    simonSettings.clearPlayer();
+  //  console.log('Presenting sequence done');
     //return true;
   }
 
@@ -420,15 +422,22 @@ $(document).ready(function() {
     if(playerMoves[playerMoves.length - 1] !== sequence[playerMoves.length - 1]) {
       //Create wrong move function
       //alert('Wrong move');
-      setTimeout(presentSequence, 3000);
+      //setTimeout(presentSequence, 5000);
+      console.log('Wrong move');
+      stopTimeOut();
+      presentSequence();
     }
     else {
       if(playerMoves.length == sequence.length) {
         simonSettings.clearPlayer();
+        console.log(simonSettings.getPlayer());
         simonSays();
       }
       else {
-        timeOut = setTimeout(timedOut, 5000);
+        console.log('Right move');
+        //timeOut = setTimeout(timedOut, 5000);
+        stopTimeOut();
+        timedOut();
       }
     }
   }
@@ -497,7 +506,16 @@ $(document).ready(function() {
     beepSound.start();
     setTimeout(beepSound.stop, 2000);*/
 
-    let errorDisplay = setTimeout(function() {
+    timeOut =  setTimeout(function() {
+      setTimeout(displayBlank, 300);
+      setTimeout(displayErrorSign, 600);
+      setTimeout(displayBlank, 900);
+      setTimeout(displayErrorSign, 1200);
+      setTimeout(function() { document.getElementById('count').innerHTML = currentCount},1600);
+      setTimeout(presentSequence, 2500);
+    }, 5000);
+
+    /*let errorDisplay = setTimeout(function() {
       $('#count').fadeOut(300, function() {
         let $this = $(this);
         $this.text($this.text() == ' ' ? '!!' : ' ');
@@ -513,7 +531,7 @@ $(document).ready(function() {
     setTimeout(function() {
       document.getElementById('count').innerHTML = currentCount;
       presentSequence();
-    }, 5000);
+    }, 5000);*/
 
     /*count.innerHTML = ' ';
     setTimeout(displayErrorSign, 500);

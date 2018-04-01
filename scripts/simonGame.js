@@ -175,7 +175,8 @@ $(document).ready(function() {
 
   document.getElementById('simonCanvas').addEventListener("mousedown", function(event) {
     if (event.region) {
-      if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true){
+    //  if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true){
+    if(simonSettings.getStartReset() === true){
         switch(event.region) {
           case '1':
             beepSound.setFrequency(500);
@@ -227,7 +228,8 @@ $(document).ready(function() {
 
   document.getElementById('simonCanvas').addEventListener("mouseup", function(event) {
     if(event.region) {
-      if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true){
+      //if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true){
+      if(simonSettings.getStartReset() === true){
         switch(event.region) {
           case '1':
             //alert('shape 1');
@@ -286,7 +288,7 @@ $(document).ready(function() {
   document.getElementById('startBtn').addEventListener('click', function() {
 
     if(simonSettings.getOnOffVal() === true && count.innerHTML === '--') {
-      simonSettings.setStartReset(true);
+      //simonSettings.setStartReset(true);
       console.log(simonSettings.getStartReset());
       console.log(count.innerHTML + ' ' + typeof count.innerHTML);
 
@@ -333,6 +335,7 @@ $(document).ready(function() {
   function simonSays() {
     let gameCount = simonSettings.getCount();
     //Check for count =21
+    simonSettings.setStartReset(false);
     if(gameCount === 20) {
     	return;
     }
@@ -398,19 +401,23 @@ $(document).ready(function() {
     let count = 0;
     let startClock = false;
 
+    //simonSettings.setStartReset(false);
     var displayMoves = setInterval(function() {
+      simonSettings.setStartReset(false);
       highLightSequence(sequenceArray[count], true);
       count++;
       console.log(sequenceArray);
       if(count >= sequenceArray.length) {
         clearInterval(displayMoves);
+        simonSettings.clearPlayer();
+
         console.log('start timer');
         //timeOut = setTimeout(timedOut, 5000);
-        timedOut();
+        setTimeout(timedOut, 800);
       }
 
     }, 1000);
-    simonSettings.clearPlayer();
+
   //  console.log('Presenting sequence done');
     //return true;
   }
@@ -425,16 +432,19 @@ $(document).ready(function() {
       //setTimeout(presentSequence, 5000);
       console.log('Wrong move');
       stopTimeOut();
+      //simonSettings.setStartReset(false);
       presentSequence();
     }
     else {
       if(playerMoves.length == sequence.length) {
         simonSettings.clearPlayer();
         console.log(simonSettings.getPlayer());
-        simonSays();
+      //  simonSettings.setStartReset(false);
+      setTimeout(simonSettings.setStartReset, 500, false);
+        setTimeout(simonSays, 1000);
       }
       else {
-        console.log('Right move');
+        console.log('Right move: ' + playerMoves[playerMoves.length-1]);
         //timeOut = setTimeout(timedOut, 5000);
         stopTimeOut();
         timedOut();
@@ -505,15 +515,16 @@ $(document).ready(function() {
     /*beepSound.setFrequency(1000);
     beepSound.start();
     setTimeout(beepSound.stop, 2000);*/
-
+    simonSettings.setStartReset(true);
     timeOut =  setTimeout(function() {
+      simonSettings.setStartReset(false);
       setTimeout(displayBlank, 300);
       setTimeout(displayErrorSign, 600);
       setTimeout(displayBlank, 900);
       setTimeout(displayErrorSign, 1200);
       setTimeout(function() { document.getElementById('count').innerHTML = currentCount},1600);
       setTimeout(presentSequence, 2500);
-    }, 5000);
+    }, 4500);
 
     /*let errorDisplay = setTimeout(function() {
       $('#count').fadeOut(300, function() {

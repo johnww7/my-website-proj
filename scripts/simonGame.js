@@ -6,6 +6,7 @@ $(document).ready(function() {
     let sequence = [];
     let playerMoves = [];
     let count = 0;
+    let strictMode = false;
 
     return {
       setOnOffVal:  function(value) {
@@ -27,8 +28,14 @@ $(document).ready(function() {
       getSequence: function() {
         return sequence;
       },
+      resetSequence: function() {
+        sequence.length = 0;
+      },
       getCount: function() {
         return count;
+      },
+      resetCount: function() {
+        count = 0;
       },
       setPlayer: function(move) {
         playerMoves.push(move);
@@ -38,6 +45,12 @@ $(document).ready(function() {
       },
       clearPlayer: function() {
         playerMoves.length = 0;
+      },
+      setStrict: function(mode) {
+        strictMode = mode;
+      },
+      getStrict: function() {
+        return strictMode;
       }
     }
 
@@ -57,6 +70,7 @@ $(document).ready(function() {
       start: function() {
         oscillator.connect(context.destination);
         oscillator.start(0);
+
       },
       stop: function() {
         oscillator.stop();
@@ -118,6 +132,8 @@ $(document).ready(function() {
 
   let panelSound;
   let timeOut;
+  let displayMoves;
+  let endHighLight;
 
   //drawSimonBoard();
   //setTimeout(drawHighlight, 5000);
@@ -286,11 +302,12 @@ $(document).ready(function() {
 
 
   document.getElementById('startBtn').addEventListener('click', function() {
-
-    if(simonSettings.getOnOffVal() === true && count.innerHTML === '--') {
+    // && count.innerHTML === '--'
+    if(simonSettings.getOnOffVal() === true && (count.innerHTML === '--' || simonSettings.getStartReset() === true) ) {
       //simonSettings.setStartReset(true);
       console.log(simonSettings.getStartReset());
       console.log(count.innerHTML + ' ' + typeof count.innerHTML);
+      resetGame();
 
       //start game
       setTimeout(displayBlank, 500);
@@ -298,22 +315,38 @@ $(document).ready(function() {
       setTimeout(displayBlank, 1500);
       setTimeout(displayEmptySign, 2000);
       console.log('start sequence');
-
+      //beepSound.stop();
       //console.log(Object.keys(SHAPE_ARRAY[0]));
       //console.log(SHAPE_ARRAY[0]['id']);
       setTimeout(simonSays, 2500);
 
     }
-    else if(simonSettings.getOnOffVal() === true) {
-      count.innerHTML = '--';
-
+    else if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === false) {
+      //count.innerHTML = '--';
       //Reset count and start sequence again
-
+      console.log('reset game');
+      beepSound.stop();
+      resetGame();
+      setTimeout(simonSays, 2000);
     }
     else {
       console.log('Turn game on');
     }
 
+  });
+
+  document.getElementById('strictBtn').addEventListener('click', function() {
+    if(simonSettings.getStrict() === false){
+      simonSettings.setStrict = true;
+
+      //Change button color
+    }
+    else {
+      simonSettings.setStrict = false;
+
+      //change button color
+    }
+    
   });
 
   function displayBlank() {
@@ -329,13 +362,26 @@ $(document).ready(function() {
     count.innerHTML= '!!';
   }
 
+  function resetGame() {
+    simonSettings.clearPlayer();
+    simonSettings.resetCount();
+    simonSettings.resetSequence();
+    clearInterval(displayMoves);
+    clearInterval(endHighLight);
+    clearInterval(timeOut);
+    //beepSound.stop();
+    count.innerHTML = '--';
+    simonSettings.setStartReset(false);
+    drawBoard();
+  }
+
 
   let stoppedTimer = false;
 
   function simonSays() {
     let gameCount = simonSettings.getCount();
     //Check for count =21
-    simonSettings.setStartReset(false);
+    //simonSettings.setStartReset(false);
     if(gameCount === 20) {
     	return;
     }
@@ -402,7 +448,7 @@ $(document).ready(function() {
     let startClock = false;
 
     //simonSettings.setStartReset(false);
-    var displayMoves = setInterval(function() {
+    displayMoves = setInterval(function() {
       simonSettings.setStartReset(false);
       highLightSequence(sequenceArray[count], true);
       count++;
@@ -410,10 +456,10 @@ $(document).ready(function() {
       if(count >= sequenceArray.length) {
         clearInterval(displayMoves);
         simonSettings.clearPlayer();
-
+        //simonSettings.setStartReset(true);
         console.log('start timer');
         //timeOut = setTimeout(timedOut, 5000);
-        setTimeout(timedOut, 800);
+        setTimeout(timedOut, 900);
       }
 
     }, 1000);
@@ -432,8 +478,12 @@ $(document).ready(function() {
       //setTimeout(presentSequence, 5000);
       console.log('Wrong move');
       stopTimeOut();
-      //simonSettings.setStartReset(false);
-      presentSequence();
+      beepSound.stop();
+      //setTimeout(simonSettings.setStartReset, 300, false);
+      simonSettings.setStartReset(false);
+      drawBoard();
+      //presentSequence();
+      setTimeout(presentSequence, 400);
     }
     else {
       if(playerMoves.length == sequence.length) {
@@ -485,7 +535,7 @@ $(document).ready(function() {
           console.log('Error occured');
 
       }
-      setTimeout(function() {
+      endHighLight = setTimeout(function() {
         beepSound.stop();
         drawShape(SHAPE_ARRAY[shapeValue], !highlight);
       }, 800);

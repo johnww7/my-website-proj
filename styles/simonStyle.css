@@ -104,6 +104,14 @@
 	left: 80%;
 }
 
+.strict-btn-color-off {
+  background: #93a796;
+}
+
+.strict-btn-color-on {
+  background: #00ff26;
+}
+
 .onoffswitch {
     position: relative; width: 101px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;

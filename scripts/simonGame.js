@@ -286,15 +286,18 @@ $(document).ready(function() {
 
   document.getElementById('myonoffswitch').addEventListener('change', function(e) {
     if(this.checked) {
-
       simonSettings.setOnOffVal(true);
       count.innerHTML = '--';
       console.log('on: ' + simonSettings.getOnOffVal());
     }
     else {
-
       simonSettings.setOnOffVal(false);
       count.innerHTML = '00';
+      resetGame();
+      simonSettings.setStrict(false);
+      let strictButton = document.getElementById('strictBtn').classList;
+      strictButton.remove('strict-btn-color-on');
+      strictButton.add('strict-btn-color-off');
       console.log('off: ' + simonSettings.getOnOffVal());
     }
   });
@@ -336,17 +339,23 @@ $(document).ready(function() {
   });
 
   document.getElementById('strictBtn').addEventListener('click', function() {
-    if(simonSettings.getStrict() === false){
-      simonSettings.setStrict = true;
+    let strictButton = document.getElementById('strictBtn').classList;
 
-      //Change button color
+    if(simonSettings.getOnOffVal() === true) {
+      if(simonSettings.getStrict() === false){
+        simonSettings.setStrict(true);
+        //Change button color
+        strictButton.remove('strict-btn-color-off');
+        strictButton.add('strict-btn-color-on');
+      }
+      else {
+        simonSettings.setStrict(false);
+        //change button color
+        strictButton.remove('strict-btn-color-on');
+        strictButton.add('strict-btn-color-off');
+      }
     }
-    else {
-      simonSettings.setStrict = false;
-
-      //change button color
-    }
-    
+      console.log('strict mode: ' + simonSettings.getStrict());
   });
 
   function displayBlank() {
@@ -397,17 +406,6 @@ $(document).ready(function() {
     //Display sequence to player
     presentSequence();
 
-    /*if(shown) {
-      timeout = setTimeout(timedOut, 5000);
-    }*/
-    //start time out clock for waiting for input
-    /*timeOut = setInterval(timedOut, 4000);
-
-    if(stoppedTimer = true) {
-
-    }*/
-
-    //setTimeout(simonSays, (gameCount+1) * 1300);
   }
 
   function generateSequence() {
@@ -418,7 +416,7 @@ $(document).ready(function() {
 
   function setCountDisplay(count) {
     if(count === '--' && typeof(count) === 'string') {
-      document.getElementById('count').innerHTML = 01;
+      document.getElementById('count').innerHTML = '01';
       console.log('started count: ' + count.innerHTML);
       return;
     }
@@ -471,19 +469,35 @@ $(document).ready(function() {
   function playerMove(move) {
     let playerMoves = simonSettings.getPlayer();
     let sequence = simonSettings.getSequence();
+    let strictMode = simonSettings.getStrict();
+    let currCount = document.getElementById('count').textContent;
+
 
     if(playerMoves[playerMoves.length - 1] !== sequence[playerMoves.length - 1]) {
       //Create wrong move function
-      //alert('Wrong move');
-      //setTimeout(presentSequence, 5000);
       console.log('Wrong move');
-      stopTimeOut();
-      beepSound.stop();
-      //setTimeout(simonSettings.setStartReset, 300, false);
-      simonSettings.setStartReset(false);
-      drawBoard();
-      //presentSequence();
-      setTimeout(presentSequence, 400);
+      if(strictMode === true) {
+        stopTimeOut();
+        beepSound.stop();
+        simonSettings.setStartReset(false);
+        drawBoard();
+        resetGame();
+        wrongMoveDisplay();
+
+        setTimeout(simonSays, 2000);
+
+      }
+      else {
+        stopTimeOut();
+        beepSound.stop();
+        simonSettings.setStartReset(false);
+        drawBoard();
+
+        console.log('current: ' + currCount);
+        wrongMoveDisplay();
+        setTimeout(function(){count.innerHTML = currCount; }, 1900);
+        setTimeout(presentSequence, 2000);
+      }
     }
     else {
       if(playerMoves.length == sequence.length) {
@@ -550,6 +564,7 @@ $(document).ready(function() {
 
     let stopTimeout = setInterval(function() {
       counter = (counter + second) % interval;
+
       if(counter == 0) {
         drawShape(shape, light);
         //beepSound.stop();
@@ -604,6 +619,30 @@ $(document).ready(function() {
 
     timeOut = setTimeout(timedOut, 5000);*/
 
+  }
+
+  function wrongMoveDisplay() {
+    let count = 0;
+    let toggle = false;
+    beepSound.setFrequency(525);
+    beepSound.start();
+    let displayError = setInterval(function() {
+      if(toggle) {
+        displayErrorSign();
+        toggle = false;
+      }
+      else {
+        displayBlank();
+        toggle = true;
+      }
+      count++;
+      if(count >= 8) {
+        clearInterval(displayError);
+        beepSound.stop();
+        displayEmptySign();
+      }
+    }, 200);
+    return;
   }
 
   function stopTimeOut() {

@@ -5,17 +5,21 @@
   padding: 0;
   margin: auto;
   display: block;
+  /*background: black;*/
+}
 
+body {
+  background: black;
 }
 
 .circle-panel {
-  border: 2px solid black;
+
   border-radius: 50%;
   width: 300px;
   height: 300px;
   background: purple;
-  top: 205px;
-  left: 225px;
+  top: 202px;
+  left: 216.5px;
   box-shadow: 0 0 .75em;
   position: absolute;
   z-index: 5;
@@ -46,10 +50,10 @@
 #upper-row {
 	position: absolute;
 
-	top: 20%;
-	left: 15%;
-	width: 200px;
-	height: 100px;
+	top: 25%;
+	left: 12%;
+	width: 225px;
+	height: 110px;
 	border: 1px solid black;
 }
 
@@ -58,24 +62,42 @@
   margin-right: 5px;
   left: 1%;
   top: 10%;
+  width: 70px;
+  height: 95px;
   position: absolute;
   display: inline-block;
   border: 1px solid black;
 }
 
+#count {
+  width: 70px;
+  height: 60px;
+  border: 1px inset gray;
+  text-align: center;
+  font-size: 45px;
+}
+
 #start {
   left: 40%;
 	top: 10%;
+  height: 95px;
   margin-left: 5px;
   margin-right: 5px;
 	position: absolute;
 	display: inline-block;
 	border: 1px solid black;
+}
+
+#startBtn {
+  margin-bottom: 18px;
+margin-top: 18px;
+margin-left: 5px;
 }
 
 #strickMode {
   left: 70%;
 	top: 10%;
+  height: 95px;
 	position: absolute;
   margin-right: 5px;
   margin-left: 5px;
@@ -83,9 +105,20 @@
 	border: 1px solid black;
 }
 
+#strictBtn {
+  margin-bottom: 18px;
+  margin-top: 18px;
+  margin-left: 5px;
+}
+
+.button-shape {
+  height: 35%;
+  border-radius: 50%;
+}
+
 #switch {
 	position: absolute;
-	top: 60%;
+	top: 65%;
 	left: 15%;
 	width: 200px;
 	height: 50px;
@@ -94,13 +127,13 @@
 
 #offLabel {
 	position: absolute;
-	top: 10%;
+	top: 20%;
 	left:5%;
 }
 
 #onLabel {
 	position: absolute;
-	top: 10%;
+	top: 20%;
 	left: 80%;
 }
 
@@ -115,7 +148,7 @@
 .onoffswitch {
     position: relative; width: 101px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-    top: 10%;
+    top: 20%;
     left: 25%;
 }
 .onoffswitch-checkbox {

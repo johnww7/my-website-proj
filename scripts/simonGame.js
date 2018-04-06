@@ -91,18 +91,18 @@ $(document).ready(function() {
 
 
   const SHAPE_ARRAY = [
-      {'id': 1, 'color': ["#e97c7c", "#ff0000"],
-      'arc1': [355, 345, 320, ((Math.PI/180) * 275), ((Math.PI/180) *355), false],
-      'arc2': [355, 345, 160, ((Math.PI/180) * 355), ((Math.PI/180) *275), true]},
-      {'id': 2, 'color': ["#4d44a9", "#0024ff"],
-      'arc1': [355, 355, 320, ((Math.PI/180) * 5), ((Math.PI/180) *85), false],
-      'arc2': [355, 355, 160, ((Math.PI/180) * 85), ((Math.PI/180) *5), true]},
-      {'id': 3, 'color': ["#3b8a3b", "#00ff00"],
-      'arc1': [345, 355, 320, ((Math.PI/180) * 95), ((Math.PI/180) *175), false],
-      'arc2': [345, 355, 160, ((Math.PI/180) * 175), ((Math.PI/180) *95), true]},
-      {'id': 4, 'color': ["#ffffb8", "#ffff00"],
-      'arc1': [345, 345, 320, ((Math.PI/180) * 185), ((Math.PI/180) *265), false],
-      'arc2': [345, 345, 160, ((Math.PI/180) * 265), ((Math.PI/180) *185), true]}
+    {'id': 1, 'color': ["#e97c7c", "#ff0000"],
+    'arc1': [355, 345, 320, ((Math.PI/180) * 271.5), ((Math.PI/180) *358.5), false],
+    'arc2': [355, 345, 160, ((Math.PI/180) * 357), ((Math.PI/180) *273), true]},
+    {'id': 2, 'color': ["#4d44a9", "#0024ff"],
+    'arc1': [355, 355, 320, ((Math.PI/180) * 1.5), ((Math.PI/180) *88.5), false],
+    'arc2': [355, 355, 160, ((Math.PI/180) * 87), ((Math.PI/180) * 3), true]},
+    {'id': 3, 'color': ["#3b8a3b", "#00ff00"],
+    'arc1': [345, 355, 320, ((Math.PI/180) * 91.5), ((Math.PI/180) *178.5), false],
+    'arc2': [345, 355, 160, ((Math.PI/180) * 177), ((Math.PI/180) *93), true]},
+    {'id': 4, 'color': ["#ffffb8", "#ffff00"],
+    'arc1': [345, 345, 320, ((Math.PI/180) * 181.5), ((Math.PI/180) *268.5), false],
+    'arc2': [345, 345, 160, ((Math.PI/180) * 267), ((Math.PI/180) *183), true]}
   ];
 
   let shapeOneSound = new Pizzicato.Sound({
@@ -142,6 +142,7 @@ $(document).ready(function() {
   //drawSimonBoard();
   //setTimeout(drawHighlight, 5000);
   drawBoard();
+  //drawLines();
 
   function drawBoard() {
 
@@ -149,6 +150,39 @@ $(document).ready(function() {
       console.log(SHAPE_ARRAY[i]);
       drawShape(SHAPE_ARRAY[i], false);
     }
+  }
+
+  function drawLines() {
+  	//vertical Lines
+    board.beginPath();
+    board.moveTo(338, 25);
+    board.lineTo(338, 675);
+    board.strokeStyle = "red";
+    board.stroke();
+
+    board.beginPath();
+    board.moveTo(362, 25);
+    board.lineTo(362, 675);
+    board.strokeStyle = "red";
+    board.stroke();
+
+		//Horizontal Lines
+    board.beginPath();
+    board.moveTo(25, 338);
+    board.lineTo(675, 338);
+    board.strokeStyle = "red";
+    board.stroke();
+
+    board.beginPath();
+    board.moveTo(25, 362);
+    board.lineTo(675, 362);
+    board.strokeStyle = "red";
+    board.stroke();
+
+    board.beginPath();
+    board.arc(350, 350, 150, ((Math.PI/180) * 0), ((Math.PI/180) *360));
+    board.strokeStyle = 'red';
+    board.stroke();
   }
 
   function drawShape(shapeObj, hightLight){
@@ -576,9 +610,7 @@ $(document).ready(function() {
   function timedOut() {
     let currentCount = count.innerHTML;
     let errorCount = 0;
-    /*beepSound.setFrequency(1000);
-    beepSound.start();
-    setTimeout(beepSound.stop, 2000);*/
+
     simonSettings.setStartReset(true);
     timeOut =  setTimeout(function() {
       simonSettings.setStartReset(false);
@@ -589,34 +621,6 @@ $(document).ready(function() {
       setTimeout(function() { document.getElementById('count').innerHTML = currentCount},1600);
       setTimeout(presentSequence, 2500);
     }, 4500);
-
-    /*let errorDisplay = setTimeout(function() {
-      $('#count').fadeOut(300, function() {
-        let $this = $(this);
-        $this.text($this.text() == ' ' ? '!!' : ' ');
-        $this.fadeIn(300);
-      });
-      errorCount++
-      if(errorCount >= 4) {
-        clearInterVal(errorDisplay);
-      }
-
-    }, 800);
-
-    setTimeout(function() {
-      document.getElementById('count').innerHTML = currentCount;
-      presentSequence();
-    }, 5000);*/
-
-    /*count.innerHTML = ' ';
-    setTimeout(displayErrorSign, 500);
-    setTimeout(displayBlank, 1000);
-    setTimeout(displayErrorSign,1500);
-    setTimeout(function(){count.innerHTML = currentCount;}, 2200);
-
-    presentSequence();
-
-    timeOut = setTimeout(timedOut, 5000);*/
 
   }
 
@@ -650,59 +654,3 @@ $(document).ready(function() {
   }
 
 });
-
-
-
-
-/*
-function presentSequence() {
-  let sequenceArray = simonSettings.getSequence();
-  console.log('Current Sequence: ' + sequenceArray);
-
-  for(let index = 0; index < sequenceArray.length; index++) {
-    console.log('sequence num: ' + sequenceArray[index] + ' : ' + typeof(sequenceArray[index]));
-    switch(sequenceArray[index]) {
-      case 1:
-        beepSound.setFrequency(500);
-        beepSound.start();
-        drawShape(SHAPE_ARRAY[0], true);
-        //setTimeout(drawShape, 1000, SHAPE_ARRAY[0], false);
-        //setTimeout(beepSound.stop, 1000);
-        stopSequence(SHAPE_ARRAY[0], false);
-        beepSound.stop();
-        break;
-      case 2:
-        beepSound.setFrequency(200);
-        beepSound.start();
-        drawShape(SHAPE_ARRAY[1], true);
-        //setTimeout(drawShape, 1000, SHAPE_ARRAY[1], false);
-        //setTimeout(beepSound.stop, 1000);
-        stopSequence(SHAPE_ARRAY[1], false);
-        beepSound.stop();
-        break;
-      case 3:
-        beepSound.setFrequency(350);
-        beepSound.start();
-        drawShape(SHAPE_ARRAY[2], true);
-      //  setTimeout(drawShape, 1000, SHAPE_ARRAY[2], false);
-      //  setTimeout(beepSound.stop, 1000);
-        stopSequence(SHAPE_ARRAY[2], false);
-        beepSound.stop();
-        break;
-      case 4:
-        beepSound.setFrequency(650);
-        beepSound.start();
-        drawShape(SHAPE_ARRAY[3],true);
-        //setTimeout(drawShape, 1000, SHAPE_ARRAY[3], false);
-        //setTimeout(beepSound.stop, 1000);
-        stopSequence(SHAPE_ARRAY[3], false);
-        beepSound.stop();
-        break;
-      default:
-        console.log('Error occured');
-
-    }
-  }
-  return;
-}
-*/

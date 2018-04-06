@@ -91,14 +91,18 @@ $(document).ready(function() {
 
 
   const SHAPE_ARRAY = [
-    {'id': 1, 'color': ["#e97c7c", "#ff0000"], 'start': [355,25],'lines': [355, 345, 675, 345],
-    'arc': [355, 345, 320, ((Math.PI/180) * 270), ((Math.PI/180) *360)]},
-    {'id': 2, 'color': ["#4d44a9", "#0024ff"], 'start': [355,675],'lines': [355, 355, 675, 355],
-    'arc': [355, 355, 320, ((Math.PI/180) * 360), ((Math.PI/180) *90)]},
-    {'id': 3, 'color': ["#3b8a3b", "#00ff00"], 'start': [345,675],'lines': [345, 355, 25, 355],
-    'arc': [345, 355, 320, ((Math.PI/180) * 90), ((Math.PI/180) *180)]},
-    {'id': 4, 'color': ["#ffffb8", "#ffff00"], 'start': [345,25],'lines': [345, 345, 25, 345],
-    'arc': [345, 345, 320, ((Math.PI/180) * 180), ((Math.PI/180) *270)]}
+      {'id': 1, 'color': ["#e97c7c", "#ff0000"],
+      'arc1': [355, 345, 320, ((Math.PI/180) * 275), ((Math.PI/180) *355), false],
+      'arc2': [355, 345, 160, ((Math.PI/180) * 355), ((Math.PI/180) *275), true]},
+      {'id': 2, 'color': ["#4d44a9", "#0024ff"],
+      'arc1': [355, 355, 320, ((Math.PI/180) * 5), ((Math.PI/180) *85), false],
+      'arc2': [355, 355, 160, ((Math.PI/180) * 85), ((Math.PI/180) *5), true]},
+      {'id': 3, 'color': ["#3b8a3b", "#00ff00"],
+      'arc1': [345, 355, 320, ((Math.PI/180) * 95), ((Math.PI/180) *175), false],
+      'arc2': [345, 355, 160, ((Math.PI/180) * 175), ((Math.PI/180) *95), true]},
+      {'id': 4, 'color': ["#ffffb8", "#ffff00"],
+      'arc1': [345, 345, 320, ((Math.PI/180) * 185), ((Math.PI/180) *265), false],
+      'arc2': [345, 345, 160, ((Math.PI/180) * 265), ((Math.PI/180) *185), true]}
   ];
 
   let shapeOneSound = new Pizzicato.Sound({
@@ -149,13 +153,11 @@ $(document).ready(function() {
 
   function drawShape(shapeObj, hightLight){
     let keys = Object.keys(shapeObj);
-    let shapeStart = keys[2];
-    let shapeLines = keys[3];
-    let shapeArc = keys[4];
+    let arcOne = keys[2];
+    let arcTwo = keys[3];
     let id = keys[0];
-    let startPoint = shapeObj[shapeStart];
-    let lines = shapeObj[shapeLines];
-    let arc = shapeObj[shapeArc];
+    let arc1 = shapeObj[arcOne];
+    let arc2 = shapeObj[arcTwo];
     let regionID = shapeObj[id];
     let color = '';
 
@@ -165,8 +167,6 @@ $(document).ready(function() {
     else {
       color = shapeObj['color'][0];
     }
-    //board.clearRect(arc[0], arc[1], arc[0]+320, arc[1]+320);
-    //board.clearRect(0, 0, canvas.width, canvas.height);
 
     /*console.log(' id: ' + regionID + typeof regionID);
     console.log('key: ' + keys + ' keyNames: ' + shapeStart + ', ' + shapeLines + ', ' +
@@ -178,10 +178,9 @@ $(document).ready(function() {
     console.log('------------------------');*/
 
     board.beginPath();
-    board.moveTo(startPoint[0], startPoint[1]);
-    board.lineTo(lines[0], lines[1]);
-    board.lineTo(lines[2], lines[3]);
-    board.arc(arc[0], arc[1], arc[2], arc[3], arc[4]);
+    board.arc(arc1[0], arc1[1], arc1[2], arc1[3], arc1[4], arc1[5]);
+    board.arc(arc2[0], arc2[1], arc2[2], arc2[3], arc2[4], arc2[5]);
+    board.closePath();
 
     board.fillStyle = color;
     board.fill();

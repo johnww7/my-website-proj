@@ -317,7 +317,7 @@ $(document).ready(function() {
 
   });
 
-  document.getElementById('myonoffswitch').addEventListener('change', function(e) {
+  document.querySelector('input[name=onoffswitch]').addEventListener('change', function(e) {
     if(this.checked) {
       simonSettings.setOnOffVal(true);
       count.innerHTML = '--';
@@ -325,7 +325,7 @@ $(document).ready(function() {
     }
     else {
       simonSettings.setOnOffVal(false);
-      count.innerHTML = '00';
+      document.getElementById('count').innerHTML = ' ';
       resetGame();
       simonSettings.setStrict(false);
       let strictButton = document.getElementById('strictBtn').classList;

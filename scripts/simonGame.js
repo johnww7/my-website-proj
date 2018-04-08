@@ -325,12 +325,15 @@ $(document).ready(function() {
     }
     else {
       simonSettings.setOnOffVal(false);
-      document.getElementById('count').innerHTML = ' ';
+
       resetGame();
+
       simonSettings.setStrict(false);
       let strictButton = document.getElementById('strictBtn').classList;
       strictButton.remove('strict-btn-color-on');
       strictButton.add('strict-btn-color-off');
+      document.getElementById('count').innerHTML = '';
+        beepSound.stop();
       console.log('off: ' + simonSettings.getOnOffVal());
     }
   });
@@ -344,7 +347,6 @@ $(document).ready(function() {
       console.log(simonSettings.getStartReset());
       console.log(count.innerHTML + ' ' + typeof count.innerHTML);
       resetGame();
-
       //start game
       setTimeout(displayBlank, 500);
       setTimeout(displayEmptySign, 1000);
@@ -408,9 +410,10 @@ $(document).ready(function() {
     simonSettings.clearPlayer();
     simonSettings.resetCount();
     simonSettings.resetSequence();
-    clearInterval(displayMoves);
+    //clearInterval(displayMoves);
     clearInterval(endHighLight);
     clearInterval(timeOut);
+    stopSequence();
     //beepSound.stop();
     count.innerHTML = '--';
     simonSettings.setStartReset(false);
@@ -424,9 +427,9 @@ $(document).ready(function() {
     let gameCount = simonSettings.getCount();
     //Check for count =21
     //simonSettings.setStartReset(false);
-    if(gameCount === 20) {
-    	return;
-    }
+    /*if(gameCount === 5) {
+    	playerWins();
+    }*/
 
     //Start sequence generator
     generateSequence();
@@ -438,6 +441,36 @@ $(document).ready(function() {
 
     //Display sequence to player
     presentSequence();
+
+  }
+
+  function playerWins() {
+    let winSequence = [1, 2, 3, 4, 1, 2, 3, 4];
+    let count = 0;
+    let gameCount = simonSettings.getCount();
+
+    let winDisplay = setInterval(function() {
+      simonSettings.setStartReset(false);
+      highLightSequence(winSequence[count], true, 300);
+      if(count == 0 || (count % 2) ==0) {
+        document.getElementById('count').innerHTML = ' ';
+      }
+      else {
+        document.getElementById('count').innerHTML = gameCount;
+      }
+      count++;
+
+      if(count >= winSequence.length) {
+        clearInterval(winDisplay);
+
+        simonSettings.setStartReset(false);
+        //drawBoard();
+        resetGame();
+        beepSound.stop();
+        setTimeout(simonSays, 2000);
+      }
+
+    }, 500);
 
   }
 
@@ -481,7 +514,7 @@ $(document).ready(function() {
     //simonSettings.setStartReset(false);
     displayMoves = setInterval(function() {
       simonSettings.setStartReset(false);
-      highLightSequence(sequenceArray[count], true);
+      highLightSequence(sequenceArray[count], true, 800);
       count++;
       console.log(sequenceArray);
       if(count >= sequenceArray.length) {
@@ -498,6 +531,8 @@ $(document).ready(function() {
   //  console.log('Presenting sequence done');
     //return true;
   }
+
+
 
   function playerMove(move) {
     let playerMoves = simonSettings.getPlayer();
@@ -533,7 +568,10 @@ $(document).ready(function() {
       }
     }
     else {
-      if(playerMoves.length == sequence.length) {
+     if(playerMoves.length == sequence.length && simonSettings.getCount() === 5) {
+        playerWins();
+      }
+      else if(playerMoves.length == sequence.length) {
         simonSettings.clearPlayer();
         console.log(simonSettings.getPlayer());
       //  simonSettings.setStartReset(false);
@@ -549,7 +587,7 @@ $(document).ready(function() {
     }
   }
 
-  function highLightSequence(id, highlight) {
+  function highLightSequence(id, highlight, time) {
     //let sequenceArray = simonSettings.getSequence();
     let shapeValue = 0;
 
@@ -585,26 +623,15 @@ $(document).ready(function() {
       endHighLight = setTimeout(function() {
         beepSound.stop();
         drawShape(SHAPE_ARRAY[shapeValue], !highlight);
-      }, 800);
+      }, time);
 
     return;
   }
 
-  function stopSequence(shape, light) {
-    let second = 1000;
-    let counter = 0;
-    let interval = 2 * second;
+  function stopSequence() {
+    //beepSound.stop();
+    clearInterval(displayMoves);
 
-    let stopTimeout = setInterval(function() {
-      counter = (counter + second) % interval;
-
-      if(counter == 0) {
-        drawShape(shape, light);
-        //beepSound.stop();
-        clearInterval(stopTimeout);
-      }
-    }, second);
-    return;
   }
 
   function timedOut() {

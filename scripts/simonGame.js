@@ -102,87 +102,34 @@ $(document).ready(function() {
     'arc2': [345, 345, 160, ((Math.PI/180) * 267), ((Math.PI/180) *183), true]}
   ];
 
-  let shapeOneSound = new Pizzicato.Sound({
-    source: 'wave',
-    options: {type: 'sine', frequency: 500}
-
-  });
-
-  let shapeTwoSound = new Pizzicato.Sound({
-    source: 'wave',
-    options: {type: 'sine', frequency: 200}
-
-  });
-
-  let shapeThreeSound = new Pizzicato.Sound({
-    source: 'wave',
-    options: {type: 'sine', frequency: 350}
-
-  });
-
-  let shapeFourSound = new Pizzicato.Sound({
-    source: 'wave',
-    options: {type: 'sine', frequency: 650}
-
-  });
 
   //cached elements and global variables
   let canvas = document.getElementById('simonCanvas');
   let board = canvas.getContext('2d');
   let count = document.getElementById('count');
 
+  //Global variables for setInterval and setTimeout functions
   let panelSound;
   let timeOut;
   let displayMoves;
   let endHighLight;
 
-  //drawSimonBoard();
-  //setTimeout(drawHighlight, 5000);
+  //Draw simon board as soon as page is opened
   drawBoard();
-  //drawLines();
 
+  //Draws all four panels for simon board.
   function drawBoard() {
-
     for(let i = 0; i < SHAPE_ARRAY.length; i++) {
       console.log(SHAPE_ARRAY[i]);
       drawShape(SHAPE_ARRAY[i], false);
     }
   }
 
-  function drawLines() {
-  	//vertical Lines
-    board.beginPath();
-    board.moveTo(338, 25);
-    board.lineTo(338, 675);
-    board.strokeStyle = "red";
-    board.stroke();
-
-    board.beginPath();
-    board.moveTo(362, 25);
-    board.lineTo(362, 675);
-    board.strokeStyle = "red";
-    board.stroke();
-
-		//Horizontal Lines
-    board.beginPath();
-    board.moveTo(25, 338);
-    board.lineTo(675, 338);
-    board.strokeStyle = "red";
-    board.stroke();
-
-    board.beginPath();
-    board.moveTo(25, 362);
-    board.lineTo(675, 362);
-    board.strokeStyle = "red";
-    board.stroke();
-
-    board.beginPath();
-    board.arc(350, 350, 150, ((Math.PI/180) * 0), ((Math.PI/180) *360));
-    board.strokeStyle = 'red';
-    board.stroke();
-  }
-
-  function drawShape(shapeObj, hightLight){
+  //------------------------------------------------------------------------
+  //Draws a simon board panel specified from the shapeObj parameter, and decides
+  //what color it will be based on highLight parameter value.
+  //--------------------------------------------------------------------------
+  function drawShape(shapeObj, highLight){
     let keys = Object.keys(shapeObj);
     let arcOne = keys[2];
     let arcTwo = keys[3];
@@ -192,22 +139,14 @@ $(document).ready(function() {
     let regionID = shapeObj[id];
     let color = '';
 
-    if(hightLight === true) {
+    if(highLight === true) {
       color = shapeObj['color'][1];
     }
     else {
       color = shapeObj['color'][0];
     }
 
-    /*console.log(' id: ' + regionID + typeof regionID);
-    console.log('key: ' + keys + ' keyNames: ' + shapeStart + ', ' + shapeLines + ', ' +
-    shapeArc);
-    console.log('color: ' + color);
-    console.log(startPoint);
-    console.log(lines);
-    console.log(arc);
-    console.log('------------------------');*/
-
+    //Draws panel shape on board canvas.
     board.beginPath();
     board.arc(arc1[0], arc1[1], arc1[2], arc1[3], arc1[4], arc1[5]);
     board.arc(arc2[0], arc2[1], arc2[2], arc2[3], arc2[4], arc2[5]);
@@ -219,45 +158,43 @@ $(document).ready(function() {
 
   }
 
+  //--------------------------------------------------------------------------
+  //Mousedown event listener attached to canvas element, when certain region on canvas
+  //is pressed down on, and getStartReset from simonSettings closure is true. Sets
+  //frequency and plays sound from beepSound closure, redraws shape region, stops
+  //timeout clock, adds region to player moves array and calls playerMove function.
+  //-------------------------------------------------------------------------------
   document.getElementById('simonCanvas').addEventListener("mousedown", function(event) {
     if (event.region) {
-    //  if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true){
     if(simonSettings.getStartReset() === true){
         switch(event.region) {
           case '1':
             beepSound.setFrequency(500);
             beepSound.start();
-            //shapeOneSound.play();
             drawShape(SHAPE_ARRAY[0], true);
             stopTimeOut();
             simonSettings.setPlayer(1);
             playerMove(1);
             break;
           case '2':
-            //alert('shape 2');
             beepSound.setFrequency(200);
             beepSound.start();
-            //shapeTwoSound.play();
             drawShape(SHAPE_ARRAY[1], true);
             stopTimeOut();
             simonSettings.setPlayer(2);
             playerMove(2);
             break;
           case '3':
-            //alert('shape 3');
             beepSound.setFrequency(350);
             beepSound.start();
-            //shapeThreeSound.play();
             drawShape(SHAPE_ARRAY[2], true);
             stopTimeOut();
             simonSettings.setPlayer(3);
             playerMove(3);
             break;
           case '4':
-            //alert('shape 4');
             beepSound.setFrequency(650);
             beepSound.start();
-            //shapeFourSound.play();
             drawShape(SHAPE_ARRAY[3],true);
             stopTimeOut();
             simonSettings.setPlayer(4);
@@ -269,41 +206,29 @@ $(document).ready(function() {
         console.log('start game');
       }
     }
-
   });
 
+  //-------------------------------------------------------------------------
+  //Mouseup event listener attached to canvas element with id 'simonCanvas', when shape
+  //region on canvas has mouseup event performed on it, and getStartReset is true. Call
+  //made to drawshape function to redraw that shape, and if beep sound is playing then
+  //sound is stopped.
+  //------------------------------------------------------------------------
   document.getElementById('simonCanvas').addEventListener("mouseup", function(event) {
     if(event.region) {
-      //if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === true){
       if(simonSettings.getStartReset() === true){
         switch(event.region) {
           case '1':
-            //alert('shape 1');
-            //beepSound.stop();
-            //shapeOneSound.stop();
             drawShape(SHAPE_ARRAY[0], false);
-          //  timeOut = setTimeout(timedOut, 5000);
             break;
           case '2':
-            //alert('shape 2');
-            //beepSound.stop();
-            //shapeTwoSound.stop();
             drawShape(SHAPE_ARRAY[1], false);
-            //timeOut = setTimeout(timedOut, 5000);
             break;
           case '3':
-            //alert('shape 3');
-            //beepSound.stop();
-            //shapeThreeSound.stop();
             drawShape(SHAPE_ARRAY[2],false);
-            //timeOut = setTimeout(timedOut, 5000);
             break;
           case '4':
-            //alert('shape 4');
-            //beepSound.stop();
-            //shapeFourSound.stop();
             drawShape(SHAPE_ARRAY[3], false);
-            //timeOut = setTimeout(timedOut, 5000);
             break;
         }
         if(beepSound.getSound() === true) {
@@ -317,53 +242,44 @@ $(document).ready(function() {
 
   });
 
+  //---------------------------------------------------------------------------
+  //Change event listener attached to input switch element, when checked game is turned on,
+  //and when switched off game is turned off with game settings and display reseted.
+  //-------------------------------------------------------------------------
   document.querySelector('input[name=onoffswitch]').addEventListener('change', function(e) {
     if(this.checked) {
       simonSettings.setOnOffVal(true);
       count.innerHTML = '--';
-      console.log('on: ' + simonSettings.getOnOffVal());
     }
     else {
       simonSettings.setOnOffVal(false);
-
       resetGame();
-
       simonSettings.setStrict(false);
       let strictButton = document.getElementById('strictBtn').classList;
       strictButton.remove('strict-btn-color-on');
       strictButton.add('strict-btn-color-off');
       document.getElementById('count').innerHTML = '';
-      //beepSound.stop();
-      console.log('off: ' + simonSettings.getOnOffVal());
     }
   });
 
-
-
+  //----------------------------------------------------------------------------
+  //Click event listener attached to button with id 'startBtn'. When clicked starts the game
+  //after some flashing in counter display, and if pressed again resets the game.
+  //---------------------------------------------------------------------------
   document.getElementById('startBtn').addEventListener('click', function() {
-    // && count.innerHTML === '--'
     if(simonSettings.getOnOffVal() === true && (count.innerHTML === '--' || simonSettings.getStartReset() === true) ) {
-      //simonSettings.setStartReset(true);
-      console.log(simonSettings.getStartReset());
-      console.log(count.innerHTML + ' ' + typeof count.innerHTML);
       resetGame();
       //start game
       setTimeout(displayBlank, 500);
       setTimeout(displayEmptySign, 1000);
       setTimeout(displayBlank, 1500);
       setTimeout(displayEmptySign, 2000);
-      console.log('start sequence');
-      //beepSound.stop();
-      //console.log(Object.keys(SHAPE_ARRAY[0]));
-      //console.log(SHAPE_ARRAY[0]['id']);
+
       setTimeout(simonSays, 2500);
 
     }
     else if(simonSettings.getOnOffVal() === true && simonSettings.getStartReset() === false) {
-      //count.innerHTML = '--';
       //Reset count and start sequence again
-      console.log('reset game');
-      //beepSound.stop();
       resetGame();
       setTimeout(simonSays, 2000);
     }
@@ -373,6 +289,11 @@ $(document).ready(function() {
 
   });
 
+  //---------------------------------------------------------------------
+  //Click event listener attached to button with id 'strictBtn'. When clicked and game
+  //has been turned on, sets game to strict mode and button changes color. If pressed again
+  //and game is on, turns off strict mode and reverts button color to default.
+  //---------------------------------------------------------------------
   document.getElementById('strictBtn').addEventListener('click', function() {
     let strictButton = document.getElementById('strictBtn').classList;
 
@@ -390,27 +311,28 @@ $(document).ready(function() {
         strictButton.add('strict-btn-color-off');
       }
     }
-      console.log('strict mode: ' + simonSettings.getStrict());
   });
 
+  //Count display text set to blank
   function displayBlank() {
     count.innerHTML = ' ';
   }
 
+  //count display text set to '--'
   function displayEmptySign() {
-    //count.innerHTML = '';
     count.innerHTML = '--';
   }
 
+  //count display text set to '!!'
   function displayErrorSign() {
     count.innerHTML= '!!';
   }
 
+  //Resets count and settings, stops timers, sounds and sets count display to '--'
   function resetGame() {
     simonSettings.clearPlayer();
     simonSettings.resetCount();
     simonSettings.resetSequence();
-    //clearInterval(displayMoves);
     clearInterval(endHighLight);
     clearInterval(timeOut);
     stopSequence();
@@ -422,30 +344,28 @@ $(document).ready(function() {
     drawBoard();
   }
 
-
-  let stoppedTimer = false;
-
+  //----------------------------------------------------------------------
+  //Function generates sequence to be played, sets display count and presents game
+  //sequence to player.
+  //----------------------------------------------------------------------
   function simonSays() {
     let gameCount = simonSettings.getCount();
-    //Check for count =21
-    //simonSettings.setStartReset(false);
-    /*if(gameCount === 5) {
-    	playerWins();
-    }*/
 
     //Start sequence generator
     generateSequence();
 
     //set count display
     let tempCount = count.innerHTML;
-    console.log('Count: ' + tempCount + ' :' + typeof(tempCount));
     setCountDisplay(tempCount);
 
     //Display sequence to player
     presentSequence();
-
   }
 
+  //----------------------------------------------------------------------
+  //Presents player winning animation on game board, count display and sound. Then
+  //resets game, alerts player of win and then restarts game.
+  //-----------------------------------------------------------------------
   function playerWins() {
     let winSequence = [1, 2, 3, 4, 1, 2, 3, 4];
     let count = 0;
@@ -464,11 +384,8 @@ $(document).ready(function() {
 
       if(count >= winSequence.length) {
         clearInterval(winDisplay);
-
         simonSettings.setStartReset(false);
-        //drawBoard();
         resetGame();
-        //beepSound.stop();
         alert('You Won!');
         setTimeout(simonSays, 2000);
       }
@@ -477,30 +394,28 @@ $(document).ready(function() {
 
   }
 
+  //Randomly generates next sequence number between the number 1-4
   function generateSequence() {
     let nextSequence = Math.floor(Math.random()*(4-1+1) + 1);
 
     simonSettings.setNextSeq(nextSequence);
   }
 
+  //Increases count display element by 1 each time function is called
   function setCountDisplay(count) {
     if(count === '--' && typeof(count) === 'string') {
       document.getElementById('count').innerHTML = '01';
-      console.log('started count: ' + count.innerHTML);
       return;
     }
 
     let tempCount = parseInt(count);
     let newCount = 0;
-    console.log('current count: ' + tempCount);
     if(tempCount >= 1 && tempCount <= 9) {
       newCount = simonSettings.getCount();
-      console.log('new count: ' + newCount);
       document.getElementById('count').innerHTML = '0' + newCount;
     }
     else if(tempCount >= 10) {
       newCount = simonSettings.getCount();
-      console.log('new count: ' + newCount);
       document.getElementById('count').innerHTML = newCount;
     }
     else {
@@ -509,30 +424,25 @@ $(document).ready(function() {
     return;
   }
 
+  //---------------------------------------------------------------
+  //Presents simon moves sequence to player on game board and then starts
+  //game clock timer.
+  //-----------------------------------------------------------------
   function presentSequence() {
     let sequenceArray = simonSettings.getSequence();
     let count = 0;
     let startClock = false;
 
-    //simonSettings.setStartReset(false);
     displayMoves = setInterval(function() {
       simonSettings.setStartReset(false);
       highLightSequence(sequenceArray[count], true, 800);
       count++;
-      console.log(sequenceArray);
       if(count >= sequenceArray.length) {
         clearInterval(displayMoves);
         simonSettings.clearPlayer();
-        //simonSettings.setStartReset(true);
-        console.log('start timer');
-        //timeOut = setTimeout(timedOut, 5000);
         setTimeout(timedOut, 900);
       }
-
     }, 1000);
-
-  //  console.log('Presenting sequence done');
-    //return true;
   }
 
 
@@ -546,10 +456,8 @@ $(document).ready(function() {
 
     if(playerMoves[playerMoves.length - 1] !== sequence[playerMoves.length - 1]) {
       //Create wrong move function
-      console.log('Wrong move');
       if(strictMode === true) {
         stopTimeOut();
-        //beepSound.stop();
         simonSettings.setStartReset(false);
         drawBoard();
         resetGame();
@@ -563,22 +471,17 @@ $(document).ready(function() {
         beepSound.stop();
         simonSettings.setStartReset(false);
         drawBoard();
-
-        console.log('current: ' + currCount);
         wrongMoveDisplay();
         setTimeout(function(){count.innerHTML = currCount; }, 1900);
         setTimeout(presentSequence, 2000);
       }
     }
     else {
-     if(playerMoves.length == sequence.length && simonSettings.getCount() === 5) {
+     if(playerMoves.length == sequence.length && simonSettings.getCount() === 20) {
         playerWins();
       }
       else if(playerMoves.length == sequence.length) {
         simonSettings.clearPlayer();
-        console.log(simonSettings.getPlayer());
-      //  simonSettings.setStartReset(false);
-      //setTimeout(simonSettings.setStartReset, 500, false);
       setTimeout(function(){
         simonSettings.setStartReset(false);
         if(beepSound.getSound() === true){
@@ -589,8 +492,6 @@ $(document).ready(function() {
       setTimeout(simonSays, 1000);
       }
       else {
-        console.log('Right move: ' + playerMoves[playerMoves.length-1]);
-        //timeOut = setTimeout(timedOut, 5000);
         stopTimeOut();
         timedOut();
       }
@@ -598,7 +499,6 @@ $(document).ready(function() {
   }
 
   function highLightSequence(id, highlight, time) {
-    //let sequenceArray = simonSettings.getSequence();
     let shapeValue = 0;
 
       switch(id) {
@@ -636,12 +536,6 @@ $(document).ready(function() {
       }, time);
 
     return;
-  }
-
-  function stopSequence() {
-    //beepSound.stop();
-    clearInterval(displayMoves);
-
   }
 
   function timedOut() {
@@ -689,9 +583,14 @@ $(document).ready(function() {
     return;
   }
 
+  //Stops setInterval timer for displayMoves function
+  function stopSequence() {
+    clearInterval(displayMoves);
+  }
+
+  //Stops setTimeout timer for timeOut function
   function stopTimeOut() {
     clearTimeout(timeOut);
-    //stoppedTimer = true;
   }
 
 });

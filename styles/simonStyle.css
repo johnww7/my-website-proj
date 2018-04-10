@@ -5,15 +5,14 @@
   padding: 0;
   margin: auto;
   display: block;
-  /*background: black;*/
 }
 
 body {
   background: black;
 }
 
+/*Settings panel layout and design*/
 .circle-panel {
-
   border-radius: 50%;
   width: 300px;
   height: 300px;
@@ -30,24 +29,18 @@ body {
 
 .simon-container {
   position: relative;
-  /*margin: 0px auto;
-  text-align: center;*/
 }
 
 .board-container{
   position: relative;
   margin: 10px auto;
-  /*border: 1px solid black;*/
   padding: 0;
-
-  /*border-radius: 50%;*/
   list-style: none;
 }
 
 
 #upper-row {
 	position: absolute;
-
 	top: 25%;
 	left: 10%;
 	width: 240px;
@@ -55,6 +48,7 @@ body {
 	border: 1px solid black;
 }
 
+/*layout and design for count display and panel*/
 #countScreen {
   margin-left: 5px;
   margin-right: 5px;
@@ -81,6 +75,7 @@ body {
   font-family: 'Graduate', cursive;
 }
 
+/*layout and design for start button, text and panel*/
 #start {
   left: 40%;
 	top: 10%;
@@ -93,13 +88,11 @@ body {
 }
 
 #startBtn {
-  /*margin-bottom: 18px;
-margin-top: 18px;
-margin-left: 5px;*/
   margin: 15px;
   background: lime;
 }
 
+/*layout and design for strict button, text and panel*/
 #strickMode {
   left: 70%;
 	top: 10%;
@@ -112,13 +105,18 @@ margin-left: 5px;*/
 }
 
 #strictBtn {
-  /*margin-bottom: 18px;
-  margin-top: 18px;
-  margin-left: 5px;*/
   margin: 15px;
-
 }
 
+.strict-btn-color-off {
+  background: #93a796;
+}
+
+.strict-btn-color-on {
+  background: #00ff26;
+}
+
+/*Button shape*/
 .button-shape {
   height: 35%;
   border-radius: 50%;
@@ -157,14 +155,7 @@ margin-left: 5px;*/
   color: #fffbfb;
 }
 
-.strict-btn-color-off {
-  background: #93a796;
-}
-
-.strict-btn-color-on {
-  background: #00ff26;
-}
-
+/* Css layout for switch button*/
 .onoffswitch {
     position: relative; width: 101px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;

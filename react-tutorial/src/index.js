@@ -1,17 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import {Layout} from "./pages/Layout";
-import {Featured} from "./pages/Featured";
-import {Archives} from "./pages/Archives";
-import {Settings} from "./pages/Settings";
+import {App} from "./pages/App";
+
 
 const app = document.getElementById('app');
 ReactDOM.render(
   <Router>
-    <Route path="/" component={Layout}>
-
-    </Route>
+    <App />
   </Router>,
   app);

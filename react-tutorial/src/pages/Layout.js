@@ -1,15 +1,19 @@
 import React from "react";
 import {Link, Switch, Route, withRouter} from "react-router-dom";
 
-import Footer from "./components/Footer";
-import Nav from "./components/Nav";
+import Footer from "./src/components/Footer";
+import Nav from "./src/components/Nav";
+
+import Archives from "./Archives";
+import Settings from "./Settings";
+import Featured from "./Featured";
 
 export class Layout extends React.Component {
 
   render() {
   const {location} = this.props;
   const containerStyle = {
-    marginTop: 60px;
+    marginTop: "60px"
   }
 
   return (
@@ -32,9 +36,10 @@ export class Layout extends React.Component {
   );
 }
 
-//export const layout = withRouter(Layout);
+
 
 /*
+  export const layout = withRouter(Layout);
 <div>
   <h1>KillerNews.net</h1>
   <div>
@@ -48,5 +53,4 @@ export class Layout extends React.Component {
   <Link to="/settings" className="btn btn-success">settings</Link>
   <button onClick={this.navigate.bind(this)}>featured</button>
 </div>
-
- */
+ */}

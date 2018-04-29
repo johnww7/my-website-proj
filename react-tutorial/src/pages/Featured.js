@@ -1,6 +1,6 @@
 import React from "react";
 
-import Article from "../components/Article";
+import {Article} from "../components/Article";
 
 export default class Featured extends React.Component {
   render() {
@@ -31,7 +31,7 @@ export default class Featured extends React.Component {
           </div>
         </div>
 
-        <div className="row">{Article}</div>
+        <div className="row">{Articles}</div>
       </div>
     );
   }

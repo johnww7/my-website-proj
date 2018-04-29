@@ -13,14 +13,3 @@ export class App extends React.Component {
     );
   }
 }
-
-/*
-<Switch>
-  <Route  exact path="/" component={Layout} />
-  <Route  path="/featured" component={Featured} />
-  <Route  path="/archives" component={Archives} />
-  <Route  path="/settings" component={Settings} />
-</Switch>
-
-
- */

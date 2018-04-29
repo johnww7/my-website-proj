@@ -1,8 +1,8 @@
 import React from "react";
 import {Link, Switch, Route, withRouter} from "react-router-dom";
 
-import Footer from "./src/components/Footer";
-import Nav from "./src/components/Nav";
+import {Footer} from "../components/Footer";
+import {Nav} from "../components/Nav";
 
 import Archives from "./Archives";
 import Settings from "./Settings";
@@ -19,12 +19,13 @@ export class Layout extends React.Component {
   return (
     <div>
       <Nav location ={location} />
-      <div class="container" className={containerStyle}>
+      <div className="container" style={containerStyle}>
         <div className="row">
           <div className="col-lg-12">
             <h1>KillerNews.net</h1>
             <Switch>
               <Route  exact path="/archives/:article" component={Archives} />
+              <Route exact path="/archives" component={Archives} />
               <Route  exact path="/settings" component={Settings} />
               <Route  exact path="/" component={Featured} />
             </Switch>

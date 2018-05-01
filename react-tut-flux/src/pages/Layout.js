@@ -4,9 +4,9 @@ import {Link, Switch, Route, withRouter} from "react-router-dom";
 import {Footer} from "../components/Footer";
 import {Nav} from "../components/Nav";
 
-import Archives from "./Archives";
+import Archives from "./Favorites";
 import Settings from "./Settings";
-import Featured from "./Featured";
+import Featured from "./Todos";
 
 export class Layout extends React.Component {
 

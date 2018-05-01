@@ -9,7 +9,7 @@ export class Footer extends React.Component {
       <footer>
         <div className="row">
           <div className="col-lg-12" style={footerStyle}>
-            <p>Copyright &copy; KillerNews.net</p>
+            <p>Copyright &copy; PerfectTodos.com</p>
           </div>
         </div>
       </footer>

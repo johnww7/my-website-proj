@@ -20,7 +20,7 @@ export function reloadTodos() {
 //  });
 
   dispatcher.dispatch({type: "FETCH_TODOS" });
-  setTimeout(() => {
+//let timed = setTimeout(() => {
     dispatcher.dispatch({type: "RECEIVE_TODOS", todos: [
       {
         id: 83438234324,
@@ -34,5 +34,5 @@ export function reloadTodos() {
       }
     ]});
 
-  }, 1000);
+//  }, 1000);
 }

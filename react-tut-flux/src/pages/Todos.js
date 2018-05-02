@@ -9,12 +9,15 @@ export default class Featured extends React.Component {
     super();
     this.getTodos = this.getTodos.bind(this);
     this.state = {
-      todos: TodoStore.getAll()
+      todos: TodoStore.getAll(),
     };
+
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
+
     TodoStore.on("change", this.getTodos);
+
     console.log("count", TodoStore.listenerCount("change"));
   }
 

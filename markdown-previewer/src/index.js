@@ -1,23 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import marked from 'marked';
 import './index.css';
 
 class MarkdownContainer extends React.Component {
   constructor() {
     super();
     this.state = {
-      text: '### Another deeper heading# Marked in the browserRendered by **marked**.',
+      text: ' ',
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.returnMarkUp = this.returnMarkUp.bind(this);
+  }
+
+  handleChange(event) {
+    let markedText = marked(event.target.value);
+    //let docText = new DOMParser().parseFromString(markedText, 'text/html');
+    console.log(typeof markedText);
+    //let tokens = marked.lexer(event.target.value);
+    this.setState({
+      text: markedText,
+    });
+  }
+
+  returnMarkUp() {
+    return {_html: this.state.text};
   }
 
   render() {
     return(
       <div className="row">
         <div className="col-6">
-          <InputText />
+          <InputText onChange={this.handleChange}/>
         </div>
-        <div className ="col-6">
-          <OutputText value={this.state.text} />
+        <div className ="col-6 output-display">
+          <pre dangerouslySetInnerHTML={{_html: this.state.text}} />
         </div>
 
       </div>
@@ -28,22 +46,24 @@ class MarkdownContainer extends React.Component {
 class InputText extends React.Component {
 
   render() {
-// value={this.props.value} onChange={this.handleChange}
+
     return (
       <div>
-        <textarea rows='25' cols='40'/>
+        <textarea rows='25' cols='40' value={this.props.value} onChange={this.props.onChange}/>
       </div>
     );
   }
 }
 
 class OutputText extends React.Component {
-
+  //
   render() {
+    let outputValue = this.props.dangerouslySetInnerHTML._html;
+    //<pre className='output-display'>{outputValue}</pre>
     return (
-      <div>
-        <pre className='output-display'>{this.props.value}</pre>
-      </div>
+      <div className='output-display' dangerouslySetInnerHTML={{_html: outputValue}} />
+
+
     );
   }
 }

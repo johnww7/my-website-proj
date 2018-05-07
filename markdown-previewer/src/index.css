@@ -1,5 +1,16 @@
 .output-display {
-  width: 500px;
-  height: 755px;
-  border: 2px solid black;
+  height: auto;
+
+}
+
+.box-margins {
+  margin-top: 20px;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  margin-right: 25px;
+}
+
+body {
+  background-color: #0d0b36;
+  color: white;
 }

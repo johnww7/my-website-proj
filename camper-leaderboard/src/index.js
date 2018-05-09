@@ -1,10 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
 
 import './index.css';
 
-class BoardContainer extends React.Component {
+
+//LeaderBoardTable
+//--TableHeader(optional)
+//---ThirtyDaysPointRows
+//---TotalPointRows
+//----CamperRow
+class LeaderBoardTable extends React.Component {
 
   render() {
 
@@ -12,45 +18,58 @@ class BoardContainer extends React.Component {
       <Router>
         <div>
           <table>
-            <tr>
-              <th>#</th>
-              <th>Camper Name</th>
-              <th><Link to="/">Past 30 days points</Link></th>
-              <th><Link to="/total">Total Points</Link></th>
-            </tr>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Camper Name</th>
+                <th><Link to="/thirtDaysPoints">Past 30 days points</Link></th>
+                <th><Link to="/totalPoints">Total Points</Link></th>
+              </tr>
+            </thead>
+            <tbody>
+              <Switch>
+                <Route path="/thirtDaysPoints" component={ThirtyDaysPointRows}/>
+                <Route path="/totalPoints" component={TotalPointRows}/>
+            </Switch>
+            </tbody>
           </table>
 
-          <Route exact path="/" component={PointsThirtyDays}/>
-          <Route path="/total" component={TotalPoints}/>
+
         </div>
       </Router>
     );
   }
 }
 
-class PointsThirtyDays extends React.Component {
+class ThirtyDaysPointRows extends React.Component {
 
   render() {
     return(
-      <div><h1>Points Thirty days</h1></div>
+      <CamperRow id="4" username="Lisa Allen" recentPoints="60" totalPoints="800"/>
     );
   }
 }
 
-class TotalPoints extends React.Component {
+class TotalPointRows extends React.Component {
   render() {
     return(
-      <div><h1>Total Points</h1></div>
+      <CamperRow id="10" username="Brett Smith" recentPoints="9" totalPoints="4000"/>
     );
   }
 }
 
 
-class TableRow extends React.Component {
+class CamperRow extends React.Component {
 
   render() {
+
     return(
-      <h2>Table row</h2>
+      <tr>
+        <td>{this.props.id}</td>
+        <td>{this.props.username}</td>
+        <td>{this.props.recentPoints}</td>
+        <td>{this.props.totalPoints}</td>
+      </tr>
     );
   }
 }
@@ -58,7 +77,7 @@ class TableRow extends React.Component {
 const app = document.getElementById('root');
 ReactDOM.render(
   <Router>
-    <BoardContainer />
+    <LeaderBoardTable />
   </Router>,
   app
 );

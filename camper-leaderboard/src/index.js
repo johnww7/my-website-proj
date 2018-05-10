@@ -12,31 +12,80 @@ import './index.css';
 //----CamperRow
 class LeaderBoardTable extends React.Component {
 
+  constructor(){
+    super();
+    this.state = {
+      error: null,
+      dataLoaded: false,
+      display: 'recent',
+      recentDays: [],
+      totalDays: []
+    };
+  }
+
+  componentDidMount() {
+    let recentDays = fetch('https://fcctop100.herokuapp.com/api/fccusers/top/recent').then(
+      response => response.json()
+    );
+    let totalDays = fetch('https://fcctop100.herokuapp.com/api/fccusers/top/alltime').then(
+      response => response.json()
+    );
+
+    Promise.all([recentDays, totalDays]).then(
+      (result) => {
+        this.setState({
+          dataLoaded: true,
+          recentDays: result[0],
+          totalDays: result[1],
+        });
+      },
+      (error) => {
+        this.setState({
+          error,
+          dataLoaded: false,
+        });
+      }
+    );
+  }
+
+  handleThirtyDayClick() {
+    this.setState({
+      display: 'recent'
+    });
+  }
+
+  handleTotalPointClick() {
+    this.setState({
+      display: 'total'
+    });
+  }
+
   render() {
 
+    console.log(this.state.recentDays);
+    console.log(this.state.totalDays);
     return (
-      <Router>
         <div>
           <table>
             <thead>
               <tr>
                 <th>#</th>
                 <th>Camper Name</th>
-                <th><Link to="/thirtDaysPoints">Past 30 days points</Link></th>
-                <th><Link to="/totalPoints">Total Points</Link></th>
+                <th><button className="btn btn-link" onClick={this.handleThirtyDayClick}>
+                  Past 30 days points</button>
+                </th>
+                <th><button className="btn btn-link" onClick={this.handleTotalPointClick}>
+                  Total Points</button>
+                </th>
               </tr>
             </thead>
             <tbody>
-              <Switch>
-                <Route path="/thirtDaysPoints" component={ThirtyDaysPointRows}/>
-                <Route path="/totalPoints" component={TotalPointRows}/>
-            </Switch>
+              <ThirtyDaysPointRows />
+              <TotalPointRows />
             </tbody>
           </table>
-
-
         </div>
-      </Router>
+
     );
   }
 }
@@ -76,8 +125,6 @@ class CamperRow extends React.Component {
 
 const app = document.getElementById('root');
 ReactDOM.render(
-  <Router>
-    <LeaderBoardTable />
-  </Router>,
+    <LeaderBoardTable />,
   app
 );

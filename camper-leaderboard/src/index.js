@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
 
 import './index.css';
 
@@ -21,6 +20,9 @@ class LeaderBoardTable extends React.Component {
       recentDays: [],
       totalDays: []
     };
+
+    this.handleThirtyDayClick = this.handleThirtyDayClick.bind(this);
+    this.handleTotalPointClick = this.handleTotalPointClick.bind(this);
   }
 
   componentDidMount() {
@@ -50,13 +52,13 @@ class LeaderBoardTable extends React.Component {
 
   handleThirtyDayClick() {
     this.setState({
-      display: 'recent'
+      display: 'recent',
     });
   }
 
   handleTotalPointClick() {
     this.setState({
-      display: 'total'
+      display: 'total',
     });
   }
 
@@ -70,6 +72,7 @@ class LeaderBoardTable extends React.Component {
             <thead>
               <tr>
                 <th>#</th>
+                <th>Image</th>
                 <th>Camper Name</th>
                 <th><button className="btn btn-link" onClick={this.handleThirtyDayClick}>
                   Past 30 days points</button>
@@ -79,10 +82,10 @@ class LeaderBoardTable extends React.Component {
                 </th>
               </tr>
             </thead>
-            <tbody>
-              <ThirtyDaysPointRows />
-              <TotalPointRows />
-            </tbody>
+
+            {/*  <ThirtyDaysPointRows value={this.state.recentDays}/> */}
+              <TotalPointRows value={this.state.totalDays}/>
+
           </table>
         </div>
 
@@ -93,16 +96,42 @@ class LeaderBoardTable extends React.Component {
 class ThirtyDaysPointRows extends React.Component {
 
   render() {
+  //  console.log(this.props.value);
+    const recentDaysArray = this.props.value;
+    console.log(recentDaysArray);
+    const thirtyDayRows = recentDaysArray.map((data, index) =>
+      <CamperRow key={index+1}
+        num={index+1}
+        username={data.username}
+        image={data.img}
+        recentPoints={data.recent}
+        totalPoints={data.alltime}/>
+    );
+
     return(
-      <CamperRow id="4" username="Lisa Allen" recentPoints="60" totalPoints="800"/>
+      <tbody>
+        {thirtyDayRows}
+      </tbody>
     );
   }
 }
 
 class TotalPointRows extends React.Component {
   render() {
+    const totalPointsArray = this.props.value;
+    const totalPointRows = totalPointsArray.map((data, index) =>
+    <CamperRow key={index+1}
+      num={index+1}
+      username={data.username}
+      image={data.img}
+      recentPoints={data.recent}
+      totalPoints={data.alltime}/>
+    );
+
     return(
-      <CamperRow id="10" username="Brett Smith" recentPoints="9" totalPoints="4000"/>
+      <tbody>
+        {totalPointRows}
+      </tbody>
     );
   }
 }
@@ -114,7 +143,8 @@ class CamperRow extends React.Component {
 
     return(
       <tr>
-        <td>{this.props.id}</td>
+        <td>{this.props.num}</td>
+        <td><img src={this.props.image} /></td>
         <td>{this.props.username}</td>
         <td>{this.props.recentPoints}</td>
         <td>{this.props.totalPoints}</td>

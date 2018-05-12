@@ -1,8 +1,63 @@
 .button-style {
+  background:none!important;
+  color:inherit;
+  border:none;
+  padding:0!important;
+  font: inherit;
+  cursor: text;
 
+}
+
+.button-style-highlighted {
+  background:none!important;
+  color:inherit;
+  border:none;
+  padding:0!important;
+  font: inherit;
+  cursor: text;
+  border-bottom: 1px solid black;
 }
 
 img {
   height: 35px;
   width: 35px;
+  margin-right: 15px;
+}
+
+table {
+  width: 75%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 10px;
+  vertical-align: middle;
+}
+
+th{
+  height: 50px;
+  text-align: center;
+}
+
+tr {
+  height: 40px;
+}
+
+.name-col-style {
+  margin-left: 25px;
+}
+
+.column-style{
+  text-align: center;
+}
+
+.table-header {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 100%;
+  height: 40px;
+  width: 75%;
+  background-color: blue;
 }

@@ -3,12 +3,6 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 
-
-//LeaderBoardTable
-//--TableHeader(optional)
-//---ThirtyDaysPointRows
-//---TotalPointRows
-//----CamperRow
 class LeaderBoardTable extends React.Component {
 
   constructor(){
@@ -54,41 +48,55 @@ class LeaderBoardTable extends React.Component {
     this.setState({
       display: 'recent',
     });
+    console.log("display: " + this.state.display);
   }
 
   handleTotalPointClick() {
     this.setState({
       display: 'total',
     });
+    console.log("display: " + this.state.display);
   }
 
   render() {
 
     console.log(this.state.recentDays);
     console.log(this.state.totalDays);
+    let stateDisplay = this.state.display;
+    let buttonStyle = ['button-style', 'button-style-highlighted'];
+    let tableBody = '';
+    if(stateDisplay ==="total") {
+      tableBody= <TotalPointRows value={this.state.totalDays}/>;
+    }
+    else {
+      tableBody = <ThirtyDaysPointRows value={this.state.recentDays}/>;
+    }
+
     return (
-        <div>
           <table>
             <thead>
               <tr>
+                <th colspan='4' className='table-header'>LeaderBoard</th>
+              </tr>
+              <tr>
                 <th>#</th>
-                <th>Image</th>
                 <th>Camper Name</th>
-                <th><button className="btn btn-link" onClick={this.handleThirtyDayClick}>
-                  Past 30 days points</button>
+                <th>
+                  <button className={stateDisplay === 'recent' ? buttonStyle[1] : buttonStyle[0]}
+                  onClick={this.handleThirtyDayClick}>
+                  Past 30 days points
+                  </button>
                 </th>
-                <th><button className="btn btn-link" onClick={this.handleTotalPointClick}>
-                  Total Points</button>
+                <th>
+                  <button className={stateDisplay === 'total' ? buttonStyle[1] : buttonStyle[0]}
+                  onClick={this.handleTotalPointClick}>
+                  Total Points
+                  </button>
                 </th>
               </tr>
             </thead>
-
-            {/*  <ThirtyDaysPointRows value={this.state.recentDays}/> */}
-              <TotalPointRows value={this.state.totalDays}/>
-
+            {tableBody}
           </table>
-        </div>
-
     );
   }
 }
@@ -143,11 +151,15 @@ class CamperRow extends React.Component {
 
     return(
       <tr>
-        <td>{this.props.num}</td>
-        <td><img src={this.props.image} /></td>
-        <td>{this.props.username}</td>
-        <td>{this.props.recentPoints}</td>
-        <td>{this.props.totalPoints}</td>
+        <td className='column-style'>{this.props.num}</td>
+        <td>
+          <span className="name-col-style">
+            <img src={this.props.image} alt={this.props.username}/>
+            {this.props.username}
+          </span>
+        </td>
+        <td className='column-style'>{this.props.recentPoints}</td>
+        <td className='column-style'>{this.props.totalPoints}</td>
       </tr>
     );
   }

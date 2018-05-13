@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 
+//------------------------------------------------------------------
+//Top level container component, which holds the table, makes the api calls,
+//and switches table body between either total or recent points.
+//-------------------------------------------------------------------
 class LeaderBoardTable extends React.Component {
 
   constructor(){
@@ -44,24 +48,19 @@ class LeaderBoardTable extends React.Component {
     );
   }
 
-  handleThirtyDayClick() {
+  handleThirtyDayClick(e) {
     this.setState({
       display: 'recent',
     });
-    console.log("display: " + this.state.display);
   }
 
-  handleTotalPointClick() {
+  handleTotalPointClick(e) {
     this.setState({
       display: 'total',
     });
-    console.log("display: " + this.state.display);
   }
 
   render() {
-
-    console.log(this.state.recentDays);
-    console.log(this.state.totalDays);
     let stateDisplay = this.state.display;
     let buttonStyle = ['button-style', 'button-style-highlighted'];
     let tableBody = '';
@@ -76,7 +75,7 @@ class LeaderBoardTable extends React.Component {
           <table>
             <thead>
               <tr>
-                <th colspan='4' className='table-header'>LeaderBoard</th>
+                <th colSpan='4' className='table-header'>LeaderBoard</th>
               </tr>
               <tr>
                 <th>#</th>
@@ -101,12 +100,14 @@ class LeaderBoardTable extends React.Component {
   }
 }
 
+//---------------------------------------------------------------------------
+//Component creates a table body of rows from CamperRow component based on
+//recent 30 day points data.
+//---------------------------------------------------------------------------
 class ThirtyDaysPointRows extends React.Component {
 
   render() {
-  //  console.log(this.props.value);
     const recentDaysArray = this.props.value;
-    console.log(recentDaysArray);
     const thirtyDayRows = recentDaysArray.map((data, index) =>
       <CamperRow key={index+1}
         num={index+1}
@@ -124,6 +125,10 @@ class ThirtyDaysPointRows extends React.Component {
   }
 }
 
+//-----------------------------------------------------------------
+//Component creates a table body of rows from CamperRow component based on
+//recent total points data.
+//-----------------------------------------------------------------
 class TotalPointRows extends React.Component {
   render() {
     const totalPointsArray = this.props.value;
@@ -144,11 +149,12 @@ class TotalPointRows extends React.Component {
   }
 }
 
-
+//----------------------------------------------------------------------------
+//Component creates 1 table row based on the data of rank number, user image
+//and name, recent points and total points.
+//--------------------------------------------------------------------------
 class CamperRow extends React.Component {
-
   render() {
-
     return(
       <tr>
         <td className='column-style'>{this.props.num}</td>

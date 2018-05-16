@@ -1,0 +1,33 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+h5 {
+  text-align: center;
+}
+
+.collapsible-accordion {
+  width: 100%;
+  outline: none;
+  padding: 10px;
+  border: none;
+}
+
+.recipe-detail-display {
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid black;
+  margin-bottom: 5px;
+}
+
+.recipe-detail-btn-display {
+  text-align: right;
+  border-top: 1px solid black;
+  margin-top: 10px;
+}
+
+.recipe-detail-btn-display button {
+  margin: 5px 10px;
+}

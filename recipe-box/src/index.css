@@ -36,3 +36,30 @@ form {
 .recipe-detail-btn-display button {
   margin: 5px 10px;
 }
+
+.form-btn-display-footer {
+  text-align: right;
+  border-top: 1px solid grey;
+  padding: 5px 5px;
+
+}
+
+.form-btn-display-footer input {
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.form-btn-display-footer button {
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.form-input-display {
+  margin: 2px 20px 2px;
+}
+
+.form-input-display input {
+  width: 500px;
+}

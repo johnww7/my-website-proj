@@ -5,6 +5,14 @@ import './index.css';
 
 class RecipeBox extends React.Component {
 
+  constructor() {
+    super();
+    this.state = {
+      recipeList: [],
+      paneOpen: 'false',
+    };
+  }
+
   render() {
     console.log(this.props.recipes);
 
@@ -15,6 +23,7 @@ class RecipeBox extends React.Component {
         </div>
         <div className='row'>
           <AddRecipeArea />
+          <EditRecipeForm />
         </div>
       </div>
     );
@@ -23,12 +32,13 @@ class RecipeBox extends React.Component {
 
 class RecipeIndexList extends React.Component {
 
+
   render() {
     console.log(this.props.recipes);
     console.log(typeof this.props.recipes);
     let recipeListIndex = this.props.recipes;
     let recipeArray = recipeListIndex.map((item, index) =>
-      <RecipeListItem key={index} details={item} />
+      <RecipeListItem key={index} details={item}  />
     );
 
     return(
@@ -41,20 +51,11 @@ class RecipeIndexList extends React.Component {
   }
 }
 
-class AddRecipeArea extends React.Component {
-
-  render() {
-
-    return(
-      <div className='col-lg-10'>
-        <button>Add Recipe</button>
-        <AddRecipeForm />
-      </div>
-    );
-  }
-}
-
 class RecipeListItem extends React.Component {
+
+  handleClick(e) {
+    console.log('Clicked: ' + e);
+  }
 
   render() {
     console.log(this.props.details);
@@ -64,7 +65,9 @@ class RecipeListItem extends React.Component {
     );
     return(
       <li>
-        <button className='collapsible-accordion'>{recipeDetails.recipe}</button>
+        <button className='collapsible-accordion' onClick={this.handleClick.bind(this)}>
+          {recipeDetails.recipe}
+        </button>
         <div className="recipe-content">
           <div className="recipe-detail-display">
             <h5>Ingredients</h5>
@@ -87,28 +90,42 @@ const RecipeIngredient= (props) => {
     );
 }
 
+class AddRecipeArea extends React.Component {
+
+  render() {
+
+    return(
+      <div className='col-lg-10'>
+        <button>Add Recipe</button>
+        <AddRecipeForm />
+      </div>
+    );
+  }
+}
 
 class AddRecipeForm extends React.Component {
 
   render() {
     return(
         <form>
-          <div className="form-group">
+          <div><h4 className='text-center'>Add Recipe</h4></div>
+          <div className="form-group form-input-display">
             <label>
               Recipe:
               <br />
               <input type="text" id="recipeName" defaultValue="recipe name"/>
             </label>
           </div>
-          <div className="form-group">
+          <div className="form-group form-input-display">
             <label>
               Ingredients:
-              <textarea id="addIngredients" className="w-100"
+              <br />
+              <textarea id="addIngredients"
                 rows='3' cols='40' defaultValue="Add ingredients, seperated by commas"/>
             </label>
           </div>
-          <div className="text-right">
-            <input type="submit" value="Add Ingredient" />
+          <div className="form-btn-display-footer">
+            <input type="submit" value="Add Recipe" />
             <button>Cancel</button>
           </div>
         </form>
@@ -122,11 +139,12 @@ class EditRecipeForm extends React.Component {
   render() {
     return(
       <form>
+        <div><h4 className='text-center'>Edit Recipe</h4></div>
         <div className="form-group">
           <label>
             Recipe:
             <br />
-            <input type="text" id="recipeName" value="recipe name"/>
+            <input type="text" id="recipeName" />
           </label>
         </div>
         <div className="form-group">
@@ -136,8 +154,8 @@ class EditRecipeForm extends React.Component {
               rows='3' cols='40'/>
           </label>
         </div>
-        <div className="text-right">
-          <input type="submit" value="Add Ingredient" />
+        <div className="form-btn-display-footer">
+          <input type="submit" value="Edit Recipe" />
           <button>Cancel</button>
         </div>
       </form>

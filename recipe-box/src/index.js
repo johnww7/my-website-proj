@@ -11,15 +11,29 @@ class RecipeBox extends React.Component {
       recipeList: [],
       paneOpen: 'false',
     };
+
+    this.toggleItem = this.toggleItem.bind(this);
+  }
+
+  toggleItem(e) {
+    console.log('Clicked: ' + this);
   }
 
   render() {
     console.log(this.props.recipes);
+    let recipeListIndex = this.props.recipes;
+    let recipeArray = recipeListIndex.map((item, index) =>
+      <RecipeListItem key={index} details={item} onClick={this.toggleItem} />
+    );
 
     return (
       <div className="container">
         <div className='row'>
-          <RecipeIndexList recipes={this.props.recipes}/>
+          <div className='col-lg-10'>
+            <ul>
+              {recipeArray}
+            </ul>
+          </div>
         </div>
         <div className='row'>
           <AddRecipeArea />
@@ -30,26 +44,6 @@ class RecipeBox extends React.Component {
   }
 }
 
-class RecipeIndexList extends React.Component {
-
-
-  render() {
-    console.log(this.props.recipes);
-    console.log(typeof this.props.recipes);
-    let recipeListIndex = this.props.recipes;
-    let recipeArray = recipeListIndex.map((item, index) =>
-      <RecipeListItem key={index} details={item}  />
-    );
-
-    return(
-      <div className='col-lg-10'>
-        <ul>
-          {recipeArray}
-        </ul>
-      </div>
-    );
-  }
-}
 
 class RecipeListItem extends React.Component {
 
@@ -65,7 +59,7 @@ class RecipeListItem extends React.Component {
     );
     return(
       <li>
-        <button className='collapsible-accordion' onClick={this.handleClick.bind(this)}>
+        <button className='collapsible-accordion' onClick={this.props.onClick}>
           {recipeDetails.recipe}
         </button>
         <div className="recipe-content">
@@ -159,6 +153,27 @@ class EditRecipeForm extends React.Component {
           <button>Cancel</button>
         </div>
       </form>
+    );
+  }
+}
+
+class RecipeIndexList extends React.Component {
+
+
+  render() {
+    console.log(this.props.recipes);
+    console.log(typeof this.props.recipes);
+    let recipeListIndex = this.props.recipes;
+    let recipeArray = recipeListIndex.map((item, index) =>
+      <RecipeListItem key={index} details={item}  />
+    );
+
+    return(
+      <div className='col-lg-10'>
+        <ul>
+          {recipeArray}
+        </ul>
+      </div>
     );
   }
 }

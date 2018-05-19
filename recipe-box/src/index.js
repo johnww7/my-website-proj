@@ -9,21 +9,40 @@ class RecipeBox extends React.Component {
     super();
     this.state = {
       recipeList: [],
-      paneOpen: 'false',
+      isPanelOpen: [false, false],
     };
 
-    this.toggleItem = this.toggleItem.bind(this);
+    this.handlePanel = this.handlePanel.bind(this);
   }
 
-  toggleItem(e) {
-    console.log('Clicked: ' + this);
+  handlePanel(index) {
+    console.log('Clicked: ' + index);
+    let panelsState = this.state.isPanelOpen;
+
+    if(this.state.isPanelOpen[index] === true) {
+      panelsState[index] = false;
+    }
+    else {
+        panelsState[index] = true;
+    }
+
+    panelsState.forEach(function(elem, pos) {
+      if(pos !== index) {
+        panelsState[pos] = false;
+      }
+    });
+
+    this.setState({
+      isPanelOpen: panelsState
+    });
   }
 
   render() {
     console.log(this.props.recipes);
     let recipeListIndex = this.props.recipes;
     let recipeArray = recipeListIndex.map((item, index) =>
-      <RecipeListItem key={index} details={item} onClick={this.toggleItem} />
+      <RecipeListItem key={index} details={item} panelOpen={this.state.isPanelOpen[index]}
+        onClick={this.handlePanel.bind(this, index)} />
     );
 
     return (
@@ -47,13 +66,21 @@ class RecipeBox extends React.Component {
 
 class RecipeListItem extends React.Component {
 
-  handleClick(e) {
-    console.log('Clicked: ' + e);
+  panelCollapsible(state) {
+    let className = ' ';
+    if(state) {
+      className = 'recipe-content-opened';
+    }
+    else {
+      className = 'recipe-content-closed'
+    }
+    return className;
   }
 
   render() {
-    console.log(this.props.details);
+    console.log(this.props);
     const recipeDetails = this.props.details;
+    let panelClass = this.panelCollapsible(this.props.panelOpen);
     const ingredients = recipeDetails.ingredients.map((item, index) =>
       <RecipeIngredient key={index+1} item={item} />
     );
@@ -62,7 +89,7 @@ class RecipeListItem extends React.Component {
         <button className='collapsible-accordion' onClick={this.props.onClick}>
           {recipeDetails.recipe}
         </button>
-        <div className="recipe-content">
+        <div className={panelClass}>
           <div className="recipe-detail-display">
             <h5>Ingredients</h5>
             <ul className="list-group">

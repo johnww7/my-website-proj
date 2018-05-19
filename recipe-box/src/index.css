@@ -18,11 +18,23 @@ form {
   outline: none;
   padding: 10px;
   border: none;
+  margin: 2px 0px;
+}
+
+.recipe-content-closed {
+  display: none;
+  overflow: hidden;
+  padding: 0 18px;
+}
+
+.recipe-content-opened {
+  display: block;
+  overflow: hidden;
+  padding: 0 18px;
 }
 
 .recipe-detail-display {
-  padding: 10px;
-  overflow: hidden;
+
   border: 1px solid black;
   margin-bottom: 5px;
 }

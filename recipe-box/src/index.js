@@ -10,9 +10,16 @@ class RecipeBox extends React.Component {
     this.state = {
       recipeList: [],
       isPanelOpen: [false, false],
+      toggleAddForm: false,
+      toggleEditForm: false,
     };
 
     this.handlePanel = this.handlePanel.bind(this);
+    this.handleAddForm = this.handleAddForm.bind(this);
+    this.formDisplayArea = this.formDisplayArea.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleEditCancel = this.handleEditCancel.bind(this);
   }
 
   handlePanel(index) {
@@ -37,13 +44,63 @@ class RecipeBox extends React.Component {
     });
   }
 
+  handleAddForm() {
+    this.setState({
+      toggleAddForm: true,
+    });
+  }
+
+  handleCancel() {
+    this.setState({
+      toggleAddForm: false,
+    });
+  }
+
+  handleEdit(index) {
+    this.setState({
+      toggleEditForm: true,
+    });
+    console.log('Edit on: ' + index);
+  }
+
+  handleEditCancel() {
+    this.setState({
+      toggleEditForm: false,
+    });
+  }
+
+  formDisplayArea() {
+    let displayComponent = '';
+    if(this.state.toggleAddForm === true) {
+      displayComponent = <AddRecipeForm />;
+    }
+    else {
+      displayComponent = <button onClick={this.handleAddForm}>Add Recipe</button>;
+    }
+    return displayComponent;
+  }
+
   render() {
     console.log(this.props.recipes);
     let recipeListIndex = this.props.recipes;
+    let formAreaDisplay ='';
+
+    console.log(this.state.toggleAddForm);
+    if(this.state.toggleAddForm === true) {
+      formAreaDisplay = <AddRecipeForm onCancel={this.handleCancel}/>;
+    }
+    else if (this.state.toggleEditForm === true) {
+      formAreaDisplay = <EditRecipeForm onCancel={this.handleEditCancel}/>;
+    }
+    else {
+      formAreaDisplay = <button onClick={this.handleAddForm}>Add Recipe</button>;
+    }
+
     let recipeArray = recipeListIndex.map((item, index) =>
       <RecipeListItem key={index} details={item} panelOpen={this.state.isPanelOpen[index]}
-        onClick={this.handlePanel.bind(this, index)} />
+        onClick={this.handlePanel.bind(this, index)} onEdit={this.handleEdit.bind(this, index)}/>
     );
+
 
     return (
       <div className="container">
@@ -55,8 +112,9 @@ class RecipeBox extends React.Component {
           </div>
         </div>
         <div className='row'>
-          <AddRecipeArea />
-          <EditRecipeForm />
+          <div className='col-lg-10 input-recipe-container'>
+            {formAreaDisplay}
+          </div>
         </div>
       </div>
     );
@@ -96,7 +154,7 @@ class RecipeListItem extends React.Component {
               {ingredients}
             </ul>
             <div className='recipe-detail-btn-display'>
-              <button>Edit</button>
+              <button onClick={this.props.onEdit}>Edit</button>
               <button>Delete</button>
             </div>
           </div>
@@ -116,7 +174,7 @@ class AddRecipeArea extends React.Component {
   render() {
 
     return(
-      <div className='col-lg-10'>
+      <div className='col-lg-10 input-recipe-container'>
         <button>Add Recipe</button>
         <AddRecipeForm />
       </div>
@@ -147,7 +205,7 @@ class AddRecipeForm extends React.Component {
           </div>
           <div className="form-btn-display-footer">
             <input type="submit" value="Add Recipe" />
-            <button>Cancel</button>
+            <button onCancel={this.props.onCancel}>Cancel</button>
           </div>
         </form>
 
@@ -177,7 +235,7 @@ class EditRecipeForm extends React.Component {
         </div>
         <div className="form-btn-display-footer">
           <input type="submit" value="Edit Recipe" />
-          <button>Cancel</button>
+          <button onCancel={this.props.onCancel}>Cancel</button>
         </div>
       </form>
     );

@@ -24,8 +24,7 @@ class RecipeBox extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleEditCancel = this.handleEditCancel.bind(this);
     this.handleAddSubmit = this.handleAddSubmit.bind(this);
-    this.handleRecipeName = this.handleRecipeName.bind(this);
-    this.handleIngredientItems = this.handleIngredientItems.bind(this);
+    this.handleAddFormInputs = this.handleAddFormInputs.bind(this);
   }
 
   handlePanel(index) {
@@ -68,19 +67,24 @@ class RecipeBox extends React.Component {
     event.preventDefault();
   }
 
-  handleRecipeName(event) {
-    console.log('recipe name: ' + event.target.recipeValue);
-    this.setState({
-      recipeName: event.target.recipeValue,
-    });
+  handleAddFormInputs(event) {
+    const inputTarget = event.target;
+    const name = inputTarget.name;
+
+    if(name === 'recipeName') {
+      this.setState({
+        recipeName: inputTarget.value,
+      });
+    }
+    else {
+      this.setState({
+        ingredients: inputTarget.value,
+      });
+    }
+
+
   }
 
-  handleIngredientItems(event) {
-    console.log('ingredient items: ' + event.target.ingredientsValue);
-    this.setState({
-      ingredients: event.target.ingredientsValue,
-    });
-  }
 
   handleEdit(index) {
     this.setState({
@@ -118,9 +122,8 @@ class RecipeBox extends React.Component {
       formAreaDisplay = <AddRecipeForm onSubmit={this.handleAddSubmit}
         recipeValue={this.state.recipeName}
         ingredientsValue={this.state.ingredients}
-        onInput={this.handleRecipeName}
-        onText={this.handleIngredientItems}
-        onCancel={this.handleCancel}/>;
+        onChange = {this.handleAddFormInputs}
+        onClick={this.handleCancel}/>;
     }
     else if (this.state.toggleEditForm === true) {
       formAreaDisplay = <EditRecipeForm onCancel={this.handleEditCancel}/>;
@@ -216,7 +219,8 @@ class AddRecipeForm extends React.Component {
               Recipe:
               <br />
               <input type="text" value={this.props.recipeValue}
-                onChange={this.props.onInput}
+                name="recipeName"
+                onChange={this.props.onChange}
                 />
             </label>
           </div>
@@ -224,15 +228,15 @@ class AddRecipeForm extends React.Component {
             <label>
               Ingredients:
               <br />
-              <textarea id="addIngredients"
+              <textarea name="addIngredients"
                 rows='3' cols='40' value={this.ingredientsValue}
-                onChange={this.props.onText}
+                onChange={this.props.onChange}
                 />
             </label>
           </div>
           <div className="form-btn-display-footer">
             <input type="submit" value="Add Recipe" />
-            <button onClick={this.props.onCancel}>Cancel</button>
+            <button onClick={this.props.onClick}>Cancel</button>
           </div>
         </form>
 

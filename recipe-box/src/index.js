@@ -9,17 +9,23 @@ class RecipeBox extends React.Component {
     super();
     this.state = {
       recipeList: [],
+      recipeName: '',
+      ingredients: '',
       isPanelOpen: [false, false],
       toggleAddForm: false,
       toggleEditForm: false,
+
     };
 
     this.handlePanel = this.handlePanel.bind(this);
     this.handleAddForm = this.handleAddForm.bind(this);
-    this.formDisplayArea = this.formDisplayArea.bind(this);
+    //this.formDisplayArea = this.formDisplayArea.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleEditCancel = this.handleEditCancel.bind(this);
+    this.handleAddSubmit = this.handleAddSubmit.bind(this);
+    this.handleRecipeName = this.handleRecipeName.bind(this);
+    this.handleIngredientItems = this.handleIngredientItems.bind(this);
   }
 
   handlePanel(index) {
@@ -56,6 +62,26 @@ class RecipeBox extends React.Component {
     });
   }
 
+  handleAddSubmit(event) {
+    const {recipeName, ingredients} = this.state;
+    console.log('recipe: ' + recipeName + ' ingredients: ' + ingredients);
+    event.preventDefault();
+  }
+
+  handleRecipeName(event) {
+    console.log('recipe name: ' + event.target.recipeValue);
+    this.setState({
+      recipeName: event.target.recipeValue,
+    });
+  }
+
+  handleIngredientItems(event) {
+    console.log('ingredient items: ' + event.target.ingredientsValue);
+    this.setState({
+      ingredients: event.target.ingredientsValue,
+    });
+  }
+
   handleEdit(index) {
     this.setState({
       toggleEditForm: true,
@@ -68,6 +94,8 @@ class RecipeBox extends React.Component {
       toggleEditForm: false,
     });
   }
+
+
 
   formDisplayArea() {
     let displayComponent = '';
@@ -87,7 +115,12 @@ class RecipeBox extends React.Component {
 
     console.log(this.state.toggleAddForm);
     if(this.state.toggleAddForm === true) {
-      formAreaDisplay = <AddRecipeForm onCancel={this.handleCancel}/>;
+      formAreaDisplay = <AddRecipeForm onSubmit={this.handleAddSubmit}
+        recipeValue={this.state.recipeName}
+        ingredientsValue={this.state.ingredients}
+        onInput={this.handleRecipeName}
+        onText={this.handleIngredientItems}
+        onCancel={this.handleCancel}/>;
     }
     else if (this.state.toggleEditForm === true) {
       formAreaDisplay = <EditRecipeForm onCancel={this.handleEditCancel}/>;
@@ -97,8 +130,10 @@ class RecipeBox extends React.Component {
     }
 
     let recipeArray = recipeListIndex.map((item, index) =>
-      <RecipeListItem key={index} details={item} panelOpen={this.state.isPanelOpen[index]}
-        onClick={this.handlePanel.bind(this, index)} onEdit={this.handleEdit.bind(this, index)}/>
+      <RecipeListItem key={index} details={item}
+        panelOpen={this.state.isPanelOpen[index]}
+        onClick={this.handlePanel.bind(this, index)}
+        onEdit={this.handleEdit.bind(this, index)}/>
     );
 
 
@@ -169,30 +204,20 @@ const RecipeIngredient= (props) => {
     );
 }
 
-class AddRecipeArea extends React.Component {
-
-  render() {
-
-    return(
-      <div className='col-lg-10 input-recipe-container'>
-        <button>Add Recipe</button>
-        <AddRecipeForm />
-      </div>
-    );
-  }
-}
 
 class AddRecipeForm extends React.Component {
 
   render() {
     return(
-        <form>
+        <form onSubmit={this.props.onSubmit}>
           <div><h4 className='text-center'>Add Recipe</h4></div>
           <div className="form-group form-input-display">
             <label>
               Recipe:
               <br />
-              <input type="text" id="recipeName" defaultValue="recipe name"/>
+              <input type="text" value={this.props.recipeValue}
+                onChange={this.props.onInput}
+                />
             </label>
           </div>
           <div className="form-group form-input-display">
@@ -200,12 +225,14 @@ class AddRecipeForm extends React.Component {
               Ingredients:
               <br />
               <textarea id="addIngredients"
-                rows='3' cols='40' defaultValue="Add ingredients, seperated by commas"/>
+                rows='3' cols='40' value={this.ingredientsValue}
+                onChange={this.props.onText}
+                />
             </label>
           </div>
           <div className="form-btn-display-footer">
             <input type="submit" value="Add Recipe" />
-            <button onCancel={this.props.onCancel}>Cancel</button>
+            <button onClick={this.props.onCancel}>Cancel</button>
           </div>
         </form>
 
@@ -258,6 +285,19 @@ class RecipeIndexList extends React.Component {
         <ul>
           {recipeArray}
         </ul>
+      </div>
+    );
+  }
+}
+
+class AddRecipeArea extends React.Component {
+
+  render() {
+
+    return(
+      <div className='col-lg-10 input-recipe-container'>
+        <button>Add Recipe</button>
+        <AddRecipeForm />
       </div>
     );
   }

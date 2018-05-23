@@ -5,13 +5,13 @@ import './index.css';
 
 class RecipeBox extends React.Component {
 
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
-      recipeList: [],
+      recipeBox: [],
       recipeName: '',
       ingredients: '',
-      isPanelOpen: [false, false],
+      isPanelOpen: [],
       toggleAddForm: false,
       toggleEditForm: false,
 
@@ -25,6 +25,23 @@ class RecipeBox extends React.Component {
     this.handleEditCancel = this.handleEditCancel.bind(this);
     this.handleAddSubmit = this.handleAddSubmit.bind(this);
     this.handleAddFormInputs = this.handleAddFormInputs.bind(this);
+  }
+
+  componentDidMount() {
+    const recipeOne = {recipe: 'Spaghetti', ingredients: ['noodles', 'tomato sauce', 'meatballs']};
+    const recipeTwo = {recipe: 'pumpkin pie', ingredients: ['pumpkin puree',
+    'sweetened condensed milk','eggs', 'pumpkin pie spice', 'pie crust']};
+
+    this.setState( (state) => {
+      state.recipeBox = state.recipeBox.concat(recipeOne);
+      state.isPanelOpen = state.isPanelOpen.concat(false);
+      return state;
+    });
+    this.setState( (state) => {
+      state.recipeBox = state.recipeBox.concat(recipeTwo);
+      state.isPanelOpen = state.isPanelOpen.concat(false);
+      return state;
+    });
   }
 
   handlePanel(index) {
@@ -64,6 +81,24 @@ class RecipeBox extends React.Component {
   handleAddSubmit(event) {
     const {recipeName, ingredients} = this.state;
     console.log('recipe: ' + recipeName + ' ingredients: ' + ingredients);
+    let listOfIngredients = ingredients.split(/,\s*/g);
+    console.log(listOfIngredients);
+    const newRecipe = {
+      recipe: recipeName,
+      ingredients: listOfIngredients,
+    };
+    console.log(newRecipe);
+    this.setState( (state) => {
+      state.recipeBox = state.recipeBox.concat(newRecipe);
+      state.isPanelOpen = state.isPanelOpen.concat(false);
+      state.recipeName = '';
+      state.ingredients = '';
+      return state;
+    });
+
+    console.log(this.state.recipeBox);
+    console.log(this.state);
+
     event.preventDefault();
   }
 
@@ -114,7 +149,7 @@ class RecipeBox extends React.Component {
 
   render() {
     console.log(this.props.recipes);
-    let recipeListIndex = this.props.recipes;
+    let recipeListIndex = this.state.recipeBox;
     let formAreaDisplay ='';
 
     console.log(this.state.toggleAddForm);
@@ -126,7 +161,7 @@ class RecipeBox extends React.Component {
         onClick={this.handleCancel}/>;
     }
     else if (this.state.toggleEditForm === true) {
-      formAreaDisplay = <EditRecipeForm onCancel={this.handleEditCancel}/>;
+      formAreaDisplay = <EditRecipeForm onClick={this.handleEditCancel}/>;
     }
     else {
       formAreaDisplay = <button onClick={this.handleAddForm}>Add Recipe</button>;
@@ -220,6 +255,7 @@ class AddRecipeForm extends React.Component {
               <br />
               <input type="text" value={this.props.recipeValue}
                 name="recipeName"
+                placeholder="Recipe Name"
                 onChange={this.props.onChange}
                 />
             </label>
@@ -229,7 +265,8 @@ class AddRecipeForm extends React.Component {
               Ingredients:
               <br />
               <textarea name="addIngredients"
-                rows='3' cols='40' value={this.ingredientsValue}
+                placeholder="Enter in ingredients, seperated, by commas"
+                rows='3' cols='40' value={this.props.ingredientsValue}
                 onChange={this.props.onChange}
                 />
             </label>
@@ -266,7 +303,7 @@ class EditRecipeForm extends React.Component {
         </div>
         <div className="form-btn-display-footer">
           <input type="submit" value="Edit Recipe" />
-          <button onCancel={this.props.onCancel}>Cancel</button>
+          <button onClick={this.props.onClick}>Cancel</button>
         </div>
       </form>
     );

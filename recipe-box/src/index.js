@@ -152,8 +152,10 @@ class RecipeBox extends React.Component {
       recipe: recipeName,
       ingredients: editedIngredients,
     };
-
-    editRecipeBox.forEach((elem, pos) => {
+    console.log(editRecipeBox[index]);
+    editRecipeBox[index].recipe = recipeName;
+    editRecipeBox[index].ingredients = ingredients;
+    /*editRecipeBox.forEach((elem, pos) => {
       if(pos === index) {
 
         editRecipeBox[pos].recipe = recipeName;
@@ -161,8 +163,15 @@ class RecipeBox extends React.Component {
         editRecipeBox[pos].ingredients = editedIngredients;
         console.log(editRecipeBox[pos].ingredients)
       }
+    });*/
+    this.setState({
+      recipeBox: editRecipeBox,
+      recipeName: '',
+      ingredients: '',
+
     });
-    console.log(editRecipeBox);
+    console.log(this.state.recipeBox);
+
   }
 
   handleEditFormChanges(event) {
@@ -264,7 +273,7 @@ class RecipeListItem extends React.Component {
     const recipeDetails = this.props.details;
     let panelClass = this.panelCollapsible(this.props.panelOpen);
     const ingredients = recipeDetails.ingredients.map((item, index) =>
-      <RecipeIngredient key={index+1} item={item} />
+      <RecipeIngredient key={index} item={item} />
     );
     return(
       <li>

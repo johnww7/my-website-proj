@@ -123,9 +123,15 @@ class RecipeBox extends React.Component {
 
 
   handleEdit(index) {
+    let recipeIndex = this.state.editRecipe;
+    let recipeValue = this.state.recipeBox[index];
+    let recipeName = recipeValue.recipe;
+    let ingredientValue = recipeValue.ingredients.join(', ');
     this.setState({
       toggleEditForm: true,
       editRecipe: index,
+      recipeName: recipeName,
+      ingredients: ingredientValue,
     });
     console.log('Edit on: ' + index);
   }
@@ -138,17 +144,42 @@ class RecipeBox extends React.Component {
 
   handleEditSubmit(index) {
     console.log('recipe number: ' + index);
+    const {recipeName, ingredients} = this.state;
+    let editRecipeBox = this.state.recipeBox;
+    console.log(this.state.recipeBox);
+    let editedIngredients = ingredients.split(/,\s*/g);
+    const editedRecipe = {
+      recipe: recipeName,
+      ingredients: editedIngredients,
+    };
+
+    editRecipeBox.forEach((elem, pos) => {
+      if(pos === index) {
+
+        editRecipeBox[pos].recipe = recipeName;
+        console.log(editRecipeBox[pos].recipe);
+        editRecipeBox[pos].ingredients = editedIngredients;
+        console.log(editRecipeBox[pos].ingredients)
+      }
+    });
+    console.log(editRecipeBox);
   }
 
   handleEditFormChanges(event) {
-    const inputTarget = event.target;
-    const name = inputTarget.name;
-
-    if(name === 'recipeName') {
-      console.log('recipe ' + inputTarget.value);
+    const input = event.target;
+    const nameOfInput = input.name;
+    console.log('input: ' + input);
+    if(nameOfInput === 'recipeName') {
+      console.log('recipe: ' + input.value);
+      this.setState({
+        recipeName: input.value,
+      });
     }
     else {
-      console.log('ingredients ' + inputTarget.value);
+      console.log('ingredients ' + input.value);
+      this.setState({
+        ingredients: input.value,
+      });
     }
   }
 
@@ -164,7 +195,7 @@ class RecipeBox extends React.Component {
   }
 
   render() {
-    console.log(this.props.recipes);
+
     let recipeListIndex = this.state.recipeBox;
     let formAreaDisplay ='';
 
@@ -177,13 +208,10 @@ class RecipeBox extends React.Component {
         onClick={this.handleCancel}/>;
     }
     else if (this.state.toggleEditForm === true) {
-      let recipeIndex = this.state.editRecipe;
-      console.log(typeof recipeIndex);
-      let recipeValue = this.state.recipeBox[recipeIndex];
       formAreaDisplay = <EditRecipeForm onClick={this.handleEditCancel}
-        onSubmit={this.handleEditSubmit.bind(this, recipeIndex)}
-        recipeValue={recipeValue.recipe}
-        ingredientsValue={recipeValue.ingredients}
+        onSubmit={this.handleEditSubmit.bind(this, this.state.editRecipe)}
+        recipeValue={this.state.recipeName}
+        ingredientsValue={this.state.ingredients}
         onChange={this.handleEditFormChanges} />;
     }
     else {

@@ -30,7 +30,7 @@ class RecipeBox extends React.Component {
   }
 
   componentDidMount() {
-    const recipeOne = {recipe: 'Spaghetti', ingredients: ['noodles', 'tomato sauce', 'meatballs']};
+    /*const recipeOne = {recipe: 'Spaghetti', ingredients: ['noodles', 'tomato sauce', 'meatballs']};
     const recipeTwo = {recipe: 'pumpkin pie', ingredients: ['pumpkin puree',
     'sweetened condensed milk','eggs', 'pumpkin pie spice', 'pie crust']};
 
@@ -43,7 +43,8 @@ class RecipeBox extends React.Component {
       state.recipeBox = state.recipeBox.concat(recipeTwo);
       state.isPanelOpen = state.isPanelOpen.concat(false);
       return state;
-    });
+    });*/
+    console.log("mounted");
   }
 
   handlePanel(index) {
@@ -154,22 +155,15 @@ class RecipeBox extends React.Component {
     };
     console.log(editRecipeBox[index]);
     editRecipeBox[index].recipe = recipeName;
-    editRecipeBox[index].ingredients = ingredients;
-    /*editRecipeBox.forEach((elem, pos) => {
-      if(pos === index) {
+    editRecipeBox[index].ingredients = editedIngredients;
 
-        editRecipeBox[pos].recipe = recipeName;
-        console.log(editRecipeBox[pos].recipe);
-        editRecipeBox[pos].ingredients = editedIngredients;
-        console.log(editRecipeBox[pos].ingredients)
-      }
-    });*/
     this.setState({
       recipeBox: editRecipeBox,
       recipeName: '',
       ingredients: '',
 
     });
+    console.log('new recipe box: ');
     console.log(this.state.recipeBox);
 
   }
@@ -228,6 +222,7 @@ class RecipeBox extends React.Component {
     }
 
     let recipeArray = recipeListIndex.map((item, index) =>
+
       <RecipeListItem key={index} details={item}
         panelOpen={this.state.isPanelOpen[index]}
         onClick={this.handlePanel.bind(this, index)}
@@ -240,7 +235,9 @@ class RecipeBox extends React.Component {
         <div className='row'>
           <div className='col-lg-10'>
             <ul>
+
               {recipeArray}
+
             </ul>
           </div>
         </div>
@@ -272,9 +269,11 @@ class RecipeListItem extends React.Component {
     console.log(this.props);
     const recipeDetails = this.props.details;
     let panelClass = this.panelCollapsible(this.props.panelOpen);
-    const ingredients = recipeDetails.ingredients.map((item, index) =>
+    console.log(recipeDetails.ingredients);
+    let ingredients = recipeDetails.ingredients.map((item, index) =>
       <RecipeIngredient key={index} item={item} />
     );
+
     return(
       <li>
         <button className='collapsible-accordion' onClick={this.props.onClick}>
@@ -296,10 +295,43 @@ class RecipeListItem extends React.Component {
     );
   }
 }
+
 const RecipeIngredient= (props) => {
     return (
       <li className="list-group-item">{props.item}</li>
     );
+}
+
+class CatchError extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      errorInfo: null,
+    };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    this.setState({
+      error: error,
+      errorInfo: errorInfo,
+    });
+  }
+
+  render() {
+    if(this.state.errorInfo) {
+      return (
+        <div>
+          <h2>Caught an Error </h2>
+          {this.state.error && this.state.error.toString()}
+          <br />
+          {this.state.errorInfo.componentStack}
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+
 }
 
 
@@ -414,6 +446,6 @@ const recipeList = [
 
 const root = document.getElementById('root');
 ReactDOM.render(
-  <RecipeBox recipes={recipeList}/>,
+  <RecipeBox />,
   root
 );

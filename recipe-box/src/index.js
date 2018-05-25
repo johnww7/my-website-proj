@@ -78,6 +78,8 @@ class RecipeBox extends React.Component {
   handleCancel() {
     this.setState({
       toggleAddForm: false,
+      recipeName: '',
+      ingredients: '',
     });
   }
 
@@ -130,6 +132,7 @@ class RecipeBox extends React.Component {
     let ingredientValue = recipeValue.ingredients.join(', ');
     this.setState({
       toggleEditForm: true,
+      toggleAddForm: false,
       editRecipe: index,
       recipeName: recipeName,
       ingredients: ingredientValue,
@@ -140,10 +143,12 @@ class RecipeBox extends React.Component {
   handleEditCancel() {
     this.setState({
       toggleEditForm: false,
+      recipeName: '',
+      ingredients: '',
     });
   }
 
-  handleEditSubmit(index) {
+  handleEditSubmit(index, event) {
     console.log('recipe number: ' + index);
     const {recipeName, ingredients} = this.state;
     let editRecipeBox = this.state.recipeBox;
@@ -161,8 +166,9 @@ class RecipeBox extends React.Component {
       recipeBox: editRecipeBox,
       recipeName: '',
       ingredients: '',
-
+      toggleEditForm: false,
     });
+    event.preventDefault();
     console.log('new recipe box: ');
     console.log(this.state.recipeBox);
 

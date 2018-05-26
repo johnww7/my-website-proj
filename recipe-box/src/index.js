@@ -85,6 +85,7 @@ class RecipeBox extends React.Component {
 
   handleAddSubmit(event) {
     const {recipeName, ingredients} = this.state;
+    const oldRecipeBox = this.state.recipeBox;
     console.log('recipe: ' + recipeName + ' ingredients: ' + ingredients);
     let listOfIngredients = ingredients.split(/,\s*/g);
     console.log(listOfIngredients);
@@ -93,18 +94,33 @@ class RecipeBox extends React.Component {
       ingredients: listOfIngredients,
     };
     console.log(newRecipe);
-    this.setState( (state) => {
+    /*this.setState( (state) => {
       state.recipeBox = state.recipeBox.concat(newRecipe);
       state.isPanelOpen = state.isPanelOpen.concat(false);
       state.recipeName = '';
       state.ingredients = '';
       return state;
-    });
+    });*/
+    console.log('recipe box length: ' + this.state.recipeBox.length);
 
+    this.setState(prevState => ({
+      recipeBox: prevState.recipeBox.concat(newRecipe),
+      isPanelOpen: prevState.isPanelOpen.concat(false),
+      recipeName: '',
+      ingredients: '',
+    }));
+
+    let recipeBox = this.state.recipeBox;
+    localStorage.setItem("_johnww7_recipes", JSON.stringify(this.state.recipeBox));
+    let temp = JSON.parse(localStorage.getItem('_johnww7_recipes'));
+
+    event.preventDefault();
+
+    console.log('Added a new recipe');
+    console.log(temp);
     console.log(this.state.recipeBox);
     console.log(this.state);
 
-    event.preventDefault();
   }
 
   handleAddFormInputs(event) {
@@ -227,7 +243,7 @@ class RecipeBox extends React.Component {
       formAreaDisplay = <button onClick={this.handleAddForm}>Add Recipe</button>;
     }
 
-    let recipeArray = recipeListIndex.map((item, index) =>
+    let recipeArray = this.state.recipeBox.map((item, index) =>
 
       <RecipeListItem key={index} details={item}
         panelOpen={this.state.isPanelOpen[index]}

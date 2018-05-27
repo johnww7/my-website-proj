@@ -45,6 +45,17 @@ class RecipeBox extends React.Component {
       return state;
     });*/
     console.log("mounted");
+
+    let localStorageRecipes = JSON.parse(localStorage.getItem('_johnww7_recipes'));
+    if(localStorageRecipes) {
+      this.setState({
+        recipeBox: localStorageRecipes,
+      });
+    }
+    else {
+      console.log(this.state.recipeBox);
+    }
+
   }
 
   handlePanel(index) {
@@ -84,8 +95,8 @@ class RecipeBox extends React.Component {
   }
 
   handleAddSubmit(event) {
-    const {recipeName, ingredients} = this.state;
-    const oldRecipeBox = this.state.recipeBox;
+    event.preventDefault();
+    const {recipeName, ingredients, recipeBox, isPanelOpen} = this.state;
     console.log('recipe: ' + recipeName + ' ingredients: ' + ingredients);
     let listOfIngredients = ingredients.split(/,\s*/g);
     console.log(listOfIngredients);
@@ -94,27 +105,30 @@ class RecipeBox extends React.Component {
       ingredients: listOfIngredients,
     };
     console.log(newRecipe);
-    /*this.setState( (state) => {
-      state.recipeBox = state.recipeBox.concat(newRecipe);
-      state.isPanelOpen = state.isPanelOpen.concat(false);
-      state.recipeName = '';
-      state.ingredients = '';
-      return state;
-    });*/
+
     console.log('recipe box length: ' + this.state.recipeBox.length);
 
-    this.setState(prevState => ({
-      recipeBox: prevState.recipeBox.concat(newRecipe),
-      isPanelOpen: prevState.isPanelOpen.concat(false),
-      recipeName: '',
-      ingredients: '',
+    /*this.setState((prevState, props) => ({
+      recipeBox: prevState.recipeBox.concat([newRecipe]),
+      isPanelOpen: prevState.isPanelOpen.concat([false]),
+      recipeName: ' ',
+      ingredients: ' ',
+    }));*/
+    console.log('box type: ' + typeof(recipeBox) + ' panel type: ' + typeof(isPanelOpen));
+    recipeBox.push(newRecipe);
+    isPanelOpen.push(false);
+
+    this.setState((prevState, props) => ({
+      recipeBox: recipeBox,
+      isPanelOpen: isPanelOpen,
+      recipeName: "",
+      ingredients: "",
     }));
 
-    let recipeBox = this.state.recipeBox;
     localStorage.setItem("_johnww7_recipes", JSON.stringify(this.state.recipeBox));
     let temp = JSON.parse(localStorage.getItem('_johnww7_recipes'));
 
-    event.preventDefault();
+
 
     console.log('Added a new recipe');
     console.log(temp);
@@ -221,7 +235,8 @@ class RecipeBox extends React.Component {
 
   render() {
 
-    let recipeListIndex = this.state.recipeBox;
+    let recipeBox = this.state.recipeBox;
+    let recipeBoxList;
     let formAreaDisplay ='';
 
     console.log(this.state.toggleAddForm);
@@ -243,8 +258,18 @@ class RecipeBox extends React.Component {
       formAreaDisplay = <button onClick={this.handleAddForm}>Add Recipe</button>;
     }
 
-    let recipeArray = this.state.recipeBox.map((item, index) =>
+    console.log('Items in recipe box: ' + typeof(recipeBox));
+    console.log(recipeBox);
 
+
+    if(typeof(this.state.recipeBox) !== 'object') {
+      recipeBoxList = JSON.parse(localStorage.getItem('_johnww7_recipes'));
+    }
+    else {
+      recipeBoxList = this.state.recipeBox;
+    }
+
+    let recipeArray = recipeBoxList.map((item, index) =>
       <RecipeListItem key={index} details={item}
         panelOpen={this.state.isPanelOpen[index]}
         onClick={this.handlePanel.bind(this, index)}
@@ -270,6 +295,14 @@ class RecipeBox extends React.Component {
         </div>
       </div>
     );
+  }
+}
+
+function addRecipe(newRecipe) {
+  return function update(state) {
+    return {
+      recipeBox: [...state.recipeBox, newRecipe],
+    };
   }
 }
 

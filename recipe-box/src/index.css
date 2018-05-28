@@ -1,3 +1,4 @@
+/*For list of ingredients*/
 ul {
     list-style-type: none;
     margin: 0;
@@ -8,11 +9,8 @@ h5 {
   text-align: center;
 }
 
-form {
-  border: 1px solid black;
-  margin-top: 10px;
-}
 
+/*Styling for list of recipes within the accordion*/
 .collapsible-accordion {
   width: 100%;
   outline: none;
@@ -47,6 +45,13 @@ form {
 
 .recipe-detail-btn-display button {
   margin: 5px 10px;
+}
+
+
+/*Outline and display for edit/add form*/
+form {
+  border: 1px solid black;
+  margin-top: 10px;
 }
 
 .form-btn-display-footer {

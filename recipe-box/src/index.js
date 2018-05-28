@@ -19,41 +19,44 @@ class RecipeBox extends React.Component {
 
     this.handlePanel = this.handlePanel.bind(this);
     this.handleAddForm = this.handleAddForm.bind(this);
-    //this.formDisplayArea = this.formDisplayArea.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.handleEditCancel = this.handleEditCancel.bind(this);
     this.handleAddSubmit = this.handleAddSubmit.bind(this);
     this.handleAddFormInputs = this.handleAddFormInputs.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
     this.handleEditFormChanges = this.handleEditFormChanges.bind(this);
+
   }
 
   componentDidMount() {
-    /*const recipeOne = {recipe: 'Spaghetti', ingredients: ['noodles', 'tomato sauce', 'meatballs']};
-    const recipeTwo = {recipe: 'pumpkin pie', ingredients: ['pumpkin puree',
-    'sweetened condensed milk','eggs', 'pumpkin pie spice', 'pie crust']};
-
-    this.setState( (state) => {
-      state.recipeBox = state.recipeBox.concat(recipeOne);
-      state.isPanelOpen = state.isPanelOpen.concat(false);
-      return state;
-    });
-    this.setState( (state) => {
-      state.recipeBox = state.recipeBox.concat(recipeTwo);
-      state.isPanelOpen = state.isPanelOpen.concat(false);
-      return state;
-    });*/
-    console.log("mounted");
+    const startUpRecipes = [
+      {recipe: 'Spaghetti', ingredients: ['noodles', 'tomato sauce', 'meatballs']},
+      {recipe: 'pumpkin pie', ingredients: ['pumpkin puree',
+      'sweetened condensed milk','eggs', 'pumpkin pie spice', 'pie crust']},
+    ];
 
     let localStorageRecipes = JSON.parse(localStorage.getItem('_johnww7_recipes'));
+    let localStorageIsPanelOpen = [];
+
+    for(let index=0; index < localStorageRecipes.length; index++) {
+      localStorageIsPanelOpen[index] = false;
+    }
+
     if(localStorageRecipes) {
       this.setState({
         recipeBox: localStorageRecipes,
+        isPanelOpen: localStorageIsPanelOpen,
       });
+      console.log(this.state.recipeBox);
+      console.log(this.state.isPanelOpen);
     }
     else {
-      console.log(this.state.recipeBox);
+      this.setState({
+        recipeBox: startUpRecipes,
+        isPanelOpen: [false, false],
+      });
     }
 
   }
@@ -108,12 +111,6 @@ class RecipeBox extends React.Component {
 
     console.log('recipe box length: ' + this.state.recipeBox.length);
 
-    /*this.setState((prevState, props) => ({
-      recipeBox: prevState.recipeBox.concat([newRecipe]),
-      isPanelOpen: prevState.isPanelOpen.concat([false]),
-      recipeName: ' ',
-      ingredients: ' ',
-    }));*/
     console.log('box type: ' + typeof(recipeBox) + ' panel type: ' + typeof(isPanelOpen));
     recipeBox.push(newRecipe);
     isPanelOpen.push(false);
@@ -125,13 +122,9 @@ class RecipeBox extends React.Component {
       ingredients: "",
     }));
 
-    localStorage.setItem("_johnww7_recipes", JSON.stringify(this.state.recipeBox));
-    let temp = JSON.parse(localStorage.getItem('_johnww7_recipes'));
-
-
+    localStorage.setItem("_johnww7_recipes", JSON.stringify(recipeBox));
 
     console.log('Added a new recipe');
-    console.log(temp);
     console.log(this.state.recipeBox);
     console.log(this.state);
 
@@ -156,7 +149,6 @@ class RecipeBox extends React.Component {
 
 
   handleEdit(index) {
-    let recipeIndex = this.state.editRecipe;
     let recipeValue = this.state.recipeBox[index];
     let recipeName = recipeValue.recipe;
     let ingredientValue = recipeValue.ingredients.join(', ');
@@ -168,6 +160,32 @@ class RecipeBox extends React.Component {
       ingredients: ingredientValue,
     });
     console.log('Edit on: ' + index);
+  }
+
+  handleDelete(value) {
+    console.log('Recipe opened: ' + value);
+    console.log(this.state);
+    let recipeBoxList = this.state.recipeBox;
+    let isPanelOpenArray = this.state.isPanelOpen;
+
+    const modifiedRecipeBox = recipeBoxList.filter((element, index) =>
+      index !== value
+    );
+
+    const modifiedIsPanelOpen = isPanelOpenArray.filter((elem, index) =>
+      index !== value
+    );
+    console.log('modified recipeBox and isPanelOpen arrays: ');
+    console.log(modifiedRecipeBox);
+    console.log(modifiedIsPanelOpen);
+
+    this.setState({
+      recipeBox: modifiedRecipeBox,
+      isPanelOpen: modifiedIsPanelOpen,
+    });
+
+    localStorage.setItem("_johnww7_recipes", JSON.stringify(modifiedRecipeBox));
+
   }
 
   handleEditCancel() {
@@ -184,10 +202,7 @@ class RecipeBox extends React.Component {
     let editRecipeBox = this.state.recipeBox;
     console.log(this.state.recipeBox);
     let editedIngredients = ingredients.split(/,\s*/g);
-    const editedRecipe = {
-      recipe: recipeName,
-      ingredients: editedIngredients,
-    };
+    
     console.log(editRecipeBox[index]);
     editRecipeBox[index].recipe = recipeName;
     editRecipeBox[index].ingredients = editedIngredients;
@@ -198,6 +213,9 @@ class RecipeBox extends React.Component {
       ingredients: '',
       toggleEditForm: false,
     });
+
+    localStorage.setItem("_johnww7_recipes", JSON.stringify(editRecipeBox));
+
     event.preventDefault();
     console.log('new recipe box: ');
     console.log(this.state.recipeBox);
@@ -220,17 +238,6 @@ class RecipeBox extends React.Component {
         ingredients: input.value,
       });
     }
-  }
-
-  formDisplayArea() {
-    let displayComponent = '';
-    if(this.state.toggleAddForm === true) {
-      displayComponent = <AddRecipeForm />;
-    }
-    else {
-      displayComponent = <button onClick={this.handleAddForm}>Add Recipe</button>;
-    }
-    return displayComponent;
   }
 
   render() {
@@ -273,7 +280,8 @@ class RecipeBox extends React.Component {
       <RecipeListItem key={index} details={item}
         panelOpen={this.state.isPanelOpen[index]}
         onClick={this.handlePanel.bind(this, index)}
-        onEdit={this.handleEdit.bind(this, index)}/>
+        onEdit={this.handleEdit.bind(this, index)}
+        onDelete={this.handleDelete.bind(this, index)}/>
     );
 
 
@@ -282,9 +290,7 @@ class RecipeBox extends React.Component {
         <div className='row'>
           <div className='col-lg-10'>
             <ul>
-
               {recipeArray}
-
             </ul>
           </div>
         </div>
@@ -295,14 +301,6 @@ class RecipeBox extends React.Component {
         </div>
       </div>
     );
-  }
-}
-
-function addRecipe(newRecipe) {
-  return function update(state) {
-    return {
-      recipeBox: [...state.recipeBox, newRecipe],
-    };
   }
 }
 
@@ -342,7 +340,7 @@ class RecipeListItem extends React.Component {
             </ul>
             <div className='recipe-detail-btn-display'>
               <button onClick={this.props.onEdit}>Edit</button>
-              <button>Delete</button>
+              <button onClick={this.props.onDelete}>Delete</button>
             </div>
           </div>
         </div>
@@ -356,39 +354,6 @@ const RecipeIngredient= (props) => {
       <li className="list-group-item">{props.item}</li>
     );
 }
-
-class CatchError extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      errorInfo: null,
-    };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    this.setState({
-      error: error,
-      errorInfo: errorInfo,
-    });
-  }
-
-  render() {
-    if(this.state.errorInfo) {
-      return (
-        <div>
-          <h2>Caught an Error </h2>
-          {this.state.error && this.state.error.toString()}
-          <br />
-          {this.state.errorInfo.componentStack}
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-
-}
-
 
 class AddRecipeForm extends React.Component {
 
@@ -459,45 +424,7 @@ class EditRecipeForm extends React.Component {
   }
 }
 
-class RecipeIndexList extends React.Component {
 
-
-  render() {
-    console.log(this.props.recipes);
-    console.log(typeof this.props.recipes);
-    let recipeListIndex = this.props.recipes;
-    let recipeArray = recipeListIndex.map((item, index) =>
-      <RecipeListItem key={index} details={item}  />
-    );
-
-    return(
-      <div className='col-lg-10'>
-        <ul>
-          {recipeArray}
-        </ul>
-      </div>
-    );
-  }
-}
-
-class AddRecipeArea extends React.Component {
-
-  render() {
-
-    return(
-      <div className='col-lg-10 input-recipe-container'>
-        <button>Add Recipe</button>
-        <AddRecipeForm />
-      </div>
-    );
-  }
-}
-
-const recipeList = [
-  {recipe: 'Spaghetti', ingredients: ['noodles', 'tomato sauce', 'meatballs']},
-  {recipe: 'pumpkin pie', ingredients: ['pumpkin puree', 'sweetened condensed milk',
-  'eggs', 'pumpkin pie spice', 'pie crust']},
-];
 
 const root = document.getElementById('root');
 ReactDOM.render(

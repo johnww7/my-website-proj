@@ -37,10 +37,32 @@ h5 {
   margin-bottom: 5px;
 }
 
+.recipe-detail-display h5 {
+  background-color: blue;
+  height: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.recipe-list-group {
+  margin: 5px;
+}
+
+.recipe-list-group li {
+  padding: 15px 20px;
+  display: block;
+  border: 2px solid grey;
+  margin-bottom: 1px;
+}
+
+.recipe-list-group li:hover {
+  background-color: grey;
+}
+
 .recipe-detail-btn-display {
   text-align: right;
-  border-top: 1px solid black;
   margin-top: 10px;
+  background-color: blue;
 }
 
 .recipe-detail-btn-display button {
@@ -55,11 +77,12 @@ h5 {
 form {
   border: 1px solid black;
   margin-top: 10px;
+  text-align: left;
 }
 
 .form-btn-display-footer {
   text-align: right;
-  border-top: 1px solid grey;
+  background-color: grey;
   padding: 5px 5px;
 
 }
@@ -85,7 +108,13 @@ form {
 }
 
 .input-recipe-container {
-  margin-top: 50px;
-
+  margin-top: 20px;
+  text-align: right;
   padding: 15px;
+}
+
+.form-header-display {
+  background-color: grey;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

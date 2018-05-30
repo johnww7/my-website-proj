@@ -335,7 +335,7 @@ class RecipeListItem extends React.Component {
         <div className={panelClass}>
           <div className="recipe-detail-display">
             <h5>Ingredients</h5>
-            <ul className="list-group">
+            <ul className="list-group recipe-list-group">
               {ingredients}
             </ul>
             <div className='recipe-detail-btn-display'>
@@ -360,7 +360,9 @@ class AddRecipeForm extends React.Component {
   render() {
     return(
         <form onSubmit={this.props.onSubmit}>
-          <div><h4 className='text-center'>Add Recipe</h4></div>
+          <div className="form-header-display">
+            <h4 className='text-center'>Add Recipe</h4>
+          </div>
           <div className="form-group form-input-display">
             <label>
               Recipe:
@@ -398,8 +400,10 @@ class EditRecipeForm extends React.Component {
   render() {
     return(
       <form onSubmit={this.props.onSubmit}>
-        <div><h4 className='text-center'>Edit Recipe</h4></div>
-        <div className="form-group">
+        <div className="form-header-display">
+          <h4 className='text-center'>Edit Recipe</h4>
+        </div>
+        <div className="form-group form-input-display">
           <label>
             Recipe:
             <br />
@@ -407,9 +411,10 @@ class EditRecipeForm extends React.Component {
             onChange={this.props.onChange}/>
           </label>
         </div>
-        <div className="form-group">
+        <div className="form-group form-input-display">
           <label>
             Ingredients:
+            <br />
             <textarea name="addIngredients" value={this.props.ingredientsValue}
               onChange={this.props.onChange}
               rows='3' cols='40'/>

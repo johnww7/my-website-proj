@@ -40,11 +40,11 @@ class RecipeBox extends React.Component {
     let localStorageRecipes = JSON.parse(localStorage.getItem('_johnww7_recipes'));
     let localStorageIsPanelOpen = [];
 
-    for(let index=0; index < localStorageRecipes.length; index++) {
-      localStorageIsPanelOpen[index] = false;
-    }
-
     if(localStorageRecipes) {
+      for(let index=0; index < localStorageRecipes.length; index++) {
+        localStorageIsPanelOpen[index] = false;
+      }
+
       this.setState({
         recipeBox: localStorageRecipes,
         isPanelOpen: localStorageIsPanelOpen,
@@ -202,7 +202,7 @@ class RecipeBox extends React.Component {
     let editRecipeBox = this.state.recipeBox;
     console.log(this.state.recipeBox);
     let editedIngredients = ingredients.split(/,\s*/g);
-    
+
     console.log(editRecipeBox[index]);
     editRecipeBox[index].recipe = recipeName;
     editRecipeBox[index].ingredients = editedIngredients;
@@ -287,15 +287,15 @@ class RecipeBox extends React.Component {
 
     return (
       <div className="container">
-        <div className='row'>
-          <div className='col-lg-10'>
-            <ul>
+        <div className='row justify-content-center'>
+          <div className='col-md-10'>
+            <ul className='ingredients-list-display'>
               {recipeArray}
             </ul>
           </div>
         </div>
-        <div className='row'>
-          <div className='col-lg-10 input-recipe-container'>
+        <div className='row justify-content-center'>
+          <div className='col-md-10 input-recipe-container'>
             {formAreaDisplay}
           </div>
         </div>

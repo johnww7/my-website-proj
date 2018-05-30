@@ -28,7 +28,7 @@ h5 {
 .recipe-content-opened {
   display: block;
   overflow: hidden;
-  padding: 0 18px;
+  padding: 0 1px;
 }
 
 .recipe-detail-display {
@@ -47,6 +47,9 @@ h5 {
   margin: 5px 10px;
 }
 
+.ingredients-list-display {
+  width: 100%;
+}
 
 /*Outline and display for edit/add form*/
 form {
@@ -83,6 +86,6 @@ form {
 
 .input-recipe-container {
   margin-top: 50px;
-  border: 1px solid black;
+
   padding: 15px;
 }

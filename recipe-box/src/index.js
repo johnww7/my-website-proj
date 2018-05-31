@@ -288,7 +288,7 @@ class RecipeBox extends React.Component {
     return (
       <div className="container">
         <div className='row justify-content-center'>
-          <div className='col-md-10'>
+          <div className='col-md-10 recipe-list-container'>
             <ul className='ingredients-list-display'>
               {recipeArray}
             </ul>
@@ -334,7 +334,7 @@ class RecipeListItem extends React.Component {
         </button>
         <div className={panelClass}>
           <div className="recipe-detail-display">
-            <h5>Ingredients</h5>
+            <div className="recipe-ingredients-header">Ingredients</div>
             <ul className="list-group recipe-list-group">
               {ingredients}
             </ul>
@@ -386,8 +386,8 @@ class AddRecipeForm extends React.Component {
             </label>
           </div>
           <div className="form-btn-display-footer">
-            <input type="submit" value="Add Recipe" />
-            <button onClick={this.props.onClick}>Cancel</button>
+            <input className="btn btn-outline-success" type="submit" value="Add Recipe" />
+            <button className="btn btn-outline-info" onClick={this.props.onClick}>Cancel</button>
           </div>
         </form>
 
@@ -421,8 +421,8 @@ class EditRecipeForm extends React.Component {
           </label>
         </div>
         <div className="form-btn-display-footer">
-          <input type="submit" value="Edit Recipe" />
-          <button onClick={this.props.onClick}>Cancel</button>
+          <input className="btn btn-outline-success" type="submit" value="Edit Recipe" />
+          <button className="btn btn-outline-info" onClick={this.props.onClick}>Cancel</button>
         </div>
       </form>
     );

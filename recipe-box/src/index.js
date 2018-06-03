@@ -40,7 +40,7 @@ class RecipeBox extends React.Component {
     let localStorageRecipes = JSON.parse(localStorage.getItem('_johnww7_recipes'));
     let localStorageIsPanelOpen = [];
 
-    if(localStorageRecipes) {
+    if(localStorageRecipes !== null) {
       for(let index=0; index < localStorageRecipes.length; index++) {
         localStorageIsPanelOpen[index] = false;
       }
@@ -262,7 +262,9 @@ class RecipeBox extends React.Component {
         onChange={this.handleEditFormChanges} />;
     }
     else {
-      formAreaDisplay = <button onClick={this.handleAddForm}>Add Recipe</button>;
+      formAreaDisplay = <button className="btn btn-outline-success"
+        onClick={this.handleAddForm}>
+        Add Recipe</button>;
     }
 
     console.log('Items in recipe box: ' + typeof(recipeBox));
@@ -339,8 +341,12 @@ class RecipeListItem extends React.Component {
               {ingredients}
             </ul>
             <div className='recipe-detail-btn-display'>
-              <button onClick={this.props.onEdit}>Edit</button>
-              <button onClick={this.props.onDelete}>Delete</button>
+              <button  className="btn btn-outline-secondary" onClick={this.props.onEdit}>
+                Edit
+              </button>
+              <button className="btn btn-outline-danger" onClick={this.props.onDelete}>
+                Delete
+              </button>
             </div>
           </div>
         </div>
@@ -351,7 +357,7 @@ class RecipeListItem extends React.Component {
 
 const RecipeIngredient= (props) => {
     return (
-      <li className="list-group-item">{props.item}</li>
+      <li className="list-group-item recipe-group-ingredient">{props.item}</li>
     );
 }
 

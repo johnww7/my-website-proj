@@ -21,14 +21,17 @@ body {
   border: none;
   margin: 2px 0px;
   font-size: 25px;
+  color: #d7ddda;
+  background-color: #5d7e8d;
 }
 
 .collapsible-accordion:hover {
-  background-color: purple;
+  background-color: #72dbe9;
+  color: #6f8f58;
 }
 
 .recipe-list-container {
-  background-color: yellow;
+  background-color: #56586e;
   min-height: 125px;
   border-radius: 10px;
   padding: 10px;
@@ -48,13 +51,12 @@ body {
 }
 
 .recipe-detail-display {
-
-  border: 1px solid black;
   margin-bottom: 5px;
 }
 
 .recipe-ingredients-header {
-  background-color: blue;
+  background-color: #809ba7;
+  color: #b2d9c6;
   height: 50px;
   padding-top: 10px;
   padding-bottom: 15px;
@@ -70,7 +72,7 @@ body {
 .recipe-list-group li {
   padding: 15px 20px;
   display: block;
-  border: 2px solid grey;
+  border: 1px solid #56586e;
   margin-bottom: 1px;
 }
 
@@ -78,10 +80,14 @@ body {
   background-color: grey;
 }
 
+.recipe-group-ingredient {
+  background-color: #9cabb2;
+}
+
 .recipe-detail-btn-display {
   text-align: right;
   margin-top: 10px;
-  background-color: blue;
+  background-color: #809ba7;
 }
 
 .recipe-detail-btn-display button {
@@ -91,6 +97,7 @@ body {
 .ingredients-list-display {
   width: 100%;
 }
+
 
 /*Outline and display for edit/add form*/
 form {
@@ -134,7 +141,7 @@ form {
   text-align: right;
   padding: 15px;
   border-radius: 15px;
-  border: 1px solid black;
+  border: 2px solid #56586e;
 }
 
 .form-header-display {

@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 
+//------------------------------------------------------------------------
+//Top level component which contains AddRecipeForm, EditRecipeForm, and RecipeListItem
+//components. Holds the state for event handlers for editing, adding, and deleting recipes.
+//Also helps toggle accordion buttons for list of recipes.
+//------------------------------------------------------------------------------
 class RecipeBox extends React.Component {
 
   constructor(props) {
@@ -49,8 +54,6 @@ class RecipeBox extends React.Component {
         recipeBox: localStorageRecipes,
         isPanelOpen: localStorageIsPanelOpen,
       });
-      console.log(this.state.recipeBox);
-      console.log(this.state.isPanelOpen);
     }
     else {
       this.setState({
@@ -62,7 +65,6 @@ class RecipeBox extends React.Component {
   }
 
   handlePanel(index) {
-    console.log('Clicked: ' + index);
     let panelsState = this.state.isPanelOpen;
 
     if(this.state.isPanelOpen[index] === true) {
@@ -100,18 +102,12 @@ class RecipeBox extends React.Component {
   handleAddSubmit(event) {
     event.preventDefault();
     const {recipeName, ingredients, recipeBox, isPanelOpen} = this.state;
-    console.log('recipe: ' + recipeName + ' ingredients: ' + ingredients);
     let listOfIngredients = ingredients.split(/,\s*/g);
-    console.log(listOfIngredients);
     const newRecipe = {
       recipe: recipeName,
       ingredients: listOfIngredients,
     };
-    console.log(newRecipe);
 
-    console.log('recipe box length: ' + this.state.recipeBox.length);
-
-    console.log('box type: ' + typeof(recipeBox) + ' panel type: ' + typeof(isPanelOpen));
     recipeBox.push(newRecipe);
     isPanelOpen.push(false);
 
@@ -123,11 +119,6 @@ class RecipeBox extends React.Component {
     }));
 
     localStorage.setItem("_johnww7_recipes", JSON.stringify(recipeBox));
-
-    console.log('Added a new recipe');
-    console.log(this.state.recipeBox);
-    console.log(this.state);
-
   }
 
   handleAddFormInputs(event) {
@@ -159,12 +150,9 @@ class RecipeBox extends React.Component {
       recipeName: recipeName,
       ingredients: ingredientValue,
     });
-    console.log('Edit on: ' + index);
   }
 
   handleDelete(value) {
-    console.log('Recipe opened: ' + value);
-    console.log(this.state);
     let recipeBoxList = this.state.recipeBox;
     let isPanelOpenArray = this.state.isPanelOpen;
 
@@ -175,9 +163,6 @@ class RecipeBox extends React.Component {
     const modifiedIsPanelOpen = isPanelOpenArray.filter((elem, index) =>
       index !== value
     );
-    console.log('modified recipeBox and isPanelOpen arrays: ');
-    console.log(modifiedRecipeBox);
-    console.log(modifiedIsPanelOpen);
 
     this.setState({
       recipeBox: modifiedRecipeBox,
@@ -197,13 +182,10 @@ class RecipeBox extends React.Component {
   }
 
   handleEditSubmit(index, event) {
-    console.log('recipe number: ' + index);
     const {recipeName, ingredients} = this.state;
     let editRecipeBox = this.state.recipeBox;
-    console.log(this.state.recipeBox);
     let editedIngredients = ingredients.split(/,\s*/g);
 
-    console.log(editRecipeBox[index]);
     editRecipeBox[index].recipe = recipeName;
     editRecipeBox[index].ingredients = editedIngredients;
 
@@ -217,23 +199,17 @@ class RecipeBox extends React.Component {
     localStorage.setItem("_johnww7_recipes", JSON.stringify(editRecipeBox));
 
     event.preventDefault();
-    console.log('new recipe box: ');
-    console.log(this.state.recipeBox);
-
   }
 
   handleEditFormChanges(event) {
     const input = event.target;
     const nameOfInput = input.name;
-    console.log('input: ' + input);
     if(nameOfInput === 'recipeName') {
-      console.log('recipe: ' + input.value);
       this.setState({
         recipeName: input.value,
       });
     }
     else {
-      console.log('ingredients ' + input.value);
       this.setState({
         ingredients: input.value,
       });
@@ -246,7 +222,6 @@ class RecipeBox extends React.Component {
     let recipeBoxList;
     let formAreaDisplay ='';
 
-    console.log(this.state.toggleAddForm);
     if(this.state.toggleAddForm === true) {
       formAreaDisplay = <AddRecipeForm onSubmit={this.handleAddSubmit}
         recipeValue={this.state.recipeName}
@@ -267,10 +242,6 @@ class RecipeBox extends React.Component {
         Add Recipe</button>;
     }
 
-    console.log('Items in recipe box: ' + typeof(recipeBox));
-    console.log(recipeBox);
-
-
     if(typeof(this.state.recipeBox) !== 'object') {
       recipeBoxList = JSON.parse(localStorage.getItem('_johnww7_recipes'));
     }
@@ -286,18 +257,17 @@ class RecipeBox extends React.Component {
         onDelete={this.handleDelete.bind(this, index)}/>
     );
 
-
     return (
       <div className="container">
         <div className='row justify-content-center'>
-          <div className='col-md-10 recipe-list-container'>
+          <div className='col-md-8 recipe-list-container'>
             <ul className='ingredients-list-display'>
               {recipeArray}
             </ul>
           </div>
         </div>
         <div className='row justify-content-center'>
-          <div className='col-md-10 input-recipe-container'>
+          <div className='col-md-8 input-recipe-container'>
             {formAreaDisplay}
           </div>
         </div>
@@ -306,7 +276,11 @@ class RecipeBox extends React.Component {
   }
 }
 
-
+//----------------------------------------------------------------------------
+//Component creats a collapsible div which contains the ingredients for the recipe in
+//list. Contains an edit and delete button for editing the ingredients and name for
+//current ingredient or to delete it.
+//----------------------------------------------------------------------------
 class RecipeListItem extends React.Component {
 
   panelCollapsible(state) {
@@ -321,10 +295,8 @@ class RecipeListItem extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const recipeDetails = this.props.details;
     let panelClass = this.panelCollapsible(this.props.panelOpen);
-    console.log(recipeDetails.ingredients);
     let ingredients = recipeDetails.ingredients.map((item, index) =>
       <RecipeIngredient key={index} item={item} />
     );
@@ -355,14 +327,20 @@ class RecipeListItem extends React.Component {
   }
 }
 
+//---------------------------------------------------------------------------
+//A simple view component which returns a list item to any component that uses it.
+//-----------------------------------------------------------------------------
 const RecipeIngredient= (props) => {
     return (
       <li className="list-group-item recipe-group-ingredient">{props.item}</li>
     );
 }
 
+//------------------------------------------------------------------------
+//Component contains a form which can add recipes based on whats in the input
+//and textarea elements for recipe name and ingredients.
+//------------------------------------------------------------------------
 class AddRecipeForm extends React.Component {
-
   render() {
     return(
         <form onSubmit={this.props.onSubmit}>
@@ -401,8 +379,11 @@ class AddRecipeForm extends React.Component {
   }
 }
 
+//------------------------------------------------------------------------
+//Component contains a form which can edit recipes which populates input and textarea
+//elements based on what recipe your editing.
+//------------------------------------------------------------------------
 class EditRecipeForm extends React.Component {
-
   render() {
     return(
       <form onSubmit={this.props.onSubmit}>

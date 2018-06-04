@@ -14,6 +14,7 @@ body {
 }
 
 /*Styling for list of recipes within the accordion*/
+/*Styling for button serving as accordion toggle*/
 .collapsible-accordion {
   width: 100%;
   outline: none;
@@ -30,6 +31,7 @@ body {
   color: #6f8f58;
 }
 
+/*styling for column acting as recipe box container*/
 .recipe-list-container {
   background-color: #56586e;
   min-height: 125px;
@@ -38,6 +40,12 @@ body {
   margin-top: 10px;
 }
 
+/*styling for ul list containing RecipeListItem components*/
+.ingredients-list-display {
+  width: 100%;
+}
+
+/*style for when accordion is either open or closed*/
 .recipe-content-closed {
   display: none;
   overflow: hidden;
@@ -94,12 +102,7 @@ body {
   margin: 5px 10px;
 }
 
-.ingredients-list-display {
-  width: 100%;
-}
-
-
-/*Outline and display for edit/add form*/
+/*Outline, styling and display for edit/add form*/
 form {
   border: 1px solid black;
   margin-top: 10px;
@@ -115,17 +118,15 @@ form {
 }
 
 .form-btn-display-footer input {
-  margin-right: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
-  /*background-color: blue;
-  border-radius: 10px;*/
 }
 
 .form-btn-display-footer button {
   margin-right: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
+  margin-right: 10px;
 }
 
 .form-input-display {
@@ -136,16 +137,17 @@ form {
   width: 500px;
 }
 
+.form-header-display {
+  background-color: #93b5bc;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/*Styling for col div acting as container for edit/add form, and add ingredient button*/
 .input-recipe-container {
   margin-top: 20px;
   text-align: right;
   padding: 15px;
   border-radius: 15px;
   border: 2px solid #56586e;
-}
-
-.form-header-display {
-  background-color: #93b5bc;
-  padding-top: 10px;
-  padding-bottom: 10px;
 }

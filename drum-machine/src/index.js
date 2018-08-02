@@ -21,15 +21,15 @@ class DrumMachineContainer extends React.Component {
   }
 
   render() {
+    const drumElements = DRUM_PAD.map((elem) =>
+      <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}/>
+    );
 
     return(
 
       <div id="drum-machine">
           <DrumDisplay />
-
-          <DrumPadElement padId={DRUM_PAD[0]['id']} text={DRUM_PAD[0]['btnText']}/>
-          <DrumPadElement padId={DRUM_PAD[1]['id']} text={DRUM_PAD[1]['btnText']} />
-          <DrumPadElement padId={DRUM_PAD[2]['id']} text={DRUM_PAD[2]['btnText']}/>
+          {drumElements}
 
       </div>
 

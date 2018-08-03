@@ -1,11 +1,19 @@
+#root {
+  display: flex;
+  justify-content: center;
+}
+
 #drum-machine {
-  width:  400px;
+  width:  450px;
   height: 450px;
   display: grid;
+  margin: auto;
   border: 1px solid black;
   grid-template-rows: 100px 100px 100px 100px;
   grid-template-columns: 100px 100px 100px;
   grid-gap: 10px 15px;
+  align-items: center;
+  justify-content: center;
   grid-template-areas:
     "header header header"
     "pad1 pad2 pad3"
@@ -15,10 +23,14 @@
 
 .drum-pad{
   border: 2px solid black;
-  width: auto;
-  height:auto;
-
+  width: 100%;
+  height: 100%;
   text-decoration: none;
+  display: flex;
+}
+
+.drum-pad div {
+  margin: auto;
 }
 
 .button-style {

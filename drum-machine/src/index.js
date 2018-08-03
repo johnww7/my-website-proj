@@ -41,7 +41,7 @@ class DrumPadElement extends React.Component {
   render() {
     return(
       <div id={this.props.padId} className="drum-pad">
-        <span>{this.props.text}</span>
+        <div>{this.props.text}</div>
         <audio id={this.props.text} className="clip" src={this.props.source}></audio>
       </div>
     );

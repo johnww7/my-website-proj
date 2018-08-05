@@ -18,11 +18,23 @@ const DRUM_PAD = [
 class DrumMachineContainer extends React.Component {
   constructor(props) {
     super();
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+
+  handleClick(event, elem) {
+    console.log('clicked: ' + elem);
+  }
+
+  handleKeyDown(event) {
+
   }
 
   render() {
     const drumElements = DRUM_PAD.map((elem) =>
-      <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}/>
+      <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}
+      onClick={this.handleClick.bind(this,elem.btnText)} onKeyDown={this.handleKeyDown.bind(this, elem.btnText)}/>
     );
 
     return(
@@ -40,7 +52,8 @@ class DrumMachineContainer extends React.Component {
 class DrumPadElement extends React.Component {
   render() {
     return(
-      <div id={this.props.padId} className="drum-pad">
+      <div id={this.props.padId} className="drum-pad" onClick={this.props.onClick}
+        onKeyDown={this.props.onKeyDown}>
         <div>{this.props.text}</div>
         <audio id={this.props.text} className="clip" src={this.props.source}></audio>
       </div>

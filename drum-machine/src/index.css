@@ -48,41 +48,41 @@
   align-self: center;
 }
 
-#bellTone {
+#bell-tone {
   grid-area: pad1;
 
 }
 
-#chineseBlock {
+#chinese-block {
   grid-area: pad2;
 
 }
 
-#downSlide {
+#down-slide {
   grid-area: pad3;
 
 }
 
-#electricGuitar {
+#electric-guitar {
   grid-area: pad4;
 }
 
-#handCymbal {
+#hand-cymbal {
   grid-area: pad5;
 }
 
-#needleScratching {
+#needle-scratching {
   grid-area: pad6;
 }
 
-#scratchGramophone {
+#scratch-gramophone {
   grid-area: pad7;
 }
 
-#tambourineShake {
+#tambourine-shake {
   grid-area: pad8;
 }
 
-#twoCabasa {
+#two-cabasa {
   grid-area: pad9;
 }

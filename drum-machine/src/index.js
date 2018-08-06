@@ -3,23 +3,33 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 
+import bellTone from './sounds/bell_tone.mp3';
+import chineseBlock from './sounds/chinese_block.mp3';
+import downSlide from './sounds/down_slide.mp3';
+import electricGuitar from './sounds/electric_guitar.mp3';
+import cymbalSingle from './sounds/handcymbal_single.mp3';
+import needleScratching from './sounds/needle_scratching.mp3';
+import scratchGramophone from './sounds/scratch_gramophone.mp3';
+import tambourineShake from './sounds/tambourine_shake.mp3';
+import twoCabasa from './sounds/twocabasa_shake.mp3';
+
 const DRUM_PAD = [
-  {id:'bell-tone', btnText: 'Q', audioId: 'Q', src:'./sounds/bell_tone.mp3'},
-  {id:'chinese-block', btnText: 'W', audioId: 'W', src:'./sounds/chines_block.mp3'},
-  {id:'down-slide', btnText: 'E', audioId: 'E', src:'./sounds/down_slide.mp3'},
-  {id:'electric-guitar', btnText: 'A', audioId: 'A', src:'./sounds/electric_guitar.mp3'},
-  {id:'hand-cymbal', btnText: 'S', audioId: 'S', src:'./sounds/handcymbal_single.mp3'},
-  {id:'needle-scratching', btnText: 'D', audioId: 'D', src:'./sounds/needle_scratching.mp3'},
-  {id:'scratch-gramophone', btnText: 'Z', audioId: 'Z', src:'./sounds/scractch_gramophone.mp3'},
-  {id:'tambourine-shake', btnText: 'X', audioId: 'X', src:'./sounds/tambourine_shake.mp3'},
-  {id:'two-cabasa', btnText: 'C', audioId: 'C', src:'./sounds/twocabasa_shake.mp3'},
+  {id:'bell-tone', btnText: 'Q', audioId: 'Q', src: bellTone},
+  {id:'chinese-block', btnText: 'W', audioId: 'W', src: chineseBlock},
+  {id:'down-slide', btnText: 'E', audioId: 'E', src: downSlide},
+  {id:'electric-guitar', btnText: 'A', audioId: 'A', src: electricGuitar},
+  {id:'hand-cymbal', btnText: 'S', audioId: 'S', src: cymbalSingle},
+  {id:'needle-scratching', btnText: 'D', audioId: 'D', src: needleScratching},
+  {id:'scratch-gramophone', btnText: 'Z', audioId: 'Z', src: scratchGramophone},
+  {id:'tambourine-shake', btnText: 'X', audioId: 'X', src: tambourineShake},
+  {id:'two-cabasa', btnText: 'C', audioId: 'C', src: twoCabasa},
 ];
 
 class DrumMachineContainer extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      audioClip: '',
+      audioClip: ' ',
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -32,7 +42,8 @@ class DrumMachineContainer extends React.Component {
     this.setState({
       audioClip: newClip
     });
-    console.log(this.state.audioClip.toString());
+    document.getElementById(elem.toString()).play();
+    console.log(this.state.audioClip);
   }
 
   handleKeyDown(elem, event) {
@@ -48,7 +59,7 @@ class DrumMachineContainer extends React.Component {
     return(
 
       <div id="drum-machine">
-          <DrumDisplay />
+          <DrumDisplay nameOfClip={this.state.audioClip}/>
           {drumElements}
 
       </div>
@@ -69,9 +80,9 @@ class DrumPadElement extends React.Component {
   }
 }
 
-const DrumDisplay = () => {
+const DrumDisplay = (props) => {
   return (
-    <div id="display">Inital String</div>
+    <div id="display">{props.nameOfClip}</div>
   );
 };
 

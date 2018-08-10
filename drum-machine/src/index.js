@@ -37,9 +37,6 @@ class DrumMachineContainer extends React.Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
-  componentDidMount() {
-    console.log(this.child.audio);
-  }
 
   handleClick(elem, clip ,event) {
     console.log('clicked: ' + elem.toString() + ' description: ' + AudioClipInformation(clip));
@@ -49,6 +46,7 @@ class DrumMachineContainer extends React.Component {
       audioPlay: !this.state.audioPlay,
     });
     //document.getElementById(elem.toString()).play();
+    console.log(this.audioRef[`drumPadElement${elem.btnText}`]);
     console.log(this.state.audioClip);
   }
 
@@ -60,7 +58,7 @@ class DrumMachineContainer extends React.Component {
     const drumElements = DRUM_PAD.map((elem) =>
       <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}
       onClick={this.handleClick.bind(this, elem.btnText, elem.id)} play={this.state.audioStart}
-      onKeyDown={this.handleKeyDown.bind(this, elem.btnText)} ref={(node) => this.child = node}/>
+      onKeyDown={this.handleKeyDown.bind(this, elem.btnText)} audioRef={`drumPadElement${elem.btnText}`}/>
     );
 
     return(
@@ -82,7 +80,7 @@ class DrumPadElement extends React.Component {
       <div id={this.props.padId} className="drum-pad" onClick={this.props.onClick}
         onKeyDown={this.props.onKeyDown}>
         <div>{this.props.text}</div>
-        <audio id={this.props.text} className="clip" ref={(node) => this.audio = node}
+        <audio id={this.props.text} className="clip" ref={this.props.audioRef}
           src={this.props.source}>
         </audio>
       </div>

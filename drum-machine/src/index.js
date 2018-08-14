@@ -37,7 +37,7 @@ class DrumMachineContainer extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
 
-    //this.audioElement = React.createRef();
+    this.audioElement = React.createRef();
   }
 
 
@@ -50,7 +50,7 @@ class DrumMachineContainer extends React.Component {
     });
     //document.getElementById(elem.toString()).play();
     //console.log(this.refs[`drumPadElement${elem.btnText}`]);
-    console.log(this.audioElement.current);
+    console.log(this.audioElement.value);
     console.log(this.state.audioClip);
   }
 
@@ -62,7 +62,7 @@ class DrumMachineContainer extends React.Component {
     const drumElements = DRUM_PAD.map((elem) =>
       <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}
       onClick={this.handleClick.bind(this, elem.btnText, elem.id)} play={this.state.audioStart}
-      onKeyDown={this.handleKeyDown.bind(this, elem.btnText)} audioRef={aud => this.audioElement = aud}/>
+      onKeyDown={this.handleKeyDown.bind(this, elem.btnText)} ref={this.audioElement}/>
     );
 
     return(

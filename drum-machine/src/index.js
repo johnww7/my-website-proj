@@ -37,20 +37,22 @@ class DrumMachineContainer extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
 
-    this.audioElement = React.createRef();
+    //this.audioElement = React.createRef();
   }
 
 
   handleClick(elem, clip ,event) {
     console.log('clicked: ' + elem.toString() + ' description: ' + AudioClipInformation(clip));
     let newClip = AudioClipInformation(clip);
-    this.setState({
-      audioClip: newClip,
-      audioPlay: !this.state.audioPlay,
+    this.setState(prevState => {
+      return {
+        audioClip: newClip,
+        audioPlay: !prevState.audioPlay,
+      };
     });
     //document.getElementById(elem.toString()).play();
     //console.log(this.refs[`drumPadElement${elem.btnText}`]);
-    console.log(this.audioElement.value);
+    //console.log(this.audioElement.value);
     console.log(this.state.audioClip);
   }
 
@@ -62,7 +64,7 @@ class DrumMachineContainer extends React.Component {
     const drumElements = DRUM_PAD.map((elem) =>
       <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}
       onClick={this.handleClick.bind(this, elem.btnText, elem.id)} play={this.state.audioStart}
-      onKeyDown={this.handleKeyDown.bind(this, elem.btnText)} ref={this.audioElement}/>
+      onKeyDown={this.handleKeyDown.bind(this, elem.btnText)} audioRef={el => this.audioElement = el}/>
     );
 
     return(
@@ -78,13 +80,22 @@ class DrumMachineContainer extends React.Component {
 }
 
 class DrumPadElement extends React.Component {
+  constructor(){
+    super();
+      this.audioElem = React.createRef();
+  }
+
+
+  componentDidMount() {
+      console.log(this.audioElem.current);
+  }
 
   render() {
     return(
       <div id={this.props.padId} className="drum-pad" onClick={this.props.onClick}
         onKeyDown={this.props.onKeyDown}>
         <div>{this.props.text}</div>
-        <audio id={this.props.text} className="clip" ref={this.props.audioRef}
+        <audio id={this.props.text} className="clip" ref={this.audioElem}
           src={this.props.source}>
         </audio>
       </div>

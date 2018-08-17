@@ -91,7 +91,8 @@ class DrumMachineContainer extends React.Component {
   render() {
     const drumElements = DRUM_PAD.map((elem, index) =>
       <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}
-      onClick={this.handleClick.bind(this, elem.btnText, elem.id)} play={this.state.isDrumPadPlaying[index]}
+      onClick={this.handleClick.bind(this, elem.btnText, elem.id)}
+      play={this.state.isDrumPadPlaying[index]}
       onKeyDown={this.handleKeyDown.bind(this, elem.btnText)} />
     );
 
@@ -116,11 +117,26 @@ class DrumPadElement extends React.Component {
 
   componentDidMount() {
       console.log(this.audioElem.current);
-
+      console.log(this.props.play);
+      /*if(this.props.play['isPlaying'] === true) {
+        this.audioElem.play();
+      }
+      else {object
+        this.audioElem.pause();
+      }*/
   }
 
   render() {
-    console.log(this.props.play);
+    //console.log(this.props.play)
+    let playDrumPad = this.props.play;
+    console.log(playDrumPad);
+    let padArray = [];
+    padArray.push(playDrumPad);
+    console.log((padArray["0"]));
+  //  console.log(Object.keys(playDrumPad));
+    //console.log(playDrumPad.hasOwnProperty("id"));
+    //let {id, isPlaying} = playDrumPad;
+
     return(
       <div id={this.props.padId} className="drum-pad" onClick={this.props.onClick}
         onKeyDown={this.props.onKeyDown}>

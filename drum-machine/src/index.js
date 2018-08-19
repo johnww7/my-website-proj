@@ -44,14 +44,19 @@ class DrumMachineContainer extends React.Component {
     let drumPadElements = [];
     let numberOfDrumPads = DRUM_PAD.length;
     console.log(numberOfDrumPads);
-    for(let index = 0; index < numberOfDrumPads; index++) {
+  /*  for(let index = 0; index < numberOfDrumPads; index++) {
       drumPadElements[index] = {id: DRUM_PAD[index]['btnText'], isPlaying: false};
-    }
+    }*/
+    drumPadElements = DRUM_PAD.map((obj, index) => {
+      return {"id": obj.btnText, "isPlaying": false}
+    });
+
+    console.log(drumPadElements);
     this.setState({
       isDrumPadPlaying: drumPadElements,
     });
     console.log('Pad state');
-    console.log(this.state.isDrumPadPlaying);
+    //console.log(this.state.isDrumPadPlaying);
   }
 
   handleClick(elem, clip ,event) {
@@ -89,6 +94,7 @@ class DrumMachineContainer extends React.Component {
   }
 
   render() {
+    console.log(this.state.isDrumPadPlaying);
     const drumElements = DRUM_PAD.map((elem, index) =>
       <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}
       onClick={this.handleClick.bind(this, elem.btnText, elem.id)}
@@ -118,6 +124,16 @@ class DrumPadElement extends React.Component {
   componentDidMount() {
       console.log(this.audioElem.current);
       console.log(this.props.play);
+      let buttonPadElement = this.props.play;
+      for( const prop in buttonPadElement) {
+        if(prop === 'isPlaying' && buttonPadElement[prop] === true)
+        {
+          this.audioElem.play();
+        }
+        else {
+          this.audioElem.pause();
+        }
+      }
       /*if(this.props.play['isPlaying'] === true) {
         this.audioElem.play();
       }
@@ -130,9 +146,12 @@ class DrumPadElement extends React.Component {
     //console.log(this.props.play)
     let playDrumPad = this.props.play;
     console.log(playDrumPad);
+    /*for (const prop in playDrumPad) {
+      console.log(prop + " : " + typeof playDrumPad[prop] );
+    }*/
     let padArray = [];
     padArray.push(playDrumPad);
-    console.log((padArray["0"]));
+    //console.log((padArray["0"]));
   //  console.log(Object.keys(playDrumPad));
     //console.log(playDrumPad.hasOwnProperty("id"));
     //let {id, isPlaying} = playDrumPad;

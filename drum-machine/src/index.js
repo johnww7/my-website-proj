@@ -37,7 +37,9 @@ class DrumMachineContainer extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
 
-    //this.audioElement = React.createRef();
+    this.audioElementQ = React.createRef();
+    this.audioElementW = React.createRef();
+    this.audioElementE = React.createRef();
   }
 
   componentDidMount() {
@@ -95,18 +97,31 @@ class DrumMachineContainer extends React.Component {
 
   render() {
     console.log(this.state.isDrumPadPlaying);
-    const drumElements = DRUM_PAD.map((elem, index) =>
+    /*const drumElements = DRUM_PAD.map((elem, index) =>
       <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}
       onClick={this.handleClick.bind(this, elem.btnText, elem.id)}
       play={this.state.isDrumPadPlaying[index]}
       onKeyDown={this.handleKeyDown.bind(this, elem.btnText)} />
-    );
+    );*/
+    const drumArray = DRUM_PAD.concat();
 
     return(
 
       <div id="drum-machine">
           <DrumDisplay nameOfClip={this.state.audioClip}/>
-          {drumElements}
+
+          <DrumPadElement padId={drumArray[0].id} text={drumArray[0].btnText} src={drumArray[0].src}
+          onClick={this.handleClick.bind(this, drumArray[0].btnText, drumArray[0].id)}
+          play={this.state.isDrumPadPlaying[0]} audioRef={this.audioElementQ}
+          onKeyDown={this.handleKeyDown.bind(this, drumArray[0].btnText)} />
+          <DrumPadElement padId={drumArray[1].id} text={drumArray[1].btnText} src={drumArray[1].src}
+          onClick={this.handleClick.bind(this, drumArray[1].btnText, drumArray[1].id)}
+          play={this.state.isDrumPadPlaying[1]} audioRef={this.audioElementW}
+          onKeyDown={this.handleKeyDown.bind(this, drumArray[1].btnText)} />
+          <DrumPadElement padId={drumArray[2].id} text={drumArray[2].btnText} src={drumArray[2].src}
+          onClick={this.handleClick.bind(this, drumArray[2].btnText, drumArray[2].id)}
+          play={this.state.isDrumPadPlaying[2]} audioRef={this.audioElementE}
+          onKeyDown={this.handleKeyDown.bind(this, drumArray[2].btnText)} />
 
       </div>
 
@@ -115,32 +130,29 @@ class DrumMachineContainer extends React.Component {
 }
 
 class DrumPadElement extends React.Component {
-  constructor(){
-    super();
-      this.audioElem = React.createRef();
-  }
 
-
-  componentDidMount() {
+/*  componentDidMount() {
       console.log(this.audioElem.current);
       console.log(this.props.play);
       let buttonPadElement = this.props.play;
       for( const prop in buttonPadElement) {
         if(prop === 'isPlaying' && buttonPadElement[prop] === true)
         {
+          console.log('prop: ' + prop + ' : ' + buttonPadElement[prop]);
           this.audioElem.play();
         }
         else {
           this.audioElem.pause();
         }
       }
-      /*if(this.props.play['isPlaying'] === true) {
+      if(this.props.play['isPlaying'] === true) {
         this.audioElem.play();
       }
       else {object
         this.audioElem.pause();
-      }*/
-  }
+      }
+  }*/
+
 
   render() {
     //console.log(this.props.play)
@@ -149,8 +161,7 @@ class DrumPadElement extends React.Component {
     /*for (const prop in playDrumPad) {
       console.log(prop + " : " + typeof playDrumPad[prop] );
     }*/
-    let padArray = [];
-    padArray.push(playDrumPad);
+
     //console.log((padArray["0"]));
   //  console.log(Object.keys(playDrumPad));
     //console.log(playDrumPad.hasOwnProperty("id"));
@@ -160,7 +171,7 @@ class DrumPadElement extends React.Component {
       <div id={this.props.padId} className="drum-pad" onClick={this.props.onClick}
         onKeyDown={this.props.onKeyDown}>
         <div>{this.props.text}</div>
-        <audio id={this.props.text} className="clip" ref={this.audioElem}
+        <audio id={this.props.text} className="clip" ref={this.props.audioRef}
           src={this.props.source}>
         </audio>
       </div>

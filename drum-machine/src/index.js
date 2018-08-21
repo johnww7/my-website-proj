@@ -36,6 +36,7 @@ class DrumMachineContainer extends React.Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.choosingDrumPadElement = this.choosingDrumPadElement.bind(this);
 
     this.audioElementQ = React.createRef();
     this.audioElementW = React.createRef();
@@ -67,15 +68,21 @@ class DrumMachineContainer extends React.Component {
 
     let prevDrumPadPlaying = this.state.isDrumPadPlaying;
     let newClip = AudioClipInformation(clip);
+    let isPlaying = [];
 
     prevDrumPadPlaying.forEach((padElement, index) => {
       if(padElement.id === elem && padElement.isPlaying === false) {
         padElement.isPlaying = true;
+        isPlaying.push(padElement);
       }
       else {
         padElement.isPlaying = false;
       }
     });
+    console.log(isPlaying[0]);
+    let drumElementStart = this.choosingDrumPadElement(isPlaying[0]);
+    console.log(drumElementStart);
+
     console.log('new state');
     //console.log(prevDrumPadPlaying);
 
@@ -93,6 +100,42 @@ class DrumMachineContainer extends React.Component {
   //audioRef={el => this.audioElement = el}
   handleKeyDown(elem, event) {
     console.log('key pressed: ' + elem.key.toString());
+  }
+
+  choosingDrumPadElement(padElementObj) {
+    if(padElementObj.isPlaying) {
+      switch(padElementObj.id) {
+        case 'Q':
+          this.audioElementQ.current.play();
+          console.log(this.audioElementQ.current.play());
+          break;
+        case 'W':
+          this.audioElementW.current.play();
+          break;
+        case 'E':
+          this.audioElementE.current.play();
+          break;
+        default:
+          console.log('An error has occured');
+      }
+      return true;
+    }
+    else {
+      switch(padElementObj.id) {
+        case 'Q':
+          this.audioElementQ.current.pause();
+          break;
+        case 'W':
+          this.audioElementW.current.pause();
+          break;
+        case 'E':
+          this.audioElementE.current.pause();
+          break;
+        default:
+          console.log('An error has occured');
+      }
+      return false;
+    }
   }
 
   render() {

@@ -13,7 +13,7 @@ import scratchGramophone from './sounds/scratch_gramophone.mp3';
 import tambourineShake from './sounds/tambourine_shake.mp3';
 import twoCabasa from './sounds/twocabasa_shake.mp3';
 
-const DRUM_PAD = [
+/*const DRUM_PAD = [
   {id:'bell-tone', btnText: 'Q', audioId: 'Q', src: bellTone},
   {id:'chinese-block', btnText: 'W', audioId: 'W', src: chineseBlock},
   {id:'down-slide', btnText: 'E', audioId: 'E', src: downSlide},
@@ -23,7 +23,19 @@ const DRUM_PAD = [
   {id:'scratch-gramophone', btnText: 'Z', audioId: 'Z', src: scratchGramophone},
   {id:'tambourine-shake', btnText: 'X', audioId: 'X', src: tambourineShake},
   {id:'two-cabasa', btnText: 'C', audioId: 'C', src: twoCabasa},
+]; */
+const DRUM_PAD = [
+  {id:'bell-tone', btnText: 'Q', audioId: 'Q', src: 'chataholic2.homestead.com/files/Door-Doorbell.wav'},
+  {id:'chinese-block', btnText: 'W', audioId: 'W', src: 'www.footdrumplus.ca/uploads/3/4/8/6/34866267/s2-37.wav'},
+  {id:'down-slide', btnText: 'E', audioId: 'E', src: 'home.onemain.com/~nospamtoday/noises/SLDWSTdown.WAV'},
+  {id:'electric-guitar', btnText: 'A', audioId: 'A', src: electricGuitar},
+  {id:'hand-cymbal', btnText: 'S', audioId: 'S', src: cymbalSingle},
+  {id:'needle-scratching', btnText: 'D', audioId: 'D', src: needleScratching},
+  {id:'scratch-gramophone', btnText: 'Z', audioId: 'Z', src: scratchGramophone},
+  {id:'tambourine-shake', btnText: 'X', audioId: 'X', src: tambourineShake},
+  {id:'two-cabasa', btnText: 'C', audioId: 'C', src: twoCabasa},
 ];
+
 
 class DrumMachineContainer extends React.Component {
   constructor(props) {
@@ -38,9 +50,9 @@ class DrumMachineContainer extends React.Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.choosingDrumPadElement = this.choosingDrumPadElement.bind(this);
 
-    this.audioElementQ = React.createRef();
-    this.audioElementW = React.createRef();
-    this.audioElementE = React.createRef();
+    let audioElementQ = null;
+    let audioElementW = null;
+    let audioElementE = null;
   }
 
   componentDidMount() {
@@ -80,7 +92,7 @@ class DrumMachineContainer extends React.Component {
       }
     });
     console.log(isPlaying[0]);
-    let drumElementStart = this.choosingDrumPadElement(isPlaying[0]);
+    let drumElementStart = this.choosingDrumPadElement(elem, true);
     console.log(drumElementStart);
 
     console.log('new state');
@@ -102,21 +114,21 @@ class DrumMachineContainer extends React.Component {
     console.log('key pressed: ' + elem.key.toString());
   }
 
-  choosingDrumPadElement(padElementObj) {
-    if(padElementObj.isPlaying) {
-      switch(padElementObj.id) {
+  choosingDrumPadElement(padElementObj, playingNow) {
+    if(playingNow) {
+      switch(padElementObj) {
         case 'Q':
           //this.audioElementQ.current.play();
-          this.audioElementQ.handlePlay();
+          console.log(this.audioElementQ.current.focus());
           //console.log(this.audioElementQ.current.play());
           break;
         case 'W':
           //this.audioElementW.current.play();
-          this.audioElementW.curent.handlePlay();
+          console.log(this.audioElementW.curent.value());
           break;
         case 'E':
           //this.audioElementE.current.play();
-          this.audioElementE.curent.handlePlay();
+          console.log(this.audioElementE.curent.value());
           break;
         default:
           console.log('An error has occured');
@@ -124,15 +136,18 @@ class DrumMachineContainer extends React.Component {
       return true;
     }
     else {
-      switch(padElementObj.id) {
+      switch(padElementObj) {
         case 'Q':
-          this.audioElementQ.current.pause();
+        //  this.audioElementQ.current.pause();
+          console.log(this.audioElementQ.current());
           break;
         case 'W':
-          this.audioElementW.current.pause();
+          //this.audioElementW.current.pause();
+          console.log(this.audioElementW.current());
           break;
         case 'E':
-          this.audioElementE.current.pause();
+          //this.audioElementE.current.pause();
+          console.log(this.audioElementE.current());
           break;
         default:
           console.log('An error has occured');
@@ -158,15 +173,15 @@ class DrumMachineContainer extends React.Component {
 
           <DrumPadElement padId={drumArray[0].id} text={drumArray[0].btnText} src={drumArray[0].src}
           onClick={this.handleClick.bind(this, drumArray[0].btnText, drumArray[0].id)}
-          play={this.state.isDrumPadPlaying[0]} audioRef={this.audioElementQ}
+          play={this.state.isDrumPadPlaying[0]} audioRef={(audio) => {this.audioElementQ = audio;}}
           onKeyDown={this.handleKeyDown.bind(this, drumArray[0].btnText)} />
           <DrumPadElement padId={drumArray[1].id} text={drumArray[1].btnText} src={drumArray[1].src}
           onClick={this.handleClick.bind(this, drumArray[1].btnText, drumArray[1].id)}
-          play={this.state.isDrumPadPlaying[1]} audioRef={this.audioElementW}
+          play={this.state.isDrumPadPlaying[1]} audioRef={(audio) => {this.audioElementW = audio;}}
           onKeyDown={this.handleKeyDown.bind(this, drumArray[1].btnText)} />
           <DrumPadElement padId={drumArray[2].id} text={drumArray[2].btnText} src={drumArray[2].src}
           onClick={this.handleClick.bind(this, drumArray[2].btnText, drumArray[2].id)}
-          play={this.state.isDrumPadPlaying[2]} audioRef={this.audioElementE}
+          play={this.state.isDrumPadPlaying[2]} audioRef={(audio) => {this.audioElementE = audio;}}
           onKeyDown={this.handleKeyDown.bind(this, drumArray[2].btnText)} />
 
       </div>
@@ -198,10 +213,7 @@ class DrumPadElement extends React.Component {
         this.audioElem.pause();
       }
   }*/
-  constructor () {
-    super();
-    this.audioElement = React.createRef();
-  }
+
 
   handlePlay() {
     console.log(this.props.play);
@@ -225,7 +237,7 @@ class DrumPadElement extends React.Component {
       <div id={this.props.padId} className="drum-pad" onClick={this.props.onClick}
         onKeyDown={this.props.onKeyDown}>
         <div>{this.props.text}</div>
-        <audio id={this.props.text} className="clip" ref={this.audioElement}
+        <audio id={this.props.text} className="clip" ref={this.props.audioRef}
           src={this.props.source}>
         </audio>
       </div>

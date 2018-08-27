@@ -106,14 +106,17 @@ class DrumMachineContainer extends React.Component {
     if(padElementObj.isPlaying) {
       switch(padElementObj.id) {
         case 'Q':
-          this.audioElementQ.current.play();
-          console.log(this.audioElementQ.current.play());
+          //this.audioElementQ.current.play();
+          this.audioElementQ.handlePlay();
+          //console.log(this.audioElementQ.current.play());
           break;
         case 'W':
-          this.audioElementW.current.play();
+          //this.audioElementW.current.play();
+          this.audioElementW.curent.handlePlay();
           break;
         case 'E':
-          this.audioElementE.current.play();
+          //this.audioElementE.current.play();
+          this.audioElementE.curent.handlePlay();
           break;
         default:
           console.log('An error has occured');
@@ -195,7 +198,15 @@ class DrumPadElement extends React.Component {
         this.audioElem.pause();
       }
   }*/
+  constructor () {
+    super();
+    this.audioElement = React.createRef();
+  }
 
+  handlePlay() {
+    console.log(this.props.play);
+    console.log(this.audioElem.current);
+  }
 
   render() {
     //console.log(this.props.play)
@@ -214,7 +225,7 @@ class DrumPadElement extends React.Component {
       <div id={this.props.padId} className="drum-pad" onClick={this.props.onClick}
         onKeyDown={this.props.onKeyDown}>
         <div>{this.props.text}</div>
-        <audio id={this.props.text} className="clip" ref={this.props.audioRef}
+        <audio id={this.props.text} className="clip" ref={this.audioElement}
           src={this.props.source}>
         </audio>
       </div>

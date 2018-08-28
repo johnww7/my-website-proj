@@ -74,7 +74,33 @@ class DrumMachineContainer extends React.Component {
     //console.log(this.state.isDrumPadPlaying);
   }
 
-  handleClick(elem, clip ,event) {
+  handleClick(id, clip, event) {
+    console.log('clicked: ' + id + ' description: ' + AudioClipInformation(clip));
+
+    let prevDrumPadPlaying = this.state.isDrumPadPlaying;
+    let newClip = AudioClipInformation(clip);
+
+    switch(id) {
+      case 'Q':
+        //this.audioElementQ.current.play();
+        //this.audioElementQ.play();
+        console.log(this.audioElementQ);
+        //console.log(this.audioElementQ.current.play());
+        break;
+      case 'W':
+        //this.audioElementW.current.play();
+        console.log(this.audioElementW);
+        break;
+      case 'E':
+        //this.audioElementE.current.play();
+        console.log(this.audioElementE);
+        break;
+      default:
+        console.log('An error has occured');
+    }
+  }
+
+  handleClick2(elem, clip ,event) {
     console.log('clicked: ' + elem.toString() + ' description: ' + AudioClipInformation(clip));
     //console.log(this.state.isDrumPadPlaying);
 
@@ -119,7 +145,7 @@ class DrumMachineContainer extends React.Component {
       switch(padElementObj) {
         case 'Q':
           //this.audioElementQ.current.play();
-          console.log(this.audioElementQ.current.focus());
+          console.log(this.audioElementQ.current);
           //console.log(this.audioElementQ.current.play());
           break;
         case 'W':

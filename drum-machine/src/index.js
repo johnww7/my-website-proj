@@ -25,7 +25,7 @@ import twoCabasa from './sounds/twocabasa_shake.mp3';
   {id:'two-cabasa', btnText: 'C', audioId: 'C', src: twoCabasa},
 ]; */
 const DRUM_PAD = [
-  {id:'bell-tone', btnText: 'Q', audioId: 'Q', src: 'chataholic2.homestead.com/files/Door-Doorbell.wav'},
+  {id:'bell-tone', btnText: 'Q', audioId: 'Q', src: 'https://chataholic2.homestead.com/files/Door-Doorbell.wav'},
   {id:'chinese-block', btnText: 'W', audioId: 'W', src: 'www.footdrumplus.ca/uploads/3/4/8/6/34866267/s2-37.wav'},
   {id:'down-slide', btnText: 'E', audioId: 'E', src: 'home.onemain.com/~nospamtoday/noises/SLDWSTdown.WAV'},
   {id:'electric-guitar', btnText: 'A', audioId: 'A', src: electricGuitar},
@@ -240,6 +240,9 @@ class DrumPadElement extends React.Component {
       }
   }*/
 
+  componentDidMount() {
+    console.log(this.props.audioRef);
+  }
 
   handlePlay() {
     console.log(this.props.play);

@@ -13,7 +13,7 @@ import scratchGramophone from './sounds/scratch_gramophone.mp3';
 import tambourineShake from './sounds/tambourine_shake.mp3';
 import twoCabasa from './sounds/twocabasa_shake.mp3';
 
-/*const DRUM_PAD = [
+const DRUM_PAD = [
   {id:'bell-tone', btnText: 'Q', audioId: 'Q', src: bellTone},
   {id:'chinese-block', btnText: 'W', audioId: 'W', src: chineseBlock},
   {id:'down-slide', btnText: 'E', audioId: 'E', src: downSlide},
@@ -23,18 +23,18 @@ import twoCabasa from './sounds/twocabasa_shake.mp3';
   {id:'scratch-gramophone', btnText: 'Z', audioId: 'Z', src: scratchGramophone},
   {id:'tambourine-shake', btnText: 'X', audioId: 'X', src: tambourineShake},
   {id:'two-cabasa', btnText: 'C', audioId: 'C', src: twoCabasa},
-]; */
-const DRUM_PAD = [
+];
+/*const DRUM_PAD = [
   {id:'bell-tone', btnText: 'Q', audioId: 'Q', src: 'https://chataholic2.homestead.com/files/Door-Doorbell.wav'},
-  {id:'chinese-block', btnText: 'W', audioId: 'W', src: 'www.footdrumplus.ca/uploads/3/4/8/6/34866267/s2-37.wav'},
-  {id:'down-slide', btnText: 'E', audioId: 'E', src: 'home.onemain.com/~nospamtoday/noises/SLDWSTdown.WAV'},
+  {id:'chinese-block', btnText: 'W', audioId: 'W', src: 'https://www.footdrumplus.ca/uploads/3/4/8/6/34866267/s2-37.wav'},
+  {id:'down-slide', btnText: 'E', audioId: 'E', src: 'https://home.onemain.com/~nospamtoday/noises/SLDWSTdown.WAV'},
   {id:'electric-guitar', btnText: 'A', audioId: 'A', src: electricGuitar},
   {id:'hand-cymbal', btnText: 'S', audioId: 'S', src: cymbalSingle},
   {id:'needle-scratching', btnText: 'D', audioId: 'D', src: needleScratching},
   {id:'scratch-gramophone', btnText: 'Z', audioId: 'Z', src: scratchGramophone},
   {id:'tambourine-shake', btnText: 'X', audioId: 'X', src: tambourineShake},
   {id:'two-cabasa', btnText: 'C', audioId: 'C', src: twoCabasa},
-];
+];*/
 
 
 class DrumMachineContainer extends React.Component {
@@ -46,13 +46,15 @@ class DrumMachineContainer extends React.Component {
       isDrumPadPlaying: [],
     };
 
+    this.drumPads = {};
+
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.choosingDrumPadElement = this.choosingDrumPadElement.bind(this);
 
-    let audioElementQ = null;
-    let audioElementW = null;
-    let audioElementE = null;
+
+//    let audioElementQ = null;
+//    let audioElementW = null;
+//    let audioElementE = null;
   }
 
   componentDidMount() {
@@ -76,28 +78,14 @@ class DrumMachineContainer extends React.Component {
 
   handleClick(id, clip, event) {
     console.log('clicked: ' + id + ' description: ' + AudioClipInformation(clip));
-
+    console.log(this.drumPads[id]);
     let prevDrumPadPlaying = this.state.isDrumPadPlaying;
     let newClip = AudioClipInformation(clip);
+    this.drumPads[id].play();
 
-    switch(id) {
-      case 'Q':
-        //this.audioElementQ.current.play();
-        //this.audioElementQ.play();
-        console.log(this.audioElementQ);
-        //console.log(this.audioElementQ.current.play());
-        break;
-      case 'W':
-        //this.audioElementW.current.play();
-        console.log(this.audioElementW);
-        break;
-      case 'E':
-        //this.audioElementE.current.play();
-        console.log(this.audioElementE);
-        break;
-      default:
-        console.log('An error has occured');
-    }
+    this.setState({
+        audioClip: newClip,
+    });
   }
 
   handleClick2(elem, clip ,event) {
@@ -140,76 +128,53 @@ class DrumMachineContainer extends React.Component {
     console.log('key pressed: ' + elem.key.toString());
   }
 
-  choosingDrumPadElement(padElementObj, playingNow) {
-    if(playingNow) {
-      switch(padElementObj) {
-        case 'Q':
-          //this.audioElementQ.current.play();
-          console.log(this.audioElementQ.current);
-          //console.log(this.audioElementQ.current.play());
-          break;
-        case 'W':
-          //this.audioElementW.current.play();
-          console.log(this.audioElementW.curent.value());
-          break;
-        case 'E':
-          //this.audioElementE.current.play();
-          console.log(this.audioElementE.curent.value());
-          break;
-        default:
-          console.log('An error has occured');
-      }
-      return true;
-    }
-    else {
-      switch(padElementObj) {
-        case 'Q':
-        //  this.audioElementQ.current.pause();
-          console.log(this.audioElementQ.current());
-          break;
-        case 'W':
-          //this.audioElementW.current.pause();
-          console.log(this.audioElementW.current());
-          break;
-        case 'E':
-          //this.audioElementE.current.pause();
-          console.log(this.audioElementE.current());
-          break;
-        default:
-          console.log('An error has occured');
-      }
-      return false;
-    }
+
+
+  createDrumPads(drumArray) {
+    return drumArray.map((elem, index) => {
+      return (
+        <div key={elem.id} id={elem.id} className="drum-pad" onClick={this.props.onClick}
+          onKeyDown={this.props.onKeyDown}>
+          <div>{elem.btnText}</div>
+          <audio id={elem.btnText} className="clip" ref={this.props.audioRef}
+            src={elem.src} preload>
+          </audio>
+        </div>
+      );
+    });
   }
 
   render() {
     console.log(this.state.isDrumPadPlaying);
-    /*const drumElements = DRUM_PAD.map((elem, index) =>
+    const drumElements = DRUM_PAD.map((elem, index) =>
       <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}
       onClick={this.handleClick.bind(this, elem.btnText, elem.id)}
+      audioRef={(audio) => { this.drumPads[elem.btnText] = audio; }}
       play={this.state.isDrumPadPlaying[index]}
       onKeyDown={this.handleKeyDown.bind(this, elem.btnText)} />
-    );*/
-    const drumArray = DRUM_PAD.concat();
+    );
+  //  const drumArray = DRUM_PAD.concat();
 
     return(
 
       <div id="drum-machine">
           <DrumDisplay nameOfClip={this.state.audioClip}/>
 
-          <DrumPadElement padId={drumArray[0].id} text={drumArray[0].btnText} src={drumArray[0].src}
+        {/*  <DrumPadElement padId={drumArray[0].id} text={drumArray[0].btnText} src={drumArray[0].src}
           onClick={this.handleClick.bind(this, drumArray[0].btnText, drumArray[0].id)}
           play={this.state.isDrumPadPlaying[0]} audioRef={(audio) => {this.audioElementQ = audio;}}
           onKeyDown={this.handleKeyDown.bind(this, drumArray[0].btnText)} />
+
           <DrumPadElement padId={drumArray[1].id} text={drumArray[1].btnText} src={drumArray[1].src}
           onClick={this.handleClick.bind(this, drumArray[1].btnText, drumArray[1].id)}
           play={this.state.isDrumPadPlaying[1]} audioRef={(audio) => {this.audioElementW = audio;}}
           onKeyDown={this.handleKeyDown.bind(this, drumArray[1].btnText)} />
+
           <DrumPadElement padId={drumArray[2].id} text={drumArray[2].btnText} src={drumArray[2].src}
           onClick={this.handleClick.bind(this, drumArray[2].btnText, drumArray[2].id)}
           play={this.state.isDrumPadPlaying[2]} audioRef={(audio) => {this.audioElementE = audio;}}
-          onKeyDown={this.handleKeyDown.bind(this, drumArray[2].btnText)} />
-
+          onKeyDown={this.handleKeyDown.bind(this, drumArray[2].btnText)} /> */}
+          {drumElements}
       </div>
 
     );
@@ -218,56 +183,20 @@ class DrumMachineContainer extends React.Component {
 
 class DrumPadElement extends React.Component {
 
-/*  componentDidMount() {
-      console.log(this.audioElem.current);
-      console.log(this.props.play);
-      let buttonPadElement = this.props.play;
-      for( const prop in buttonPadElement) {
-        if(prop === 'isPlaying' && buttonPadElement[prop] === true)
-        {
-          console.log('prop: ' + prop + ' : ' + buttonPadElement[prop]);
-          this.audioElem.play();
-        }
-        else {
-          this.audioElem.pause();
-        }
-      }
-      if(this.props.play['isPlaying'] === true) {
-        this.audioElem.play();
-      }
-      else {object
-        this.audioElem.pause();
-      }
-  }*/
-
   componentDidMount() {
     console.log(this.props.audioRef);
   }
 
-  handlePlay() {
-    console.log(this.props.play);
-    console.log(this.audioElem.current);
-  }
-
   render() {
-    //console.log(this.props.play)
     let playDrumPad = this.props.play;
     console.log(playDrumPad);
-    /*for (const prop in playDrumPad) {
-      console.log(prop + " : " + typeof playDrumPad[prop] );
-    }*/
-
-    //console.log((padArray["0"]));
-  //  console.log(Object.keys(playDrumPad));
-    //console.log(playDrumPad.hasOwnProperty("id"));
-    //let {id, isPlaying} = playDrumPad;
 
     return(
       <div id={this.props.padId} className="drum-pad" onClick={this.props.onClick}
         onKeyDown={this.props.onKeyDown}>
         <div>{this.props.text}</div>
         <audio id={this.props.text} className="clip" ref={this.props.audioRef}
-          src={this.props.source}>
+          src={this.props.src} preload>
         </audio>
       </div>
     );

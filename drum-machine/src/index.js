@@ -44,12 +44,14 @@ class DrumMachineContainer extends React.Component {
       audioClip: ' ',
       audioPlay: false,
       isDrumPadPlaying: [],
+      drumPadIds: [],
     };
 
     this.drumPads = {};
 
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.keySearch = this.keySearch.bind(this);
 
 
 //    let audioElementQ = null;
@@ -64,16 +66,25 @@ class DrumMachineContainer extends React.Component {
   /*  for(let index = 0; index < numberOfDrumPads; index++) {
       drumPadElements[index] = {id: DRUM_PAD[index]['btnText'], isPlaying: false};
     }*/
-    drumPadElements = DRUM_PAD.map((obj, index) => {
+    /*drumPadElements = DRUM_PAD.map((obj, index) => {
       return {"id": obj.btnText, "isPlaying": false}
+    });*/
+    drumPadElements = DRUM_PAD.map((obj, index) => {
+      return obj.btnText;
     });
+
+    document.addEventListener('keydown', this.handleKeyDown, false);
 
     console.log(drumPadElements);
     this.setState({
-      isDrumPadPlaying: drumPadElements,
+      drumPadIds: drumPadElements,
     });
     console.log('Pad state');
     //console.log(this.state.isDrumPadPlaying);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown, false);
   }
 
   handleClick(id, clip, event) {
@@ -86,6 +97,63 @@ class DrumMachineContainer extends React.Component {
     this.setState({
         audioClip: newClip,
     });
+  }
+
+  handleKeyDown(e) {
+    console.log(e.charCode);
+    //console.log('key pressed: ' + id.toString());
+    const drumPadArray = this.state.drumPadIds;
+    console.log(drumPadArray);
+
+    let keyPressed = e.charCode || e.keyCode
+    console.log('key pressed; ' + keyPressed);
+    let keyPressedCharacter = String.fromCharCode(keyPressed);
+    console.log(keyPressedCharacter + ' ' + typeof keyPressedCharacter);
+
+    //let padPressed = drumPadArray.filter((elem) => { return elem === keyPressedCharacter});
+    let padPressed = this.keySearch(keyPressedCharacter);
+    console.log(padPressed);
+    if(padPressed !== '') {
+      this.drumPads[padPressed].play();
+    }
+    //this.drumPads[padPressed[0]].play();
+  }
+
+  keySearch(key) {
+    const drumKey = this.state.drumPadIds;
+    let keyValue = '';
+    switch(key) {
+      case drumKey[0]:
+        keyValue = key;
+        break;
+      case drumKey[1]:
+        keyValue = key;
+        break;
+      case drumKey[2]:
+        keyValue = key;
+        break;
+      case drumKey[3]:
+        keyValue = key;
+        break;
+      case drumKey[4]:
+        keyValue = key;
+        break;
+      case drumKey[5]:
+        keyValue = key;
+        break;
+      case drumKey[6]:
+        keyValue = key;
+        break;
+      case drumKey[7]:
+        keyValue = key;
+        break;
+      case drumKey[8]:
+        keyValue = key;
+        break;
+      default:
+        console.log("error");
+    }
+    return keyValue;
   }
 
   handleClick2(elem, clip ,event) {
@@ -124,9 +192,7 @@ class DrumMachineContainer extends React.Component {
     console.log(this.state.isDrumPadPlaying);
   }
   //audioRef={el => this.audioElement = el}
-  handleKeyDown(elem, event) {
-    console.log('key pressed: ' + elem.key.toString());
-  }
+
 
 
 
@@ -151,7 +217,7 @@ class DrumMachineContainer extends React.Component {
       onClick={this.handleClick.bind(this, elem.btnText, elem.id)}
       audioRef={(audio) => { this.drumPads[elem.btnText] = audio; }}
       play={this.state.isDrumPadPlaying[index]}
-      onKeyDown={this.handleKeyDown.bind(this, elem.btnText)} />
+      onKeyDown={this.handleKeyDown.bind(this, elem.btnText, elem.id)} />
     );
   //  const drumArray = DRUM_PAD.concat();
 

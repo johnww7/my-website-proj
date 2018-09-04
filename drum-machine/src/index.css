@@ -9,6 +9,7 @@
   display: grid;
   margin: auto;
   border: 1px solid black;
+  background-color: #383853;
   grid-template-rows: 100px 100px 100px 100px;
   grid-template-columns: 100px 100px 100px;
   grid-gap: 10px 15px;
@@ -22,11 +23,85 @@
 }
 
 .drum-pad{
-  border: 2px solid black;
-  width: 100%;
-  height: 100%;
-  text-decoration: none;
+  border: 3px solid;
+  width: 95px;
+  height: 95px;
+  /*text-decoration: none;*/
   display: flex;
+}
+
+.drum-style {
+  /*display: block;*/
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+float: none;
+z-index: auto;
+/*width: 150px;
+height: 100px;
+position: static;*/
+cursor: default;
+opacity: 1;
+margin: 0;
+padding: 0;
+overflow: visible;
+/*border: 3px solid;*/
+-webkit-border-radius: 29px;
+border-radius: 29px;
+font: normal 16px/1 "Times New Roman", Times, serif;
+color: rgba(82,252,15,1);
+text-align: center;
+-o-text-overflow: ellipsis;
+text-overflow: ellipsis;
+background: rgba(48,51,107,1);
+-webkit-box-shadow: 2px 1px 8px 4px rgba(20,45,232,0.45) , 0 0 6px 2px rgba(26,167,206,0.5) inset, 3px 3px 4px 0 rgba(0,216,202,0.5) inset;
+box-shadow: 2px 1px 8px 4px rgba(20,45,232,0.45) , 0 0 6px 2px rgba(26,167,206,0.5) inset, 3px 3px 4px 0 rgba(0,216,202,0.5) inset;
+text-shadow: none;
+-webkit-transition: none;
+-moz-transition: none;
+-o-transition: none;
+transition: none;
+-webkit-transform: none;
+transform: none;
+-webkit-transform-origin: 50% 50% 0;
+transform-origin: 50% 50% 0;
+}
+
+.drum-style:hover {
+/*display: block;*/
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+float: none;
+z-index: auto;
+/*width: 150px;
+height: 100px;
+position: static;*/
+cursor: default;
+opacity: 1;
+margin: 0;
+padding: 0;
+overflow: visible;
+border: none;
+-webkit-border-radius: 29px;
+border-radius: 29px;
+font: normal 16px/1 "Times New Roman", Times, serif;
+color: rgba(26,30,61,1);
+text-align: center;
+-o-text-overflow: ellipsis;
+text-overflow: ellipsis;
+background: rgba(13,128,216,1);
+-webkit-box-shadow: 0 0 7px 2px rgba(16,168,130,0.93) , 0 0 9px 9px rgba(25,204,214,0.86) inset, 1px 1px 8px 4px rgba(0,221,255,0.94) inset;
+box-shadow: 0 0 7px 2px rgba(16,168,130,0.93) , 0 0 9px 9px rgba(25,204,214,0.86) inset, 1px 1px 8px 4px rgba(0,221,255,0.94) inset;
+text-shadow: none;
+-webkit-transition: none;
+-moz-transition: none;
+-o-transition: none;
+transition: none;
+-webkit-transform: none;
+transform: none;
+-webkit-transform-origin: 50% 50% 0;
+transform-origin: 50% 50% 0;
 }
 
 .drum-pad div {
@@ -43,6 +118,8 @@
   grid-area: header;
   width: 100%;
   height: 60px;
+  line-height: 60px;
+  font-size: 1.3em;
   border: 1px ridge black;
   text-align: center;
   align-self: center;

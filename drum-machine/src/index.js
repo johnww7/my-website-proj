@@ -208,7 +208,7 @@ class DrumMachineContainer extends React.Component {
 
 const DrumPadElement = (props) => {
   return(
-    <div id={props.padId} className="drum-pad" onClick={props.onClick}
+    <div id={props.padId} className="drum-pad drum-style" onClick={props.onClick}
       onKeyDown={props.onKeyDown}>
       <div>{props.text}</div>
       <audio id={props.text} className="clip" ref={props.audioRef}

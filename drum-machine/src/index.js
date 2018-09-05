@@ -220,7 +220,7 @@ const DrumPadElement = (props) => {
 
 const DrumDisplay = (props) => {
   return (
-    <div id="display">{props.nameOfClip}</div>
+    <div id="display" className="display-styling">{props.nameOfClip}</div>
   );
 };
 

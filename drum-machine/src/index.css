@@ -120,10 +120,48 @@ transform-origin: 50% 50% 0;
   height: 60px;
   line-height: 60px;
   font-size: 1.3em;
-  border: 1px ridge black;
+  /*border: 1px ridge black;*/
   text-align: center;
   align-self: center;
 }
+
+.display-styling {
+  border-radius: 15px;
+
+  display: block;
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+float: none;
+z-index: auto;
+
+cursor: default;
+opacity: 1;
+margin: 0;
+padding: 0;
+overflow: visible;
+border: 2px solid rgba(0,150,255,0.91);
+-webkit-border-radius: 15px;
+
+font: normal 14px/1 "Times New Roman", Times, serif;
+color: rgb(133, 175, 202);
+-o-text-overflow: ellipsis;
+text-overflow: ellipsis;
+background: rgba(71,79,117,1);
+-webkit-box-shadow: 1px 2px 8px 9px rgba(14,249,54,0.85) inset;
+box-shadow: 1px 2px 8px 9px rgba(14,249,54,0.85) inset;
+text-shadow: 0 0 9px rgba(20,255,20,0.7) ;
+-webkit-transition: none;
+-moz-transition: none;
+-o-transition: none;
+transition: none;
+-webkit-transform: none;
+transform: none;
+-webkit-transform-origin: 50% 50% 0;
+transform-origin: 50% 50% 0;
+}
+
+
 
 #bell-tone {
   grid-area: pad1;

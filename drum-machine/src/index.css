@@ -1,3 +1,18 @@
+body{
+  /*background-color: black;*/
+  background-image: -webkit-repeating-radial-gradient(31% 47%, circle closest-side, rgba(24,221,159,1) 0, rgba(36,35,51,1) 0, rgba(23,232,54,1) 26%, rgba(0,0,0,1) 60%, rgba(0,150,255,0.91) 100%);
+  background-image: -moz-repeating-radial-gradient(31% 47%, circle closest-side, rgba(24,221,159,1) 0, rgba(36,35,51,1) 0, rgba(23,232,54,1) 26%, rgba(0,0,0,1) 60%, rgba(0,150,255,0.91) 100%);
+  background-image: repeating-radial-gradient(circle closest-side at 31% 47%, rgba(24,221,159,1) 0, rgba(36,35,51,1) 0, rgba(23,232,54,1) 26%, rgba(0,0,0,1) 60%, rgba(0,150,255,0.91) 100%);
+  background-repeat: repeat-x;
+  background-position: 50% 50%;
+  -webkit-background-origin: padding-box;
+  background-origin: padding-box;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-background-size: auto auto;
+  background-size: auto auto;
+}
+
 #root {
   display: flex;
   justify-content: center;
@@ -8,7 +23,7 @@
   height: 450px;
   display: grid;
   margin: auto;
-  border: 1px solid black;
+/*  border: 1px solid black;*/
   background-color: #383853;
   grid-template-rows: 100px 100px 100px 100px;
   grid-template-columns: 100px 100px 100px;
@@ -20,6 +35,69 @@
     "pad1 pad2 pad3"
     "pad4 pad5 pad6"
     "pad7 pad8 pad9";
+}
+
+.drum-machine-container {
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+float: none;
+z-index: auto;
+position: static;
+cursor: default;
+opacity: 1;
+margin: 0;
+padding: 0;
+overflow: visible;
+border: 8px solid rgba(0,150,255,0.91);
+-webkit-border-radius: 13%;
+border-radius: 13%;
+-o-text-overflow: ellipsis;
+text-overflow: ellipsis;
+/*background: rgba(0,150,255,0.91);*/
+-webkit-box-shadow: 0 1px 8px 6px rgba(33,132,132,0.73) ;
+box-shadow: 0 1px 8px 6px rgba(33,132,132,0.73) ;
+text-shadow: none;
+-webkit-transition: border-width 500ms cubic-bezier(0.895, 0.03, 0.685, 0.22) 10ms;
+-moz-transition: border-width 500ms cubic-bezier(0.895, 0.03, 0.685, 0.22) 10ms;
+-o-transition: border-width 500ms cubic-bezier(0.895, 0.03, 0.685, 0.22) 10ms;
+transition: border-width 500ms cubic-bezier(0.895, 0.03, 0.685, 0.22) 10ms;
+-webkit-transform: none;
+transform: none;
+-webkit-transform-origin: 50% 50% 0;
+transform-origin: 50% 50% 0;
+}
+
+.drum-machine-container:hover {
+-webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+box-sizing: content-box;
+float: none;
+z-index: auto;
+position: static;
+cursor: default;
+opacity: 1;
+margin: 0 0 0 184px;
+padding: 0;
+overflow: visible;
+border: 14px solid rgba(0,150,255,0.91);
+-webkit-border-radius: 31%;
+border-radius: 24%;
+text-align: center;
+-o-text-overflow: ellipsis;
+text-overflow: ellipsis;
+/*background: rgba(0,150,255,0.91);*/
+-webkit-box-shadow: 0 0 9px 8px rgba(21,239,43,0.8) ;
+box-shadow: 0 0 9px 8px rgba(21,239,43,0.8) ;
+text-shadow: none;
+-webkit-transition: margin 320ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+-moz-transition: margin 320ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+-o-transition: margin 320ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+transition: margin 320ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+-webkit-transform: none;
+transform: none;
+-webkit-transform-origin: 50% 50% 0;
+transform-origin: 50% 50% 0;
 }
 
 .drum-pad{

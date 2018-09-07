@@ -197,7 +197,7 @@ class DrumMachineContainer extends React.Component {
 
     return(
 
-      <div id="drum-machine">
+      <div id="drum-machine" className="drum-machine-container">
           <DrumDisplay nameOfClip={this.state.audioClip}/>
           {drumElements}
       </div>

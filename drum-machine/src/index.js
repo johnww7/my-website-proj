@@ -36,7 +36,7 @@ const DRUM_PAD = [
   {id:'two-cabasa', btnText: 'C', audioId: 'C', src: 'http://dight310.byu.edu/media/audio/FreeLoops.com/2/2/Cabasa%20Hits-1437-Free-Loops.com.mp3'},
 ];
 
-
+//Container component for drum machine which contains the display and drum pad elements.
 class DrumMachineContainer extends React.Component {
   constructor(props) {
     super();
@@ -97,6 +97,7 @@ class DrumMachineContainer extends React.Component {
     });
   }
 
+  //Checks for what key was pressed corresponding to drum pad elements
   keySearch(key) {
     const drumKey = this.state.drumPadIds;
     let keyValue = '';
@@ -146,20 +147,6 @@ class DrumMachineContainer extends React.Component {
     return {key: keyValue, clip: audioClip};
   }
 
-  createDrumPads(drumArray) {
-    return drumArray.map((elem, index) => {
-      return (
-        <div key={elem.id} id={elem.id} className="drum-pad" onClick={this.props.onClick}
-          onKeyDown={this.props.onKeyDown}>
-          <div>{elem.btnText}</div>
-          <audio id={elem.btnText} className="clip" ref={this.props.audioRef}
-            src={elem.src} preload>
-          </audio>
-        </div>
-      );
-    });
-  }
-
   render() {
     const drumElements = DRUM_PAD.map((elem, index) =>
       <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}
@@ -179,6 +166,7 @@ class DrumMachineContainer extends React.Component {
   }
 }
 
+//Drum pad component, which creates each drum pad element as a clickable div with audio element
 const DrumPadElement = (props) => {
   return(
     <div id={props.padId} className="drum-pad drum-style" onClick={props.onClick}
@@ -191,12 +179,14 @@ const DrumPadElement = (props) => {
   );
 }
 
+//Display component, displays each audio clip that plays description.
 const DrumDisplay = (props) => {
   return (
     <div id="display" className="display-styling">{props.nameOfClip}</div>
   );
 };
 
+//Formats audio clip desription 
 function AudioClipInformation(clipName) {
   return clipName.split('-').map((name) => name.charAt(0).toUpperCase() + name.substr(1)).join(' ');
 }

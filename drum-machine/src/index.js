@@ -56,7 +56,6 @@ class DrumMachineContainer extends React.Component {
 
   componentDidMount() {
     let drumPadElements = [];
-    let numberOfDrumPads = DRUM_PAD.length;
 
     drumPadElements = DRUM_PAD.map((obj, index) => {
       return {text: obj.btnText, id: obj.id};
@@ -83,8 +82,6 @@ class DrumMachineContainer extends React.Component {
   }
 
   handleKeyDown(e) {
-    const drumPadArray = this.state.drumPadIds;
-
     let keyPressed = e.charCode || e.keyCode
     let keyPressedCharacter = String.fromCharCode(keyPressed);
     let padPressed = this.keySearch(keyPressedCharacter);
@@ -186,7 +183,7 @@ const DrumDisplay = (props) => {
   );
 };
 
-//Formats audio clip desription 
+//Formats audio clip desription
 function AudioClipInformation(clipName) {
   return clipName.split('-').map((name) => name.charAt(0).toUpperCase() + name.substr(1)).join(' ');
 }

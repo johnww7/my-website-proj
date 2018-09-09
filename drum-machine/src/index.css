@@ -1,24 +1,8 @@
-/*body{
-
-  background-image: -webkit-repeating-radial-gradient(31% 47%, circle closest-side, rgba(24,221,159,1) 0, rgba(36,35,51,1) 0, rgba(23,232,54,1) 26%, rgba(0,0,0,1) 60%, rgba(0,150,255,0.91) 100%);
-  background-image: -moz-repeating-radial-gradient(31% 47%, circle closest-side, rgba(24,221,159,1) 0, rgba(36,35,51,1) 0, rgba(23,232,54,1) 26%, rgba(0,0,0,1) 60%, rgba(0,150,255,0.91) 100%);
-  background-image: repeating-radial-gradient(circle closest-side at 31% 47%, rgba(24,221,159,1) 0, rgba(36,35,51,1) 0, rgba(23,232,54,1) 26%, rgba(0,0,0,1) 60%, rgba(0,150,255,0.91) 100%);
-  background-repeat: repeat-x;
-  background-position: 50% 50%;
-  -webkit-background-origin: padding-box;
-  background-origin: padding-box;
-  -webkit-background-clip: border-box;
-  background-clip: border-box;
-  -webkit-background-size: auto auto;
-  background-size: auto auto;
-}*/
-
 body {
 background-color: #271a5d;
 }
 
-
-
+/*Container styling and display setting for drum-machine*/
 #root {
   display: flex;
   justify-content: center;
@@ -26,6 +10,7 @@ background-color: #271a5d;
   height: 100%;
 }
 
+/*Sets drum machine container as a grid and sets size*/
 #drum-machine {
   width:  450px;
   height: 450px;
@@ -33,7 +18,6 @@ background-color: #271a5d;
   margin: auto;
   margin-left: auto;
   margin-top: 100px;
-/*  border: 1px solid black;*/
   background-color: #383853;
   grid-template-rows: 100px 100px 100px 100px;
   grid-template-columns: 100px 100px 100px;
@@ -47,6 +31,7 @@ background-color: #271a5d;
     "pad7 pad8 pad9";
 }
 
+/*Sets styling for drum machine*/
 .drum-machine-container {
 -webkit-box-sizing: content-box;
 -moz-box-sizing: content-box;
@@ -64,7 +49,6 @@ border: 8px solid rgba(0,150,255,0.91);
 border-radius: 13%;
 -o-text-overflow: ellipsis;
 text-overflow: ellipsis;
-/*background: rgba(0,150,255,0.91);*/
 -webkit-box-shadow: 0 1px 8px 6px rgba(33,132,132,0.73) ;
 box-shadow: 0 1px 8px 6px rgba(33,132,132,0.73) ;
 text-shadow: none;
@@ -78,6 +62,7 @@ transform: none;
 transform-origin: 50% 50% 0;
 }
 
+/*Sets drum machine container style when hovering over it*/
 .drum-machine-container:hover {
 -webkit-box-sizing: content-box;
 -moz-box-sizing: content-box;
@@ -96,7 +81,6 @@ border-radius: 24%;
 text-align: center;
 -o-text-overflow: ellipsis;
 text-overflow: ellipsis;
-/*background: rgba(0,150,255,0.91);*/
 -webkit-box-shadow: 0 0 9px 8px rgba(21,239,43,0.8) ;
 box-shadow: 0 0 9px 8px rgba(21,239,43,0.8) ;
 text-shadow: none;
@@ -110,30 +94,26 @@ transform: none;
 transform-origin: 50% 50% 0;
 }
 
+/*Sets diplay, border and height for drum pad elements*/
 .drum-pad{
   border: 3px solid;
   width: 95px;
   height: 95px;
-  /*text-decoration: none;*/
   display: flex;
 }
 
+/*Sets styling for drum pad elements*/
 .drum-style {
-  /*display: block;*/
 -webkit-box-sizing: content-box;
 -moz-box-sizing: content-box;
 box-sizing: content-box;
 float: none;
 z-index: auto;
-/*width: 150px;
-height: 100px;
-position: static;*/
 cursor: default;
 opacity: 1;
 margin: 0;
 padding: 0;
 overflow: visible;
-/*border: 3px solid;*/
 -webkit-border-radius: 29px;
 border-radius: 29px;
 font: normal 16px/1 "Times New Roman", Times, serif;
@@ -156,16 +136,12 @@ transform-origin: 50% 50% 0;
 }
 
 .drum-style:hover {
-/*display: block;*/
 -webkit-box-sizing: content-box;
 -moz-box-sizing: content-box;
 box-sizing: content-box;
 float: none;
 z-index: auto;
-/*width: 150px;
-height: 100px;
-position: static;*/
-cursor: default;
+cursor: pointer;
 opacity: 1;
 margin: 0;
 padding: 0;
@@ -196,74 +172,69 @@ transform-origin: 50% 50% 0;
   margin: auto;
 }
 
+/*Sets size for button divs*/
 .button-style {
   position: relative;
   height: 150px;
   width: 150px;
 }
 
+/*Sets size, location and font size for display div*/
 #display {
   grid-area: header;
   width: 100%;
   height: 60px;
   line-height: 60px;
   font-size: 1.3em;
-  /*border: 1px ridge black;*/
   text-align: center;
   align-self: center;
 }
 
+/*Sets styling for display div*/
 .display-styling {
   border-radius: 15px;
-
   display: block;
--webkit-box-sizing: content-box;
--moz-box-sizing: content-box;
-box-sizing: content-box;
-float: none;
-z-index: auto;
-
-cursor: default;
-opacity: 1;
-margin: 0;
-padding: 0;
-overflow: visible;
-border: 2px solid rgba(0,150,255,0.91);
--webkit-border-radius: 15px;
-
-font: normal 14px/1 "Times New Roman", Times, serif;
-color: rgb(133, 175, 202);
--o-text-overflow: ellipsis;
-text-overflow: ellipsis;
-background: rgba(71,79,117,1);
--webkit-box-shadow: 1px 2px 8px 9px rgba(14,249,54,0.85) inset;
-box-shadow: 1px 2px 8px 9px rgba(14,249,54,0.85) inset;
-text-shadow: 0 0 9px rgba(20,255,20,0.7) ;
--webkit-transition: none;
--moz-transition: none;
--o-transition: none;
-transition: none;
--webkit-transform: none;
-transform: none;
--webkit-transform-origin: 50% 50% 0;
-transform-origin: 50% 50% 0;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  float: none;
+  z-index: auto;
+  cursor: default;
+  opacity: 1;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 2px solid rgba(0,150,255,0.91);
+  -webkit-border-radius: 15px;
+  font: normal 14px/1 "Times New Roman", Times, serif;
+  color: rgb(133, 175, 202);
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  background: rgba(71,79,117,1);
+  -webkit-box-shadow: 1px 2px 8px 9px rgba(14,249,54,0.85) inset;
+  box-shadow: 1px 2px 8px 9px rgba(14,249,54,0.85) inset;
+  text-shadow: 0 0 9px rgba(20,255,20,0.7) ;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  -webkit-transform: none;
+  transform: none;
+  -webkit-transform-origin: 50% 50% 0;
+  transform-origin: 50% 50% 0;
 }
 
-
-
+/*Positions drum pad elements into corresponding grid areas*/
 #bell-tone {
   grid-area: pad1;
-
 }
 
 #chinese-block {
   grid-area: pad2;
-
 }
 
 #down-slide {
   grid-area: pad3;
-
 }
 
 #electric-guitar {

@@ -13,7 +13,7 @@ import scratchGramophone from './sounds/scratch_gramophone.mp3';
 import tambourineShake from './sounds/tambourine_shake.mp3';
 import twoCabasa from './sounds/twocabasa_shake.mp3';
 
-const DRUM_PAD = [
+const DRUM_PAD2 = [
   {id:'bell-tone', btnText: 'Q', src: bellTone},
   {id:'chinese-block', btnText: 'W', src: chineseBlock},
   {id:'down-slide', btnText: 'E', src: downSlide},
@@ -24,17 +24,17 @@ const DRUM_PAD = [
   {id:'tambourine-shake', btnText: 'X', src: tambourineShake},
   {id:'two-cabasa', btnText: 'C', src: twoCabasa},
 ];
-/*const DRUM_PAD = [
+const DRUM_PAD = [
   {id:'bell-tone', btnText: 'Q', audioId: 'Q', src: 'https://chataholic2.homestead.com/files/Door-Doorbell.wav'},
   {id:'chinese-block', btnText: 'W', audioId: 'W', src: 'https://www.footdrumplus.ca/uploads/3/4/8/6/34866267/s2-37.wav'},
-  {id:'down-slide', btnText: 'E', audioId: 'E', src: 'https://home.onemain.com/~nospamtoday/noises/SLDWSTdown.WAV'},
-  {id:'electric-guitar', btnText: 'A', audioId: 'A', src: electricGuitar},
-  {id:'hand-cymbal', btnText: 'S', audioId: 'S', src: cymbalSingle},
-  {id:'needle-scratching', btnText: 'D', audioId: 'D', src: needleScratching},
-  {id:'scratch-gramophone', btnText: 'Z', audioId: 'Z', src: scratchGramophone},
-  {id:'tambourine-shake', btnText: 'X', audioId: 'X', src: tambourineShake},
-  {id:'two-cabasa', btnText: 'C', audioId: 'C', src: twoCabasa},
-];*/
+  {id:'down-slide', btnText: 'E', audioId: 'E', src: 'http://home.onemain.com/~nospamtoday/noises/SLDWSTdown.WAV'},
+  {id:'electric-guitar', btnText: 'A', audioId: 'A', src: 'http://cd.textfiles.com/cdaction/cdaction47b/BEAT2000/SOUNDS/SFX/BADGTR.WAV'},
+  {id:'hand-cymbal', btnText: 'S', audioId: 'S', src: 'https://www.drumsoundz.com/Crash-03.wav'},
+  {id:'needle-scratching', btnText: 'D', audioId: 'D', src: 'https://sampleswap.org/samples-ghost/DRUM%20LOOPS%20and%20BREAKS/turntables%20and%20scratching/148[kb]turntable-oh2.WAV.mp3'},
+  {id:'scratch-gramophone', btnText: 'Z', audioId: 'Z', src: 'http://s1download-universal-soundbank.com/wav/1639.wav'},
+  {id:'tambourine-shake', btnText: 'X', audioId: 'X', src: 'http://machines.hyperreal.org/machines/manufacturers/Sequential/Drumtraks/samples/tmp/Drumtraks/DT_Tamborine.wav'},
+  {id:'two-cabasa', btnText: 'C', audioId: 'C', src: 'http://dight310.byu.edu/media/audio/FreeLoops.com/2/2/Cabasa%20Hits-1437-Free-Loops.com.mp3'},
+];
 
 
 class DrumMachineContainer extends React.Component {
@@ -52,35 +52,21 @@ class DrumMachineContainer extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.keySearch = this.keySearch.bind(this);
-
-
-//    let audioElementQ = null;
-//    let audioElementW = null;
-//    let audioElementE = null;
   }
 
   componentDidMount() {
     let drumPadElements = [];
     let numberOfDrumPads = DRUM_PAD.length;
-    console.log(numberOfDrumPads);
-  /*  for(let index = 0; index < numberOfDrumPads; index++) {
-      drumPadElements[index] = {id: DRUM_PAD[index]['btnText'], isPlaying: false};
-    }*/
-    /*drumPadElements = DRUM_PAD.map((obj, index) => {
-      return {"id": obj.btnText, "isPlaying": false}
-    });*/
+
     drumPadElements = DRUM_PAD.map((obj, index) => {
       return {text: obj.btnText, id: obj.id};
     });
 
     document.addEventListener('keydown', this.handleKeyDown, false);
 
-    console.log(drumPadElements);
     this.setState({
       drumPadIds: drumPadElements,
     });
-    console.log('Pad state');
-    //console.log(this.state.isDrumPadPlaying);
   }
 
   componentWillUnmount() {
@@ -88,8 +74,6 @@ class DrumMachineContainer extends React.Component {
   }
 
   handleClick(id, clip, event) {
-    console.log('clicked: ' + id + ' description: ' + AudioClipInformation(clip));
-    console.log(this.drumPads[id]);
     let newClip = AudioClipInformation(clip);
     this.drumPads[id].play();
 
@@ -99,26 +83,18 @@ class DrumMachineContainer extends React.Component {
   }
 
   handleKeyDown(e) {
-    console.log(e.charCode);
-    //console.log('key pressed: ' + id.toString());
     const drumPadArray = this.state.drumPadIds;
-    console.log(drumPadArray);
 
     let keyPressed = e.charCode || e.keyCode
-    console.log('key pressed; ' + keyPressed);
     let keyPressedCharacter = String.fromCharCode(keyPressed);
-    console.log(keyPressedCharacter + ' ' + typeof keyPressedCharacter);
-
-    //let padPressed = drumPadArray.filter((elem) => { return elem === keyPressedCharacter});
     let padPressed = this.keySearch(keyPressedCharacter);
-    console.log(padPressed);
+
     if(padPressed.key !== '') {
       this.drumPads[padPressed.key].play();
     }
     this.setState({
       audioClip: padPressed.clip,
     });
-    //this.drumPads[padPressed[0]].play();
   }
 
   keySearch(key) {
@@ -185,7 +161,6 @@ class DrumMachineContainer extends React.Component {
   }
 
   render() {
-    console.log(this.state.isDrumPadPlaying);
     const drumElements = DRUM_PAD.map((elem, index) =>
       <DrumPadElement key={elem.id} padId={elem.id} text={elem.btnText} src={elem.src}
       onClick={this.handleClick.bind(this, elem.btnText, elem.id)}
@@ -193,10 +168,8 @@ class DrumMachineContainer extends React.Component {
       play={this.state.isDrumPadPlaying[index]}
       onKeyDown={this.handleKeyDown.bind(this, elem.btnText, elem.id)} />
     );
-  //  const drumArray = DRUM_PAD.concat();
 
     return(
-
       <div id="drum-machine" className="drum-machine-container">
           <DrumDisplay nameOfClip={this.state.audioClip}/>
           {drumElements}

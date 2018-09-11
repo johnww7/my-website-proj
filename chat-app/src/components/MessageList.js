@@ -1,4 +1,5 @@
 import React from 'react';
+import Message from './Message.js'
 
 /*const DUMMY_DATA = [
   {
@@ -20,12 +21,10 @@ export default class MessageList extends React.Component {
     return (
       <div className="message-list">
         {
-          DUMMY_DATA.map((message, index) => {
+          this.props.messages.map((message, index) => {
             return (
-              <div key={index} className="message">
-                <div className="message-username">{message.senderId}</div>
-                <div className="message-text">{message.text}</div>
-              </div>
+              <Message key={index} username={message.senderId} text={message.text}/>
+              
             )
           })
         }

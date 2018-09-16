@@ -23,6 +23,7 @@ class App extends React.Component {
     this.sendMessage = this.sendMessage.bind(this);
     this.subscribeToRoom = this.subscribeToRoom.bind(this);
     this.getRooms = this.getRooms.bind(this);
+    this.createRoom = this.createRoom.bind(this);
   }
 
   componentDidMount() {
@@ -83,17 +84,28 @@ class App extends React.Component {
     });
   }
 
+  createRoom(name) {
+    //console.log('room name: ' + roomName);
+    this.currentUser.createRoom({
+      name,
+    }).then(room => this.subscribeToRoom(room.id)).catch(
+      err => console.log('error with creatingRoom: ', err)
+    );
+  }
+
   render() {
     //console.log('this.state.messages: ', this.state.messages);
         return (
             <div className="app">
                 <RoomList
-                  roomId={this.state.roomId} 
+                  roomId={this.state.roomId}
                   subscribeToRoom={this.subscribeToRoom}
                   rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}/>
-                <MessageList messages={this.state.messages}/>
-                <SendMessageForm sendMessage={this.sendMessage}/>
-                <NewRoomForm />
+                <MessageList roomId ={this.state.roomId}
+                  messages={this.state.messages}/>
+                <SendMessageForm disabled={!this.state.roomId}
+                  sendMessage={this.sendMessage}/>
+                <NewRoomForm createRoom={this.createRoom}/>
             </div>
         );
     }

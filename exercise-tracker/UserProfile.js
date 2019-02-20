@@ -5,7 +5,6 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
 
-//const MONGO_URI = 'mongodb://john:N1teLockon@ds035787.mlab.com:35787/jwfccmongodb';
 
 //Connects to mongodb
 mongoose.connect(process.env.MONGO_URI, {
